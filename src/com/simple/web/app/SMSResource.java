@@ -21,7 +21,7 @@ public class SMSResource {
 	
 	@POST
 	@Path("/send")
-	public Response sendSMS(@QueryParam("message") String message) {
+	public Response sendSMS(@QueryParam("message") String message, @QueryParam("phoneNumber") String phoneNumber) {
 		
 		Map<String, String> env = System.getenv();		
 		String ACCOUNT_SID = env.get("ACCOUNT_SID");
@@ -29,7 +29,7 @@ public class SMSResource {
 
 		Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
 
-	    Message smsMessage = Message.creator(new PhoneNumber("+16788991701"),
+	    Message smsMessage = Message.creator(new PhoneNumber("+1" + phoneNumber),
 	        new PhoneNumber("+14703090324"), message).create();
 
 
