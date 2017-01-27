@@ -30,7 +30,7 @@ public class SMSResource {
 		Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
 
 	    Message smsMessage = Message.creator(new PhoneNumber("+1" + phoneNumber),
-	        new PhoneNumber("+14703090324"), message).create();
+	        new PhoneNumber("+14703090523"), message).create();
 
 
 		return Response.status(200).entity(null).build();
