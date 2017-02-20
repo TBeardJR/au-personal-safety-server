@@ -57,18 +57,37 @@
 	</repositories>
 
 	<dependencies>
-
+		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
 		<dependency>
-			<groupId>com.sun.jersey</groupId>
-			<artifactId>jersey-server</artifactId>
-			<version>1.9</version>
+    		<groupId>mysql</groupId>
+    		<artifactId>mysql-connector-java</artifactId>
+    		<version>6.0.5</version>
+		</dependency>	
+		<dependency>
+    		<groupId>org.glassfish.jersey.containers</groupId>
+    		<artifactId>jersey-container-servlet</artifactId>
+    		<version>2.25.1</version>
+		</dependency>	
+		<dependency>
+    		<groupId>org.glassfish.jersey.core</groupId>
+    		<artifactId>jersey-server</artifactId>
+    		<version>2.25.1</version>
 		</dependency>
 		
+		<!-- https://mvnrepository.com/artifact/javax.mail/javax.mail-api -->
 		<dependency>
-  			<groupId>com.twilio.sdk</groupId>
-  			<artifactId>twilio</artifactId>
-  			<version>(7.0,7.9)</version>
+    		<groupId>com.sun.mail</groupId>
+    		<artifactId>javax.mail</artifactId>
+    		<version>1.5.5</version>
 		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.glassfish.jersey.media/jersey-media-json-jackson -->
+		<dependency>
+    		<groupId>org.glassfish.jersey.media</groupId>
+    		<artifactId>jersey-media-json-jackson</artifactId>
+    		<version>2.25</version>
+		</dependency>
+		
 
 	</dependencies>
 </project>
