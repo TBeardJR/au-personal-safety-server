@@ -8,8 +8,6 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import javax.servlet.*;
 
 public class backgroundDBConnect implements ServletContextListener  {
-	private static final int MAXIMUM_CONCURRENT = 1;
-    private static final String INIT_PARAMETER = "backgroundTasks";
      
     private ScheduledThreadPoolExecutor executor = null;
     private Connection connection;
