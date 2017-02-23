@@ -23,8 +23,8 @@ public class EmailResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response sendEmailToPhone(EmailMessage emailMessage) {
 		Email email = new Email(emailMessage);
-		email.sendMessage();
-		return Response.status(Response.Status.OK).entity("Success!").build();
+		Response response = email.sendMessage();
+		return response;
 
 	}
 
