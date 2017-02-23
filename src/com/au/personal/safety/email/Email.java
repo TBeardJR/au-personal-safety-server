@@ -5,6 +5,9 @@ import java.util.Properties;
 
 import javax.mail.*;
 import javax.mail.internet.*;
+import javax.ws.rs.core.Response;
+
+import com.au.personal.safety.constants.EmailConstants;
 
 public class Email {
 
@@ -24,11 +27,13 @@ public class Email {
 		buildMessage();
 	}
 	
-	public void sendMessage() {
+	public Response sendMessage() {
 		try {
 			Transport.send(message);
+			return Response.status(Response.Status.OK).entity(EmailConstants.EMAIL_WAS_SUCCESSFULLY_SENT).build();
 		} catch (MessagingException e) {
 			e.printStackTrace();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(EmailConstants.EMAIL_COULD_NOT_BE_SENT).build();
 		}
 	}
 	
