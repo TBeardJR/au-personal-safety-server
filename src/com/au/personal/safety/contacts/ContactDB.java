@@ -2,7 +2,11 @@ package com.au.personal.safety.contacts;
 
 import java.net.URISyntaxException;
 import java.sql.*;
+
+import javax.ws.rs.core.Response;
+
 import com.au.personal.safety.database.DatabaseConnectionSingleton;
+import com.au.personal.safety.constants.ContactConstants;
 
 public class ContactDB {
 
@@ -20,7 +24,7 @@ public class ContactDB {
 				+ "VALUES (?, ?, ?, ?, ?)";
 	}
 	
-	private void sendContact(){
+	public Response sendContact(){
 		Connection conn = null;
 		
 		try {
@@ -42,9 +46,11 @@ public class ContactDB {
 
 		      // execute the preparedstatement
 		    preparedStmt.execute();
+		    return Response.status(Response.Status.OK).entity(ContactConstants.CONTACT_WAS_SUCCESSFULLY_ADDED).build();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(ContactConstants.CONTACT_COULD_NOT_BE_ADDED).build();
 		}
 	      
 	}
