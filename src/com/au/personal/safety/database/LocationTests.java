@@ -3,18 +3,16 @@ package com.au.personal.safety.database;
 import static org.junit.Assert.*;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
+//import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Timestamp;
+//import java.sql.Timestamp;
 
 import org.junit.Test;
 
 public class LocationTests {
 
 	@Test
-	public void test() {
-		fail("Not yet implemented");
-	}
+	
 	
 	/* Test Constructor */
 	public void test01_instanceCreated() {
@@ -32,12 +30,13 @@ public class LocationTests {
 	}
 	
 	/* Test saveNewLocation(double long_in, double lat_in, Timestamp timestamp_in, int userID_in) throws SQLException */
+	/**
+	@Test
 	public void test03_throwsExceptionIfDatabaseNotConnection() {
 		Location loc01 = new Location();
 		boolean exceptionThrown = false;
 		double long_in = 0.0;
 		double lat_in = 0.0;
-		Timestamp timestamp_in = new Timestamp(2017, 1, 1, 1, 1, 0, 0);
 		int userID_in = 0;
 		
 		try {
@@ -45,20 +44,17 @@ public class LocationTests {
 		}
 		catch (Exception e) {
 			exceptionThrown = true;
+			e.printStackTrace();
 		}
 		assertTrue("test03_throwsExceptionIfDatabaseNotConnection error\n", exceptionThrown);
 	}
-	
+	*/
+	@Test
 	public void test03_noEntriesInLocationTable() {
 		String errorString = "";
 		boolean errorExists = false;
 		
 		Location loc01 = new Location();
-		int resultLocactionID;
-		Timestamp resultTime;
-		double resultLat;
-		double resultLong;
-		int resultUserID;
 		
 		boolean exceptionThrown = false;
 		double long_in = 0.0;
@@ -104,11 +100,14 @@ public class LocationTests {
 		}
 		catch (Exception e) {
 			exceptionThrown = true;
+			e.printStackTrace();
 			//if (conn != null) {
 			//    conn.closeConnection();
 			//}
 		}
 		
+		//make sure no exception was thrown
+		assertFalse("test03_noEntriesInLocationTable error: exception thrown\n", exceptionThrown);
 		//make sure entry was save to the database
 		assertFalse("test03_noEntriesInLocationTable error: " + errorString, errorExists);
 		//make sure entry's info matches input
