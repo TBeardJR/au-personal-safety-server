@@ -84,7 +84,7 @@ public class Location {
 	*/
 	
 	
-  public void saveNewLocation(double long_in, double lat_in, int userID_in) throws SQLException
+  public void saveNewLocation(double long_in, double lat_in, int userID_in) 
   {
       int locationUID = -1;
       Statement stmt = null;

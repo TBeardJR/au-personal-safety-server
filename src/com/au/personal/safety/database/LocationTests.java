@@ -41,7 +41,7 @@ public class LocationTests {
 		int userID_in = 0;
 		
 		try {
-		    loc01.saveNewLocation(long_in, lat_in, timestamp_in, userID_in);
+		    loc01.saveNewLocation(long_in, lat_in, userID_in);
 		}
 		catch (Exception e) {
 			exceptionThrown = true;
