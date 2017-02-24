@@ -41,7 +41,7 @@ public class LocationTests {
 		int userID_in = 0;
 		
 		try {
-		    loc01.saveNewLocation(long_in, lat_in, timestamp_in, userID_in);
+		    loc01.saveNewLocation(long_in, lat_in, userID_in);
 		}
 		catch (Exception e) {
 			exceptionThrown = true;
@@ -87,7 +87,6 @@ public class LocationTests {
 	        	//ERROR
 				errorString = "the entry was not added to the database\n";
 	        	errorExists = true;
-	        	
 	        }
       	
 	        // else, there is an entry
@@ -98,15 +97,8 @@ public class LocationTests {
 	        	loc01.setTime(rs01.getTimestamp("Time"));
 	            loc01.setLat(rs01.getDouble("Latitude"));
 	            loc01.setLong(rs01.getDouble("Longitude"));
-	            loc01.setUserID(rs01.getInt("UserID"));
-	            
-	            
-	            //make sure entry's info matches input
-	            
+	            loc01.setUserID(rs01.getInt("UserID"));    
 	        }
-			
-			
-			
 			
 			conn.closeConnection();
 		}
@@ -117,7 +109,17 @@ public class LocationTests {
 			//}
 		}
 		
+		//make sure entry was save to the database
 		assertFalse("test03_noEntriesInLocationTable error: " + errorString, errorExists);
+		//make sure entry's info matches input
+		assertNotNull("test03_noEntriesInLocationTable error: LocationID is null\n", loc01.getLocationID());
+		assertNotNull("test03_noEntriesInLocationTable error: LocationID is null\n", loc01.getTime());
+		assertEquals("test03_noEntriesInLocationTable error: Lat result " + loc01.getLat() +
+				" ! = " + lat_in + "\n", loc01.getLat(), lat_in, 0.0);
+		assertEquals("test03_noEntriesInLocationTable error: Long result " + loc01.getLong() +
+				" ! = " + long_in + "\n", loc01.getLong(), long_in, 0.0);
+		assertEquals("test03_noEntriesInLocationTable error: UserID result " + loc01.getUserID() +
+				" ! = " + userID_in + "\n", loc01.getUserID(), userID_in);
 	}
 	
 	public void test03_updateNeededForLocationTable() {
