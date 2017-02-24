@@ -7,6 +7,9 @@ public class EmailMessage {
 	private String messageText;
 
 	public EmailMessage() {
+		recipients = "";
+		subject = "";
+		messageText = "";
 	}
 
 	public String getRecipients() {

@@ -16,7 +16,7 @@
   </servlet-mapping>
   <listener>
   	<listener-class>
- 		com.au.personal.safety.backgroundDBConnect
+ 		com.au.personal.safety.database.BackgroundDBConnect
   	</listener-class>
   </listener>
 </web-app>

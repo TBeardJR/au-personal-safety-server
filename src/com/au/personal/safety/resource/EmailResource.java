@@ -14,6 +14,7 @@ import javax.ws.rs.core.Response;
 
 import com.au.personal.safety.email.Email;
 import com.au.personal.safety.email.EmailMessage;
+import com.au.personal.safety.validator.EmailResourceValidator;
 
 @Path("/email")
 public class EmailResource {	
@@ -22,9 +23,16 @@ public class EmailResource {
 	@Path("/sendtophone")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response sendEmailToPhone(EmailMessage emailMessage) {
-		Email email = new Email(emailMessage);
-		email.sendMessage();
-		return Response.status(Response.Status.OK).entity("Success!").build();
+		Response response = null;
+		EmailResourceValidator validator = new EmailResourceValidator(emailMessage);
+		if(validator.validate()) {
+			Email email = new Email(emailMessage);
+			response = email.sendMessage();
+		} else {
+			response = validator.getResponse();
+		}
+		
+		return response;
 
 	}
 

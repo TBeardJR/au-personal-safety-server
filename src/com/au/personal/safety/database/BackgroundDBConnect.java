@@ -7,14 +7,14 @@ import java.util.Map;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import javax.servlet.*;
 
-public class backgroundDBConnect implements ServletContextListener  {
+public class BackgroundDBConnect implements ServletContextListener  {
      
     private ScheduledThreadPoolExecutor executor = null;
     private Connection connection;
  
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        DatabaseConnectionSingleton databaseConnection = null;
+        /*DatabaseConnectionSingleton databaseConnection = null;
 		try {
 			databaseConnection = DatabaseConnectionSingleton.getInstance();
 		} catch (URISyntaxException e) {
@@ -25,7 +25,7 @@ public class backgroundDBConnect implements ServletContextListener  {
         connection = databaseConnection.getConnection();
         
         ServletContext servletContext = sce.getServletContext();
-        setServletContextAttributes(servletContext);    
+        setServletContextAttributes(servletContext);   */ 
                 
     }
  
@@ -41,8 +41,6 @@ public class backgroundDBConnect implements ServletContextListener  {
     }
     
     private void setServletContextAttributes(ServletContext servletContext) {
-        Map<String, String> gamertagWatchList = new HashMap<>();
-        servletContext.setAttribute("gamertagWatchList", gamertagWatchList);
         servletContext.setAttribute("DBConnection", connection);
     }
 
