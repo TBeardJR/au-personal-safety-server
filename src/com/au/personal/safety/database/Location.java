@@ -19,7 +19,8 @@ public class Location {
 	/** constructor */
   
   public Location() {
-	    
+	  longitude = 200.0;
+	  latitude = 100.0;
 		
 		
 	}
@@ -84,15 +85,14 @@ public class Location {
 	*/
 	
 	
-  public void saveNewLocation(double long_in, double lat_in, int userID_in) 
+
+  public void saveNewLocation(double long_in, double lat_in, int userID_in) //throws SQLException
   {
       int locationUID = -1;
       Statement stmt = null;
       String selectQry = "SELECT LocationID FROM Location WHERE UserID = " + userID_in + ";";
-      String insertQry = "INSERT INTO Location (Longitude, Latitude, UserID) VALUES (" + long_in + ", " 
-              + lat_in + ", " + userID_in + ");";
-      String updateQry  = "UPDATE Location SET Longitude = " + long_in + " , Latitude = " + lat_in 
-      		+ " WHERE LocationID = " + locationUID + " ;";
+      
+      
       	
       try {
       	//use a function to get the connection info
@@ -105,6 +105,9 @@ public class Location {
 	        {
 	        	//there is no existing entry
 	        	//insert a new entry
+	        	String insertQry = "INSERT INTO Location (Longitude, Latitude, UserID) VALUES (" + long_in + ", " 
+	                    + lat_in + ", " + userID_in + ");";
+	        	System.out.print(insertQry);
 	        	stmt.executeUpdate(insertQry);
 	        	
 	        }
@@ -113,7 +116,11 @@ public class Location {
 	        else
 	        {
 	            locationUID = rs01.getInt("LocationID");
+	            System.out.print("locationUID: " + locationUID + "\n");
 	            //update the entry with the new lat and long
+	            String updateQry  = "UPDATE Location SET Longitude = " + long_in + " , Latitude = " + lat_in 
+	              		+ " WHERE LocationID = " + locationUID + ";";
+	            System.out.print(updateQry);
 	            stmt.executeUpdate(updateQry);
 	            
 	        }
