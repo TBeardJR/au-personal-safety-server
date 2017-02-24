@@ -76,9 +76,9 @@ public class LocationTests {
 		}
 		catch (Exception e) {
 			exceptionThrown = true;
-			if (conn != null) {
-			    conn.closeConnection();
-			}
+			//if (conn != null) {
+			//    conn.closeConnection();
+			//}
 		}
 		
 	}
