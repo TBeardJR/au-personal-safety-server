@@ -84,15 +84,15 @@ public class Location {
 	*/
 	
 	
-  public void saveNewLocation(double long_in, double lat_in, Timestamp timestamp_in, int userID_in) throws SQLException
+  public void saveNewLocation(double long_in, double lat_in, int userID_in) throws SQLException
   {
       int locationUID = -1;
       Statement stmt = null;
       String selectQry = "SELECT LocationID FROM Location WHERE UserID = " + userID_in + ";";
-      String insertQry = "INSERT INTO Location (Longitude, Latitude, Time, UserID) VALUES (" + long_in + ", " 
-              + lat_in + ", " + timestamp_in + ", " + userID_in + ");";
+      String insertQry = "INSERT INTO Location (Longitude, Latitude, UserID) VALUES (" + long_in + ", " 
+              + lat_in + ", " + userID_in + ");";
       String updateQry  = "UPDATE Location SET Longitude = " + long_in + " , Latitude = " + lat_in 
-      		+ " , Time = " + timestamp_in + " WHERE LocationID = " + locationUID + " ;";
+      		+ " WHERE LocationID = " + locationUID + " ;";
       	
       try {
       	//use a function to get the connection info
@@ -113,7 +113,7 @@ public class Location {
 	        else
 	        {
 	            locationUID = rs01.getInt("LocationID");
-	            //update the entry with the new lat, long, and time
+	            //update the entry with the new lat and long
 	            stmt.executeUpdate(updateQry);
 	            
 	        }
