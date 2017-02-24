@@ -2,7 +2,7 @@ package com.au.personal.safety.database;
 
 import java.sql.Timestamp;
 //the Date class is the parent class of Timestamp
-import java.util.Date;
+//+-import java.util.Date;
 import java.net.URISyntaxException;
 //import com.mysql.cj.api.jdbc.Statement;
 import java.sql.*;
@@ -86,7 +86,7 @@ public class Location {
 	
   public void saveNewLocation(double long_in, double lat_in, Timestamp timestamp_in, int userID_in) throws SQLException
   {
-		int locationUID = -1;
+      int locationUID = -1;
       Statement stmt = null;
       String selectQry = "SELECT LocationID FROM Location WHERE UserID = " + userID_in + ";";
       String insertQry = "INSERT INTO Location (Longitude, Latitude, Time, UserID) VALUES (" + long_in + ", " 
@@ -119,13 +119,18 @@ public class Location {
 	        }
 	        
 	        
-      } catch (SQLException e) {
-      	JDBCTutorialUtilities.printSQLException(e);
+    } catch (SQLException e) {
+        JDBCTutorialUtilities.printSQLException(e);
       	
-      } catch (URISyntaxException e) {
+    } catch (URISyntaxException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
-	} finally {
+    
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+      
+    finally {
       	/**
       	we do not close the connection, so do NOT do the below
       	
@@ -147,6 +152,7 @@ public class Location {
 	{
 	    boolean result = false;
 		
+	    
 		
 		return result;
 	}
