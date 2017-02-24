@@ -19,7 +19,8 @@ public class Location {
 	/** constructor */
   
   public Location() {
-	    
+	  longitude = 200.0;
+	  latitude = 100.0;
 		
 		
 	}
@@ -84,6 +85,7 @@ public class Location {
 	*/
 	
 	
+
   public void saveNewLocation(double long_in, double lat_in, int userID_in) //throws SQLException
   {
       int locationUID = -1;

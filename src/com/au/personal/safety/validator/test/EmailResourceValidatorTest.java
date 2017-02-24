@@ -14,6 +14,8 @@ import org.junit.runner.RunWith;
 import com.au.personal.safety.constants.HttpResponseConstants;
 import com.au.personal.safety.email.EmailMessage;
 import com.au.personal.safety.validator.EmailResourceValidator;
+import com.au.personal.safety.validator.HttpRequestValidator;
+
 import org.junit.runners.Parameterized;
 import org.junit.experimental.runners.Enclosed;
 
@@ -48,7 +50,7 @@ public class EmailResourceValidatorTest {
 			emailMessage.setSubject("MySubject");
 			emailMessage.setRecipients(recipientEmailAddresses);
 			emailMessage.setMessageText("message");
-			EmailResourceValidator validator = new EmailResourceValidator(emailMessage);
+			HttpRequestValidator validator = new EmailResourceValidator(emailMessage);
 			
 			boolean isRequestValid = validator.validate();
 			
@@ -64,7 +66,7 @@ public class EmailResourceValidatorTest {
 		public void testEmailResourceValidator_NullEmailMessage_ShouldReturnFalse() {
 			String expectedResponse = HttpResponseConstants.NULL_PARAMETERS;
 			EmailMessage emailMessage = null;
-			EmailResourceValidator validator = new EmailResourceValidator(emailMessage);
+			HttpRequestValidator validator = new EmailResourceValidator(emailMessage);
 			
 			boolean isRequestValid = validator.validate();
 			
@@ -79,7 +81,7 @@ public class EmailResourceValidatorTest {
 			emailMessage.setSubject("MySubject");
 			emailMessage.setRecipients("recipients");
 			emailMessage.setMessageText(null);
-			EmailResourceValidator validator = new EmailResourceValidator(emailMessage);
+			HttpRequestValidator validator = new EmailResourceValidator(emailMessage);
 			
 			boolean isRequestValid = validator.validate();
 			
@@ -94,7 +96,7 @@ public class EmailResourceValidatorTest {
 			emailMessage.setSubject("MySubject");
 			emailMessage.setRecipients("recipients");
 			emailMessage.setMessageText("");
-			EmailResourceValidator validator = new EmailResourceValidator(emailMessage);
+			HttpRequestValidator validator = new EmailResourceValidator(emailMessage);
 			
 			boolean isRequestValid = validator.validate();
 			
@@ -109,7 +111,7 @@ public class EmailResourceValidatorTest {
 			emailMessage.setSubject("MySubject");
 			emailMessage.setRecipients(null);
 			emailMessage.setMessageText("message");
-			EmailResourceValidator validator = new EmailResourceValidator(emailMessage);
+			HttpRequestValidator validator = new EmailResourceValidator(emailMessage);
 			
 			boolean isRequestValid = validator.validate();
 			
@@ -124,7 +126,7 @@ public class EmailResourceValidatorTest {
 			emailMessage.setSubject("MySubject");
 			emailMessage.setRecipients("");
 			emailMessage.setMessageText("message");
-			EmailResourceValidator validator = new EmailResourceValidator(emailMessage);
+			HttpRequestValidator validator = new EmailResourceValidator(emailMessage);
 			
 			boolean isRequestValid = validator.validate();
 			
@@ -139,7 +141,7 @@ public class EmailResourceValidatorTest {
 			emailMessage.setSubject("MySubject");
 			emailMessage.setRecipients("emailaddress@domain.com,emailaddress@domain.com");
 			emailMessage.setMessageText("message");
-			EmailResourceValidator validator = new EmailResourceValidator(emailMessage);
+			HttpRequestValidator validator = new EmailResourceValidator(emailMessage);
 			
 			boolean isRequestValid = validator.validate();
 			
@@ -153,7 +155,7 @@ public class EmailResourceValidatorTest {
 			emailMessage.setSubject("MySubject");
 			emailMessage.setRecipients("emailaddress@domain.com,emailaddress2@domain.com");
 			emailMessage.setMessageText("message");
-			EmailResourceValidator validator = new EmailResourceValidator(emailMessage);
+			HttpRequestValidator validator = new EmailResourceValidator(emailMessage);
 			
 			boolean isRequestValid = validator.validate();
 			
