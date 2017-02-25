@@ -1,4 +1,4 @@
-package com.au.personal.safety.validator.test;
+package com.au.personal.safety.test.validator;
 
 import static org.junit.Assert.*;
 
@@ -14,8 +14,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 import com.au.personal.safety.constants.HttpResponseConstants;
-import com.au.personal.safety.database.Location;
 import com.au.personal.safety.email.EmailMessage;
+import com.au.personal.safety.location.Location;
 import com.au.personal.safety.validator.EmailResourceValidator;
 import com.au.personal.safety.validator.HttpRequestValidator;
 import com.au.personal.safety.validator.LocationResourceValidator;

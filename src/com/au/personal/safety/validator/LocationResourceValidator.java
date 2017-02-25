@@ -3,8 +3,8 @@ package com.au.personal.safety.validator;
 import javax.ws.rs.core.Response;
 
 import com.au.personal.safety.constants.HttpResponseConstants;
-import com.au.personal.safety.database.Location;
 import com.au.personal.safety.email.EmailMessage;
+import com.au.personal.safety.location.Location;
 
 public class LocationResourceValidator extends HttpRequestValidator {
 	

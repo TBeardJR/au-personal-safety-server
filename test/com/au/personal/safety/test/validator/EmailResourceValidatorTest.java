@@ -1,4 +1,4 @@
-package com.au.personal.safety.validator.test;
+package com.au.personal.safety.test.validator;
 
 import static org.junit.Assert.*;
 
