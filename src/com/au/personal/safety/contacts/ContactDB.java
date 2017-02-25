@@ -21,37 +21,27 @@ public class ContactDB {
 	
 	private void buildInsert(){
 		contactQuery = "INSERT INTO Contacts (FirstName, LastName, PhoneNumber, Email, UserID) "
-				+ "VALUES (?, ?, ?, ?, ?)";
+				+ "VALUES (\"" + contact.getFirstName()
+				+ "\", \"" + contact.getLastName()+ "\", \"" + contact.getContactPhone() + "\", \"" 
+				+ contact.getContactEmail() + "\", " + contact.getUserID() + ");";
 	}
 	
 	public Response sendContact(){
-		Connection conn = null;
+		Statement stmt = null;
 		
 		try {
-			conn = DatabaseConnectionSingleton.getInstance().getConnection();
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		PreparedStatement preparedStmt;
-		
-		try {
-			preparedStmt = conn.prepareStatement(contactQuery);
-			preparedStmt.setString(1, contact.getFirstName());
-		    preparedStmt.setString(2, contact.getLastName());
-		    preparedStmt.setString(3, contact.getContactPhone());
-		    preparedStmt.setString(4, contact.getContactEmail());
-		    preparedStmt.setInt(5, contact.getUserID());
-
-		      // execute the preparedstatement
-		    preparedStmt.execute();
+			Connection conn = DatabaseConnectionSingleton.getInstance().getConnection();
+			stmt = conn.createStatement();
+			stmt.executeUpdate(contactQuery);
 		    return Response.status(Response.Status.OK).entity(ContactConstants.CONTACT_WAS_SUCCESSFULLY_ADDED).build();
-		} catch (SQLException e) {
+		} catch (URISyntaxException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(ContactConstants.CONTACT_COULD_NOT_BE_ADDED).build();
 		}
+		
+
 	      
 	}
 }
