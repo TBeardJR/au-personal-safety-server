@@ -90,8 +90,6 @@ public class Location {
       Statement stmt = null;
       String selectQry = "SELECT LocationID FROM Location WHERE UserID = " + userID_in + ";";
       
-      
-      	
       try {
       	//use a function to get the connection info
       	Connection conn = DatabaseConnectionSingleton.getInstance().getConnection();
@@ -105,7 +103,7 @@ public class Location {
 	        	//insert a new entry
 	        	String insertQry = "INSERT INTO Location (Longitude, Latitude, UserID) VALUES (" + long_in + ", " 
 	                    + lat_in + ", " + userID_in + ");";
-	        	System.out.print(insertQry);
+	        	//System.out.print(insertQry);
 	        	stmt.executeUpdate(insertQry);
 	        	
 	        }
@@ -114,11 +112,11 @@ public class Location {
 	        else
 	        {
 	            locationUID = rs01.getInt("LocationID");
-	            System.out.print("locationUID: " + locationUID + "\n");
+	            //System.out.print("locationUID: " + locationUID + "\n");
 	            //update the entry with the new lat and long
 	            String updateQry  = "UPDATE Location SET Longitude = " + long_in + " , Latitude = " + lat_in 
 	              		+ " WHERE LocationID = " + locationUID + ";";
-	            System.out.print(updateQry);
+	            //System.out.print(updateQry);
 	            stmt.executeUpdate(updateQry);
 	            
 	        }
