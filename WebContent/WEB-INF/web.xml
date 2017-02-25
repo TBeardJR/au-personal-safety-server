@@ -14,4 +14,9 @@
     <servlet-name>jersey-serlvet</servlet-name>
     <url-pattern>/*</url-pattern>
   </servlet-mapping>
+  <listener>
+  	<listener-class>
+ 		com.au.personal.safety.backgroundDBConnect
+  	</listener-class>
+  </listener>
 </web-app>
