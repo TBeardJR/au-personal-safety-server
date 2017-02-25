@@ -14,7 +14,7 @@ public class BackgroundDBConnect implements ServletContextListener  {
  
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        /*DatabaseConnectionSingleton databaseConnection = null;
+        DatabaseConnectionSingleton databaseConnection = null;
 		try {
 			databaseConnection = DatabaseConnectionSingleton.getInstance();
 		} catch (URISyntaxException e) {
@@ -25,7 +25,7 @@ public class BackgroundDBConnect implements ServletContextListener  {
         connection = databaseConnection.getConnection();
         
         ServletContext servletContext = sce.getServletContext();
-        setServletContextAttributes(servletContext);   */ 
+        setServletContextAttributes(servletContext);    
                 
     }
  
