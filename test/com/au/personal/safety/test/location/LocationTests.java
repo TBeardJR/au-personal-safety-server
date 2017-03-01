@@ -5,7 +5,8 @@ import static org.junit.Assert.*;
 import java.sql.ResultSet;
 //import java.sql.SQLException;
 import java.sql.Statement;
-//import java.sql.Timestamp;
+import java.sql.Timestamp;
+import java.util.Date;
 
 import org.junit.Test;
 
@@ -65,6 +66,10 @@ public class LocationTests {
 		double long_in = 0.0;
 		double lat_in = 0.0;
 		int userID_in = 5;
+		/* add a Timestamp variable to update to time of update, for comparison */
+		Timestamp time_in = new Timestamp(0);
+		long current_date;
+		
 		DatabaseConnectionSingleton conn;
 		Statement stmt = null;
 		String selectEntry = "SELECT * FROM Location WHERE UserID = " + userID_in + " ;";
@@ -81,6 +86,10 @@ public class LocationTests {
 			//make sure entry was created
 			stmt = conn.getConnection().createStatement();
 			ResultSet rs01 = stmt.executeQuery(selectEntry);
+			
+			/*set Timestamp var (time_in) to current time */
+			current_date = new Date().getTime();
+			time_in.setTime(current_date);
 			
 			if (!rs01.next())
 	        {
@@ -124,6 +133,8 @@ public class LocationTests {
 				" ! = " + long_in + "\n", loc01.getLong(), long_in, 0.0);
 		assertEquals("test03_noEntriesInLocationTable error: UserID result " + loc01.getUserID() +
 				" ! = " + userID_in + "\n", loc01.getUserID(), userID_in);
+		assertEquals("test03_noEntriesInLocationTable error: Time result " + loc01.getTime().toString() + 
+				" != " + time_in.toString() + "\n", loc01.getTime(), time_in);
 	}
 	@Test
 	public void test03_updateNeededForLocationTable() {
@@ -136,6 +147,9 @@ public class LocationTests {
 		double long_in = 10.0;
 		double lat_in = 10.0;
 		int userID_in = 5;
+		/* add a Timestamp variable to update to time of update, for comparison */
+		Timestamp time_in = new Timestamp(0);
+		long current_date;
 		DatabaseConnectionSingleton conn;
 		Statement stmt = null;
 		String selectEntry = "SELECT * FROM Location WHERE UserID = " + userID_in + " ;";
@@ -148,6 +162,10 @@ public class LocationTests {
 			//USE MOCKITO INSTEAD OF CONNECTING TO ACTUAL DATABASE (INSTEAD OF PRIOR 2 LINES)
 			
 			loc01.saveNewLocation(long_in, lat_in, userID_in);
+			
+			/*set Timestamp var (time_in) to current time */
+			current_date = new Date().getTime();
+			time_in.setTime(current_date);
 			
 			//make sure entry was created
 			stmt = conn.getConnection().createStatement();
@@ -195,6 +213,8 @@ public class LocationTests {
 				" ! = " + long_in + "\n", loc01.getLong(), long_in, 0.0);
 		assertEquals("test03_noEntriesInLocationTable error: UserID result " + loc01.getUserID() +
 				" ! = " + userID_in + "\n", loc01.getUserID(), userID_in);
+		assertEquals("test03_noEntriesInLocationTable error: Time result " + loc01.getTime().toString() + 
+				" != " + time_in.toString() + "\n", loc01.getTime(), time_in);
 	}
 
 }
