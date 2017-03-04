@@ -17,10 +17,8 @@ import com.au.personal.safety.location.Location;
 
 public class LocationTests {
 
-	@Test
-	
-	
 	/* Test Constructor */
+	@Test
 	public void test01_01_instanceCreated() {
 		Location loc01 = new Location();
 		assertFalse("test01_instanceCreated error: loc01 is null\n", loc01 == null);

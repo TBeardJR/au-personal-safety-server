@@ -19,6 +19,11 @@ public class ContactDB {
 		buildInsert();
 	}
 	
+	/**
+	The below function creates the value for the class' variable contactQuery
+	
+	The function assumes that there is a non-null value for the class' variable contact
+	*/
 	private void buildInsert(){
 		contactQuery = "INSERT INTO Contacts (FirstName, LastName, PhoneNumber, Email, UserID) "
 				+ "VALUES (\"" + contact.getFirstName()
