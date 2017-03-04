@@ -22,9 +22,30 @@ public class ContactDBTests {
 	 *  string variable contactQuery
 	 * */
 	
-	/**
-	 
-	*/
+	/* Test buildInsert()
+	 * Setting: ContactDB.contact has non-null values for FirstName, LastName, ContactEmail, ContactPhone, and UserID
+	 * Result: contactDB.contactQuery has correct string value
+	 * */
+	
+	/* Test buildInsert()
+	 * Setting: ContactDB.contact has non-null values for FirstName, LastName, ContactPhone, and UserID
+	 *  ContactDB.contact has a null value for ContactEmail
+	 * Result: contactDB.contactQuery has correct string value
+	 * */
+	
+	/* Test buildInsert()
+	 * Setting: ContactDB.contact has non-null values for FirstName, LastName, ContactEmail, and UserID
+	 *  ContactDB.contact has a null value for ContactPhone
+	 * Result: contactDB.contactQuery has correct string value
+	 * */
+	
+	/* Test sendContact()
+	 * Setting: A new contact is created and wants to be put into the database
+	 *  The contact has a zero null values
+	 * Result: The new contact is in the Contact table with the correct values
+	 * */
+	
+	
 	
 	@Test
 	public void testSend(){
@@ -58,5 +79,94 @@ public class ContactDBTests {
 		assertFalse(false);
 		
 	}
+	
+	/* Test sendContact()
+	 * Setting: A new contact is created and wants to be put into the database
+	 *  The contact has a null value for ContactEmail
+	 * Result: The new contact is in the Contact table with the correct values
+	 * */
+	
+	/* Test sendContact()
+	 * Setting: A new contact is created and wants to be put into the database
+	 *  The contact has a null value for ContactPhone
+	 * Result: The new contact is in the Contact table with the correct values
+	 * */
+	
+	/* Test sendContact()
+	 * Setting: A contact is updated with new values
+	 *  The contact previous had zero null values
+	 *  The contact will now have a new FirstName, LastName, ContactEmail, and ContactPhone
+	 * Result: The new contact is in the Contact table with the correct values
+	 * */
+	
+	/* Test sendContact()
+	 * Setting: A contact is updated with new values
+	 *  The contact previous had zero null values
+	 *  The contact will now have a new FirstName
+	 * Result: The new contact is in the Contact table with the correct values
+	 * */
+	
+	/* Test sendContact()
+	 * Setting: A contact is updated with new values
+	 *  The contact previous had zero null values
+	 *  The contact will now have a new LastName
+	 * Result: The new contact is in the Contact table with the correct values
+	 * */
+	
+	/* Test sendContact()
+	 * Setting: A contact is updated with new values
+	 *  The contact previous had zero null values
+	 *  The contact will now have a new ContactEmail
+	 * Result: The new contact is in the Contact table with the correct values
+	 * */
+	
+	/* Test sendContact()
+	 * Setting: A contact is updated with new values
+	 *  The contact previous had zero null values
+	 *  The contact will now have a new ContactPhone
+	 * Result: The new contact is in the Contact table with the correct values
+	 * */
+	
+	/* Test sendContact()
+	 * Setting: A contact is updated with new values
+	 *  The contact previous had zero null values
+	 *  The contact will now have a null ContactEmail
+	 * Result: The new contact is in the Contact table with the correct values
+	 * */
+	
+	/* Test sendContact()
+	 * Setting: A contact is updated with new values
+	 *  The contact previous had zero null values
+	 *  The contact will now have a null ContactPhone
+	 * Result: The new contact is in the Contact table with the correct values
+	 * */
+	
+	/* Test sendContact()
+	 * Setting: A contact is updated with new values
+	 *  The contact previous had a null ContactEmail
+	 *  The contact will now have a ContactEmail, thus no null values
+	 * Result: The new contact is in the Contact table with the correct values
+	 * */
+	
+	/* Test sendContact()
+	 * Setting: A contact is updated with new values
+	 *  The contact previous had a null ContactPhone
+	 *  The contact will now have a ContactPhone, thus no null values
+	 * Result: The new contact is in the Contact table with the correct values
+	 * */
+	
+	/* Test sendContact()
+	 * Setting: A contact is updated with new values
+	 *  The contact previous had a null ContactPhone
+	 *  The contact will now have a ContactPhone and null ContactEmail
+	 * Result: The new contact is in the Contact table with the correct values
+	 * */
+	
+	/* Test sendContact()
+	 * Setting: A contact is updated with new values
+	 *  The contact previous had a null ContactEmail
+	 *  The contact will now have a ContactEmail and null ContactPhone
+	 * Result: The new contact is in the Contact table with the correct values
+	 * */
 
 }

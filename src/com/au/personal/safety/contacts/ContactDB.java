@@ -13,7 +13,11 @@ public class ContactDB {
 	private Contact contact;
 	private String contactQuery;
 	
+	/**
+	The below constructor assumes that the entered Contact contact is valid
 	
+	We need to create a validator class for Contact class
+	*/
 	public ContactDB(Contact contact){
 		this.contact = contact;
 		buildInsert();
@@ -30,6 +34,11 @@ public class ContactDB {
 				+ "\", \"" + contact.getLastName()+ "\", \"" + contact.getContactPhone() + "\", \"" 
 				+ contact.getContactEmail() + "\", " + contact.getUserID() + ");";
 	}
+	
+	/**
+	The below function assumes that when a Contact entry in the database need to be updated, that
+	 the UserID for the corresponding entry never changes
+	*/
 	
 	public Response sendContact(){
 		Statement stmt = null;
