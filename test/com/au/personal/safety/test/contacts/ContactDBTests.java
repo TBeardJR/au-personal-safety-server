@@ -3,6 +3,8 @@ package com.au.personal.safety.test.contacts;
 import static org.junit.Assert.*;
 
 import java.net.URISyntaxException;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 import org.junit.FixMethodOrder;
 import org.junit.runners.MethodSorters;
@@ -170,32 +172,56 @@ public class ContactDBTests {
 	 * */
 	@Test
 	public void test03_01_sendContactAddWithAllNonNullValues() {
-		fail("not implemented yet");
-	}
-	
-	
-	@Test
-	public void testSend(){
-		
-		Contact contact1 = new Contact();
-		String First= "Sally";
-		String Last = "Smith";
-		String Email = "sallyS@gmail.com";
-		String Phone = "251-555-4786";
-		int ID = 2;
-		
-		contact1.setContactEmail(Email);
-		contact1.setContactPhone(Phone);
-		contact1.setFirstName(First);
-		contact1.setLastName(Last);
-		contact1.setUserID(ID);
-		
+		//initialized error variables
+		String errorString;
+    	boolean errorExists;
+		//initialize connection variables
+		DatabaseConnectionSingleton conn;
+		Statement stmt = null;
+		//create Contact and ContactDB variables
+		Contact contact1 = createContact1();
 		ContactDB contactDB = new ContactDB(contact1);
 		
 		try {
-			DatabaseConnectionSingleton conn = DatabaseConnectionSingleton.getInstance();
+			conn = DatabaseConnectionSingleton.getInstance();
 			conn.openConnection();
 			contactDB.sendContact();
+			
+			//make sure entry was created and added correctly
+			String selectQry = "SELECT * WHERE FirstName = \"test\" AND LastName = \"01\" "
+					+ "AND UserID = 1 AND Email = \"test01@email\" AND PhoneNumber = \"111-1111\"  ;";
+			
+			try {
+				stmt = conn.getConnection().createStatement();
+				ResultSet rs01 = stmt.executeQuery(selectQry);
+				
+				if (!rs01.next())
+		        {
+		        	//there is no existing entry
+		        	//ERROR
+					errorString = "the entry was not added to the database\n";
+		        	errorExists = true;
+		        }
+				
+				// else, there is an entry
+		        else
+		        {
+		            //set the entry's info to loc01 attributes
+		        	loc01.setLocationID(rs01.getInt("LocationID"));
+		        	loc01.setTime(rs01.getTimestamp("Time"));
+		            loc01.setLat(rs01.getDouble("Latitude"));
+		            loc01.setLong(rs01.getDouble("Longitude"));
+		            loc01.setUserID(rs01.getInt("UserID"));    
+		        }
+				
+				
+			
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			conn.closeConnection();
+			
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -203,9 +229,15 @@ public class ContactDBTests {
 		
 		
 		
-		assertFalse(false);
+		
+		
+		fail("not implemented yet");
+		
 		
 	}
+	
+	
+	
 	
 	/* Test sendContact() Add Contact
 	 * Setting: A new contact is created and wants to be put into the database
@@ -214,6 +246,8 @@ public class ContactDBTests {
 	 * */
 	@Test
 	public void test03_02_sendContactAddWithNullEmail() {
+		
+		
 		fail("not implemented yet");
 	}
 	
