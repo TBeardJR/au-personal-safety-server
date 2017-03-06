@@ -18,7 +18,28 @@ import com.au.personal.safety.database.DatabaseConnectionSingleton;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 
 public class ContactDBTests {
-
+	/* variable to be called within test */
+	/* desired values that have been saved in the database for contacts 1, 2, and 3 */
+	// IMPORTANT: we want empty strings saved in database, not Null values, b/c this is easier to implement
+	int contact1UserID = 1;
+	String contact1FirstName = "test";
+	String contact1LastName = "01";
+	String contact1Email = "test01@email";
+	String contact1Phone = "111-1111";
+	
+	int contact2UserID = 2;
+	String contact2FirstName = "test";
+	String contact2LastName = "02";
+	String contact2Email = "";
+	String contact2Phone = "222-2222";
+	
+	int contact3UserID = 3;
+	String contact3FirstName = "test";
+	String contact3LastName = "03";
+	String contact3Email = "test03@email";
+	String contact3Phone = "";
+	
+	
 	/* methods to be called within tests */
 	//contact with all attributes set to non null values
 	public Contact createContact1() {
@@ -46,6 +67,14 @@ public class ContactDBTests {
 		result.setLastName("03");
 		result.setUserID(3);
 		result.setContactEmail("test03@email");
+		return result;
+	}
+	//contact has a null Email and a null Phone Number
+	public Contact createInvalidContact() {
+		Contact result = new Contact();
+		result.setFirstName("invalid");
+		result.setLastName("test");
+		result.setUserID(1);
 		return result;
 	}
 		
@@ -80,7 +109,6 @@ public class ContactDBTests {
 	 * */
 	@Test
 	public void test01_02_invalidNullInput() {
-		
 		//create a Contact object set to null
 		Contact contactNull = null;
 		
@@ -173,18 +201,23 @@ public class ContactDBTests {
 	@Test
 	public void test03_01_sendContactAddWithAllNonNullValues() {
 		//initialized error variables
-		String errorString;
-    	boolean errorExists;
+		String errorString = "";
+    	boolean errorExists = false;
+    	boolean exceptionThrown = false;
 		//initialize connection variables
 		DatabaseConnectionSingleton conn;
 		Statement stmt = null;
 		//create Contact and ContactDB variables
 		Contact contact1 = createContact1();
+		Contact resultingContact = new Contact();
 		ContactDB contactDB = new ContactDB(contact1);
 		
 		try {
+			//open connection
 			conn = DatabaseConnectionSingleton.getInstance();
 			conn.openConnection();
+			
+			//call function that will add the contact to database
 			contactDB.sendContact();
 			
 			//make sure entry was created and added correctly
@@ -207,48 +240,134 @@ public class ContactDBTests {
 		        else
 		        {
 		            //set the entry's info to loc01 attributes
-		        	loc01.setLocationID(rs01.getInt("LocationID"));
-		        	loc01.setTime(rs01.getTimestamp("Time"));
-		            loc01.setLat(rs01.getDouble("Latitude"));
-		            loc01.setLong(rs01.getDouble("Longitude"));
-		            loc01.setUserID(rs01.getInt("UserID"));    
+		        	resultingContact.setContactID(rs01.getInt("ContactID"));
+		        	resultingContact.setFirstName(rs01.getString("FirstName"));
+		        	resultingContact.setLastName(rs01.getString("LastName"));
+		        	resultingContact.setContactEmail(rs01.getString("Email"));
+		        	resultingContact.setContactPhone(rs01.getString("PhoneNumber")); 
+		        	resultingContact.setUserID(rs01.getInt("UserID"));
 		        }
 				
-				
-			
 			} catch (Exception e) {
+				exceptionThrown = true;
 				e.printStackTrace();
 			}
 			
+			//close connection
 			conn.closeConnection();
 			
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
+			exceptionThrown = true;
 			e.printStackTrace();
 		}
 		
-		
-		
-		
-		
-		fail("not implemented yet");
-		
+		//make sure no exception was thrown
+		assertFalse("test03_01 error: exception thrown\n", exceptionThrown);
+		//make sure entry was save to the database
+		assertFalse("test03_01 error: " + errorString, errorExists);
+		//make sure entry's info matches input
+		assertNotNull("test03_01 error: Contact is null\n", resultingContact.getContactID());
+		assertEquals("test03_01 error: UserID incorrect, have: " + resultingContact.getUserID() 
+				+ "\nwanted: "+ contact1UserID +"\n", contact1UserID, resultingContact.getUserID());
+		assertTrue("test03_01 error: FirstName incorrect have: " + resultingContact.getFirstName()
+				+ "\nwanted: " + contact1FirstName + "\n", resultingContact.getFirstName().equals(contact1FirstName));
+		assertTrue("test03_01 error: FirstName incorrect have: " + resultingContact.getLastName()
+				+ "\nwanted: "+ contact1LastName +"\n", resultingContact.getLastName().equals(contact1LastName));
+		assertTrue("test03_01 error: FirstName incorrect have: " + resultingContact.getContactEmail()
+				+ "\nwanted: "+ contact1Email +"\n", resultingContact.getContactEmail().equals(contact1Email));
+		assertTrue("test03_01 error: FirstName incorrect have: " + resultingContact.getContactPhone()
+				+ "\nwanted: "+ contact1Phone +"\n", resultingContact.getContactPhone().equals(contact1Phone));
 		
 	}
-	
-	
 	
 	
 	/* Test sendContact() Add Contact
 	 * Setting: A new contact is created and wants to be put into the database
 	 *  The contact has a null value for ContactEmail
-	 * Result: The new contact is in the Contact table with the correct values
+	 * Result: The new contact is in the Contact table with the correct values, specifically
+	 *  look for ContactEmail = ""
 	 * */
 	@Test
 	public void test03_02_sendContactAddWithNullEmail() {
-		
-		
-		fail("not implemented yet");
+		//initialized error variables
+		String errorString = "";
+		boolean errorExists = false;
+		boolean exceptionThrown = false;
+		//initialize connection variables
+		DatabaseConnectionSingleton conn;
+		Statement stmt = null;
+		//create Contact and ContactDB variables
+		Contact contact2 = createContact2();
+		Contact resultingContact = new Contact();
+		ContactDB contactDB = new ContactDB(contact2);
+				
+		try {
+			//open connection
+			conn = DatabaseConnectionSingleton.getInstance();
+			conn.openConnection();
+			
+			//call function that will add the contact to database
+			contactDB.sendContact();
+					
+			//make sure entry was created and added correctly
+			String selectQry = "SELECT * WHERE FirstName = \"test\" AND LastName = \"02\" "
+					+ "AND UserID = 2 AND Email = \"\" AND PhoneNumber = \"111-1111\"  ;";
+					
+			try {
+				stmt = conn.getConnection().createStatement();
+				ResultSet rs01 = stmt.executeQuery(selectQry);
+						
+				if (!rs01.next())
+		        {
+		        	//there is no existing entry
+		        	//ERROR
+					errorString = "the entry was not added to the database\n";
+		        	errorExists = true;
+		        }
+						
+				// else, there is an entry
+		        else
+		        {
+		            //set the entry's info to loc01 attributes
+		        	resultingContact.setContactID(rs01.getInt("ContactID"));
+		        	resultingContact.setFirstName(rs01.getString("FirstName"));
+		        	resultingContact.setLastName(rs01.getString("LastName"));
+		        	resultingContact.setContactEmail(rs01.getString("Email"));
+		        	resultingContact.setContactPhone(rs01.getString("PhoneNumber")); 
+		        	resultingContact.setUserID(rs01.getInt("UserID"));
+		        }
+						
+			} catch (Exception e) {
+				exceptionThrown = true;
+				e.printStackTrace();
+			}
+					
+			//close connection
+			conn.closeConnection();
+					
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			exceptionThrown = true;
+			e.printStackTrace();
+		}
+				
+		//make sure no exception was thrown
+		assertFalse("test03_01 error: exception thrown\n", exceptionThrown);
+		//make sure entry was save to the database
+		assertFalse("test03_01 error: " + errorString, errorExists);
+		//make sure entry's info matches input
+		assertNotNull("test03_01 error: Contact is null\n", resultingContact.getContactID());
+		assertEquals("test03_01 error: UserID incorrect, have: " + resultingContact.getUserID() 
+				+ "\nwanted: "+ contact2FirstName +"\n", contact2FirstName, resultingContact.getUserID());
+		assertTrue("test03_01 error: FirstName incorrect have: " + resultingContact.getFirstName()
+				+ "\nwanted: " + contact2FirstName + "\n", resultingContact.getFirstName().equals(contact2FirstName));
+		assertTrue("test03_01 error: FirstName incorrect have: " + resultingContact.getLastName()
+				+ "\nwanted: "+ contact2LastName +"\n", resultingContact.getLastName().equals(contact2LastName));
+		assertTrue("test03_01 error: FirstName incorrect have: " + resultingContact.getContactEmail()
+				+ "\nwanted: "+ contact2Email +"\n", resultingContact.getContactEmail().equals(contact2Email));
+		assertTrue("test03_01 error: FirstName incorrect have: " + resultingContact.getContactPhone()
+				+ "\nwanted: "+ contact2Phone +"\n", resultingContact.getContactPhone().equals(contact2Phone));
 	}
 	
 	/* Test sendContact() Add Contact
@@ -258,7 +377,84 @@ public class ContactDBTests {
 	 * */
 	@Test
 	public void test03_03_sendContactAddWithNullPhone() {
-		fail("not implemented yet");
+		//initialized error variables
+		String errorString = "";
+		boolean errorExists = false;
+		boolean exceptionThrown = false;
+		//initialize connection variables
+		DatabaseConnectionSingleton conn;
+		Statement stmt = null;
+		//create Contact and ContactDB variables
+		Contact contact2 = createContact2();
+		Contact resultingContact = new Contact();
+		ContactDB contactDB = new ContactDB(contact2);
+						
+		try {
+			//open connection
+			conn = DatabaseConnectionSingleton.getInstance();
+			conn.openConnection();
+					
+			//call function that will add the contact to database
+			contactDB.sendContact();
+							
+			//make sure entry was created and added correctly
+			String selectQry = "SELECT * WHERE FirstName = \"test\" AND LastName = \"02\" "
+					+ "AND UserID = 2 AND Email = \"\" AND PhoneNumber = \"111-1111\"  ;";
+							
+			try {
+				stmt = conn.getConnection().createStatement();
+				ResultSet rs01 = stmt.executeQuery(selectQry);
+								
+				if (!rs01.next())
+		        {
+		        	//there is no existing entry
+		        	//ERROR
+					errorString = "the entry was not added to the database\n";
+		        	errorExists = true;
+		        }
+								
+				// else, there is an entry
+		        else
+		        {
+		            //set the entry's info to loc01 attributes
+		        	resultingContact.setContactID(rs01.getInt("ContactID"));
+		        	resultingContact.setFirstName(rs01.getString("FirstName"));
+		        	resultingContact.setLastName(rs01.getString("LastName"));
+		        	resultingContact.setContactEmail(rs01.getString("Email"));
+		        	resultingContact.setContactPhone(rs01.getString("PhoneNumber")); 
+		        	resultingContact.setUserID(rs01.getInt("UserID"));
+		        }
+						
+			} catch (Exception e) {
+				exceptionThrown = true;
+				e.printStackTrace();
+			}
+						
+			//close connection
+			conn.closeConnection();
+							
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			exceptionThrown = true;
+			e.printStackTrace();
+		}
+						
+		//make sure no exception was thrown
+		assertFalse("test03_01 error: exception thrown\n", exceptionThrown);
+		//make sure entry was save to the database
+		assertFalse("test03_01 error: " + errorString, errorExists);
+		//make sure entry's info matches input
+		assertNotNull("test03_01 error: Contact is null\n", resultingContact.getContactID());
+		assertEquals("test03_01 error: UserID incorrect, have: " + resultingContact.getUserID() 
+				+ "\nwanted: "+ contact2FirstName +"\n", contact2FirstName, resultingContact.getUserID());
+		assertTrue("test03_01 error: FirstName incorrect have: " + resultingContact.getFirstName()
+				+ "\nwanted: " + contact2FirstName + "\n", resultingContact.getFirstName().equals(contact2FirstName));
+		assertTrue("test03_01 error: FirstName incorrect have: " + resultingContact.getLastName()
+				+ "\nwanted: "+ contact2LastName +"\n", resultingContact.getLastName().equals(contact2LastName));
+		assertTrue("test03_01 error: FirstName incorrect have: " + resultingContact.getContactEmail()
+				+ "\nwanted: "+ contact2Email +"\n", resultingContact.getContactEmail().equals(contact2Email));
+		assertTrue("test03_01 error: FirstName incorrect have: " + resultingContact.getContactPhone()
+				+ "\nwanted: "+ contact2Phone +"\n", resultingContact.getContactPhone().equals(contact2Phone));
 	}
 	
 	/* Test sendContact() Add Contact INVALID RESPONSE RAISED
@@ -268,7 +464,41 @@ public class ContactDBTests {
 	 * */
 	@Test
 	public void test03_04_sendContactAddInvalidContactWithNoEmailNoPhone() {
-		fail("not implemented yet");
+		//initialized error variables
+		String errorString = "";
+		boolean errorExists = false;
+		boolean exceptionThrown = false;
+		//initialize connection variables
+		DatabaseConnectionSingleton conn;
+		Statement stmt = null;
+		//create Contact and ContactDB variables
+		Contact contact2 = createContact2();
+		Contact resultingContact = new Contact();
+		ContactDB contactDB = new ContactDB(contact2);
+								
+		try {
+			//open connection
+			conn = DatabaseConnectionSingleton.getInstance();
+			conn.openConnection();
+							
+			//call function that will add the contact to database
+			contactDB.sendContact();
+									
+			
+								
+			//close connection
+			conn.closeConnection();
+									
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			exceptionThrown = true;
+			e.printStackTrace();
+		}
+								
+				
+		
+		//createInvalidContact();
+		fail("not completed yet");
 	}
 	
 	/* Test sendContact() Modify Contact
