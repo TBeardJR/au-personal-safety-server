@@ -12,6 +12,17 @@ import com.au.personal.safety.database.DatabaseConnectionSingleton;
 
 public class ContactDBTests {
 
+	/* methods to be called within tests */
+	public Contact createContact1() {
+		Contact result = new Contact();
+		result.setFirstName("test");
+		result.setLastName("01");
+		result.setUserID(1);
+		result.setContactEmail("test01@email");
+		result.setContactPhone("111-1111");
+		return result;
+	}
+	
 	@Test
 	public void test() {
 		fail("Not yet implemented");
@@ -20,6 +31,31 @@ public class ContactDBTests {
 	/* Test constructor 
 	 * Check that (1) instance was created and (2) buildInsert created the correct value for
 	 *  string variable contactQuery
+	 * */
+	@Test
+	public void test01_01_instanceCreated() {
+		
+		//create a Contact object with all attributes set
+		Contact contact1 = createContact1();
+		
+		//initialized ContactDB object with contact1
+		ContactDB contactDB1 = new ContactDB(contact1);
+		
+		//check that the object was created
+		assertNotNull("test01_01: contactDB1 is null", contactDB1);
+		//check that the contactQuery value is correct
+		String expectedCQ = "INSERT INTO Contacts (FirstName, LastName, PhoneNumber, Email, UserID) "
+				+ "VALUES (\"" + "test"
+				+ "\", \"" + "01"+ "\", \"" + "111-1111" + "\", \"" 
+				+ "test01@email" + "\", " + "1" + ");";
+		assertTrue("", contactDB1.getContactQuery().equals(expectedCQ));
+	}
+	
+	
+	
+	/* Test constructor INVALID Test
+	 * Setting Entered Contract value is null 
+	 * Result: NullObject? error raised?
 	 * */
 	
 	/* Test buildInsert()

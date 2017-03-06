@@ -13,14 +13,18 @@ public class ContactDB {
 	private Contact contact;
 	private String contactQuery;
 	
-	/**
-	The below constructor assumes that the entered Contact contact is valid
 	
-	We need to create a validator class for Contact class
-	*/
 	public ContactDB(Contact contact){
 		this.contact = contact;
 		buildInsert();
+	}
+	
+	public Contact getConact() {
+		return contact;
+	}
+	
+	public String getContactQuery() {
+		return contactQuery;
 	}
 	
 	/**
