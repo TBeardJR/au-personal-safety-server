@@ -120,7 +120,8 @@ public class Location {
 	            locationUID = rs01.getInt("LocationID");
 	            //System.out.print("locationUID: " + locationUID + "\n");
 	            //update the entry with the new lat and long
-	            String updateQry  = "UPDATE Location SET Longitude = " + long_in + " , Latitude = " + lat_in 
+	            // need to specify time update in case same latitude and longitude are already in entry
+	            String updateQry  = "UPDATE Location SET Longitude = " + long_in + " , Latitude = " + lat_in + " , Time = NOW()"
 	              		+ " WHERE LocationID = " + locationUID + ";";
 	            //System.out.print(updateQry);
 	            stmt.executeUpdate(updateQry);

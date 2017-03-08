@@ -19,12 +19,30 @@ public class ContactDB {
 		buildInsert();
 	}
 	
+	public Contact getConact() {
+		return contact;
+	}
+	
+	public String getContactQuery() {
+		return contactQuery;
+	}
+	
+	/**
+	The below function creates the value for the class' variable contactQuery
+	
+	The function assumes that there is a non-null value for the class' variable contact
+	*/
 	private void buildInsert(){
 		contactQuery = "INSERT INTO Contacts (FirstName, LastName, PhoneNumber, Email, UserID) "
 				+ "VALUES (\"" + contact.getFirstName()
 				+ "\", \"" + contact.getLastName()+ "\", \"" + contact.getContactPhone() + "\", \"" 
 				+ contact.getContactEmail() + "\", " + contact.getUserID() + ");";
 	}
+	
+	/**
+	The below function assumes that when a Contact entry in the database need to be updated, that
+	 the UserID for the corresponding entry never changes
+	*/
 	
 	public Response sendContact(){
 		Statement stmt = null;

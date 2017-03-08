@@ -6,6 +6,7 @@ public class Contact {
 	private String ContactEmail;
 	private String ContactPhone;
 	private int UserID;
+	private int ContactID;
 	
 	public Contact() {
 	}
@@ -48,6 +49,14 @@ public class Contact {
 
 	public void setUserID(int UserID) {
 		this.UserID = UserID;	
+	}
+	
+	public int getContactID() {
+		return ContactID;
+	}
+	
+	public void setContactID(int id_IN) {
+		this.ContactID = id_IN;
 	}
 
 }
