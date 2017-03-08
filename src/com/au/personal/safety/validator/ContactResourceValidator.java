@@ -47,17 +47,23 @@ public class ContactResourceValidator extends HttpRequestValidator {
 	public boolean validateThisAttribute(String attr_value_in, String attr_name_in) {
 		boolean result = false;
 		
+		/* FINISH THIS */
+		
 		return result;
 	}
 	
 	public String stripCharacters(String value_in) {
 		String result = "";
 		
+		/* FINISH THIS */
+		
 		return result;
 	}
 	
 	public String formatPhone(String value_in) {
 		String result = "";
+		
+		/* FINISH THIS */
 		
 		return result;
 	}
