@@ -46,17 +46,29 @@ public class ContactDBTests {
 	String contact1Email = "test01@email";
 	String contact1Phone = "1111111111";
 	
+	String selectContact1Qry = "SELECT * WHERE FirstName = \"" + contact1FirstName + "\" AND " 
+	    + "LastName = \"" + contact1LastName + "\" AND UserID = " + contact1UserID 
+	    + " AND Email = \"" + contact1Email + "\" AND PhoneNumber = \"" + contact1Phone + "\" ;";
+	
 	int contact2UserID = 2;
 	String contact2FirstName = "test";
 	String contact2LastName = "02";
 	String contact2Email = "";
 	String contact2Phone = "2222222222";
 	
+	String selectContact2Qry = "SELECT * WHERE FirstName = \"" + contact2FirstName + "\" AND " 
+	    + "LastName = \"" + contact2LastName + "\" " + "AND UserID = " + contact2UserID 
+	    + " AND Email = \"" + contact2Email + "\" AND PhoneNumber = \"" + contact2Phone + "\" ;";
+	
 	int contact3UserID = 3;
 	String contact3FirstName = "test";
 	String contact3LastName = "03";
 	String contact3Email = "test03@email";
 	String contact3Phone = "";
+	
+	String selectContact3Qry = "SELECT * WHERE FirstName = \"" + contact3FirstName + "\" AND " 
+		    + "LastName = \"" + contact3LastName + "\" " + "AND UserID = " + contact3UserID 
+		    + " AND Email = \"" + contact3Email + "\" AND PhoneNumber = \"" + contact3Phone + "\" ;";
 	
 	/* Set connection variables to test database */
 	
@@ -271,8 +283,7 @@ public class ContactDBTests {
 			contactDB.sendContact();
 			
 			//make sure entry was created and added correctly
-			String selectQry = "SELECT * WHERE FirstName = \"test\" AND LastName = \"01\" "
-					+ "AND UserID = 1 AND Email = \"test01@email\" AND PhoneNumber = \"111-1111\"  ;";
+			String selectQry = selectContact1Qry;
 			
 			try {
 				stmt = conn.getConnection().createStatement();
@@ -361,8 +372,7 @@ public class ContactDBTests {
 			contactDB.sendContact();
 					
 			//make sure entry was created and added correctly
-			String selectQry = "SELECT * WHERE FirstName = \"test\" AND LastName = \"02\" "
-					+ "AND UserID = 2 AND Email = \"\" AND PhoneNumber = \"111-1111\"  ;";
+			String selectQry = selectContact2Qry;
 					
 			try {
 				stmt = conn.getConnection().createStatement();
@@ -435,9 +445,9 @@ public class ContactDBTests {
 		DatabaseConnectionSingleton conn;
 		Statement stmt = null;
 		//create Contact and ContactDB variables
-		Contact contact2 = createContact2();
+		Contact contact3 = createContact3();
 		Contact resultingContact = new Contact();
-		ContactDB contactDB = new ContactDB(contact2);
+		ContactDB contactDB = new ContactDB(contact3);
 						
 		try {
 			//open connection
@@ -448,8 +458,7 @@ public class ContactDBTests {
 			contactDB.sendContact();
 							
 			//make sure entry was created and added correctly
-			String selectQry = "SELECT * WHERE FirstName = \"test\" AND LastName = \"02\" "
-					+ "AND UserID = 2 AND Email = \"\" AND PhoneNumber = \"111-1111\"  ;";
+			String selectQry = selectContact3Qry;
 							
 			try {
 				stmt = conn.getConnection().createStatement();
@@ -490,21 +499,21 @@ public class ContactDBTests {
 		}
 						
 		//make sure no exception was thrown
-		assertFalse("test03_01 error: exception thrown\n", exceptionThrown);
+		assertFalse("test03_03 error: exception thrown\n", exceptionThrown);
 		//make sure entry was save to the database
-		assertFalse("test03_01 error: " + errorString, errorExists);
+		assertFalse("test03_03 error: " + errorString, errorExists);
 		//make sure entry's info matches input
-		assertNotNull("test03_01 error: Contact is null\n", resultingContact.getContactID());
-		assertEquals("test03_01 error: UserID incorrect, have: " + resultingContact.getUserID() 
-				+ "\nwanted: "+ contact2FirstName +"\n", contact2FirstName, resultingContact.getUserID());
-		assertTrue("test03_01 error: FirstName incorrect have: " + resultingContact.getFirstName()
-				+ "\nwanted: " + contact2FirstName + "\n", resultingContact.getFirstName().equals(contact2FirstName));
-		assertTrue("test03_01 error: LastName incorrect have: " + resultingContact.getLastName()
-				+ "\nwanted: "+ contact2LastName +"\n", resultingContact.getLastName().equals(contact2LastName));
-		assertTrue("test03_01 error: Email incorrect have: " + resultingContact.getContactEmail()
-				+ "\nwanted: "+ contact2Email +"\n", resultingContact.getContactEmail().equals(contact2Email));
-		assertTrue("test03_01 error: PhoneNumber incorrect have: " + resultingContact.getContactPhone()
-				+ "\nwanted: "+ contact2Phone +"\n", resultingContact.getContactPhone().equals(contact2Phone));
+		assertNotNull("test03_03 error: Contact is null\n", resultingContact.getContactID());
+		assertEquals("test03_03 error: UserID incorrect, have: " + resultingContact.getUserID() 
+				+ "\nwanted: "+ contact3UserID +"\n", contact3UserID, resultingContact.getUserID());
+		assertTrue("test03_03 error: FirstName incorrect have: " + resultingContact.getFirstName()
+				+ "\nwanted: " + contact3FirstName + "\n", resultingContact.getFirstName().equals(contact3FirstName));
+		assertTrue("test03_03 error: LastName incorrect have: " + resultingContact.getLastName()
+				+ "\nwanted: "+ contact3LastName +"\n", resultingContact.getLastName().equals(contact3LastName));
+		assertTrue("test03_03 error: Email incorrect have: " + resultingContact.getContactEmail()
+				+ "\nwanted: "+ contact3Email +"\n", resultingContact.getContactEmail().equals(contact3Email));
+		assertTrue("test03_03 error: PhoneNumber incorrect have: " + resultingContact.getContactPhone()
+				+ "\nwanted: "+ contact3Phone +"\n", resultingContact.getContactPhone().equals(contact3Phone));
 	}
 	
 	/* Test sendContact() Add Contact INVALID RESPONSE RAISED
@@ -591,17 +600,9 @@ public class ContactDBTests {
 			contactDB.sendContact();
 			
 			//identify ContactID of the contact that will be modified
-			String selectQry = "SELECT ContactID FROM Contacts WHERE contact1UserID = 1 AND " 
-			    + "FirstName = \"test\" AND LastName = \"01\" AND Email = \"test01@email\" AND "
-				+ "PhoneNumber = \"1111111111\"";
+			String selectQry = selectContact1Qry;
 			
-			/*
-			 * int contact1UserID = 1;
-	String contact1FirstName = "test";
-	String contact1LastName = "01";
-	String contact1Email = "test01@email";
-	String contact1Phone = "1111111111";
-			 */
+			
 			
 			//create altered Contact and ContactDB variables
 			//alter the contact in that database
