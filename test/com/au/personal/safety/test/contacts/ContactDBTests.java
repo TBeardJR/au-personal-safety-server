@@ -1971,6 +1971,18 @@ public class ContactDBTests {
 	}
 	
 	/*
+	 * Test sendContact() Modify user's second contact
+	 * Setting: contactA for UserA is added to the database and then
+	 *   contactB for userA is added to the database
+	 *   ContactB had zero null values
+	 *   The desired update will change the correct entry's first name, last name,
+	 *   email, and phone number. The userID will of course stay the same
+	 */
+	public void test05_01_updateSecondContactForUser() {
+		
+	}
+	
+	/*
 	 * Note: I have not made any tests for updating values to a blank string, b/c changing a
 	 *     filled string to another filled string applies the same tests
 	 * Note2: The ContactResourceValidator will have tests for invalid empty strings values (meaning,

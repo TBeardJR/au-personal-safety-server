@@ -7,6 +7,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.au.personal.safety.contacts.*;
+import com.au.personal.safety.validator.ContactResourceValidator;
 
 
 	@Path("/contact")
@@ -15,8 +16,21 @@ import com.au.personal.safety.contacts.*;
 		@Path("/sendtodb")
 		@Consumes(MediaType.APPLICATION_JSON)
 		public Response sendContactToDB(Contact contact) {
-			ContactDB contactdb = new ContactDB(contact);
-			Response response = contactdb.sendContact();
+			Response response = null;
+			//add ContactResourceValidator code here
+			ContactResourceValidator validator = new ContactResourceValidator(contact);
+			//if contact is valid, add entry to or update the existing entry in database
+			if(validator.validate() == true) {
+				ContactDB contactdb = new ContactDB(contact);
+			    response = contactdb.sendContact();
+			    //ask Tarence if I need the below, it looks like Sydney's code returns a response
+			    response = Response.ok().entity("Contact saved!").build();
+			}
+			else {
+				response = validator.getResponse();
+			}
+			
+			
 			return response;
 	}
 }
