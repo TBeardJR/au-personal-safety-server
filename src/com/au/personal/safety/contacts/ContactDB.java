@@ -20,7 +20,7 @@ public class ContactDB {
 		this.contact = contact;
 	}
 	
-	public Contact getConact() {
+	public Contact getContact() {
 		return contact;
 	}
 	
@@ -104,28 +104,4 @@ public class ContactDB {
 		
 	}
 	
-	public List<Contact> getContacts(int UserID){
-		String selectQuery = "SELECT * FROM Contacts WHERE UserID = " + UserID +";";
-		List<Contact> emergencyContacts = new ArrayList<Contact>();
-		Statement stmt = null;
-		try{
-			Connection conn = DatabaseConnectionSingleton.getInstance().getConnection();
-			stmt = conn.createStatement();
-			ResultSet rs01 = stmt.executeQuery(selectQuery);
-			
-			while(rs01.next()){
-				contact.setFirstName(rs01.getString("FirstName"));
-				contact.setLastName(rs01.getString("LastName"));
-				contact.setContactEmail(rs01.getString("Email"));
-				contact.setContactPhone(rs01.getString("PhoneNumber"));
-				contact.setContactID(rs01.getInt("ContactID"));
-				contact.setUserID(UserID);
-				emergencyContacts.add(contact);
-			}
-		} catch (URISyntaxException | SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return emergencyContacts;	
-	}
 }

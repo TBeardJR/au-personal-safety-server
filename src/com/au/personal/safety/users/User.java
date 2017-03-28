@@ -1,3 +1,4 @@
+package com.au.personal.safety.users;
 
 public class User {
 	private String FirstName;
