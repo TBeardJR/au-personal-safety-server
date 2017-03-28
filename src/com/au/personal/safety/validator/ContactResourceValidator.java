@@ -14,6 +14,16 @@ import com.au.personal.safety.contacts.Contact;
 
 public class ContactResourceValidator extends HttpRequestValidator {
 	
+	
+	/*
+	 * The definition of a VALID contact ("empty" = empty/blank string):
+	 * non-null and non-empty firstName or lastName
+	 * AND
+	 * non-null and non-empty email or phone
+	 * AND
+	 * non-null integer value > 0 for userContactID
+	*/
+	
 	public ContactResourceValidator(Contact contact_in) {
 		super();
 		
