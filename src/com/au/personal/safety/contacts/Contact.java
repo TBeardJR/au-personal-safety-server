@@ -5,6 +5,7 @@ public class Contact {
 	private String LastName;
 	private String ContactEmail;
 	private String ContactPhone;
+	private String ContactCarrier;
 	private int UserID;
 	private int ContactID;
 	
@@ -42,6 +43,14 @@ public class Contact {
 	public void setContactPhone(String ContactPhone) {
 		this.ContactPhone = ContactPhone;
 	}
+	
+	public String getContactCarrier() {
+		return ContactCarrier;
+	}
+
+	public void setContactCarrier(String ContactCarrier) {
+		this.ContactPhone = ContactCarrier;
+	}
 
 	public int getUserID() {
 		return UserID;
@@ -58,6 +67,15 @@ public class Contact {
 	public void setContactID(int id_IN) {
 		this.ContactID = id_IN;
 	}
-
+	
+	public boolean checkValues(){
+		if(ContactEmail == null && ContactPhone == null){
+			return false;
+		}
+		if(ContactCarrier == null){
+			return false;
+		}
+		return true;
+	}
 }
 
