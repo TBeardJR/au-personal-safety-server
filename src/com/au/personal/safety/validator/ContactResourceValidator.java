@@ -11,6 +11,7 @@ import javax.ws.rs.core.Response;
 
 import com.au.personal.safety.constants.HttpResponseConstants;
 import com.au.personal.safety.contacts.Contact;
+import com.au.personal.safety.contacts.PhoneCarriers;
 
 public class ContactResourceValidator extends HttpRequestValidator {
 	
@@ -21,8 +22,19 @@ public class ContactResourceValidator extends HttpRequestValidator {
 	 * AND
 	 * non-null and non-empty email or phone
 	 * AND
+	 * non-null and non-empty ContactCarrier
+	 * AND
 	 * non-null integer value > 0 for userContactID
 	*/
+	
+	/*
+	 * Note: Not all contacts will have both a first name and last name, and not all contacts will 
+	 *  have both an email and phone number
+	*/
+	
+	private Contact thisContact;
+	private boolean isContactValid;
+	//private boolean isUserIDEmpty;
 	
 	public ContactResourceValidator(Contact contact_in) {
 		super();
@@ -33,7 +45,8 @@ public class ContactResourceValidator extends HttpRequestValidator {
 	
 	@Override
 	public boolean validate() {
-
+        
+		
 		/* FINISH THIS */
 		
 		return isRequestValid;
@@ -57,6 +70,37 @@ public class ContactResourceValidator extends HttpRequestValidator {
 	public boolean validateThisAttribute(String attr_value_in, String attr_name_in) {
 		boolean result = false;
 		
+		if (attr_name_in.equals("FirstName")) {
+			
+		}
+		else if(attr_name_in.equals("LastName")) {
+			
+		}
+        else if(attr_name_in.equals("ContactEmail")) {
+			
+		}
+        else if(attr_name_in.equals("ContactPhone")) {
+			
+		}
+        else if(attr_name_in.equals("ContactCarrier")) {
+	        
+        }
+        else if(attr_name_in.equals("UserID")) {
+	        
+        }
+		
+		
+		
+		
+		
+		/* FINISH THIS */
+		
+		return result;
+	}
+	
+	public boolean isEmptyString(String name_in) {
+		boolean result = false;
+		
 		/* FINISH THIS */
 		
 		return result;
@@ -75,6 +119,21 @@ public class ContactResourceValidator extends HttpRequestValidator {
 		
 		/* FINISH THIS */
 		
+		return result;
+	}
+	
+	/*
+	 * Purpose: tells if an entered phone carrier is valid
+	 * Input: string representing the phone carrier address
+	 * Output: true if the entered value is valid; else, returns false
+	 * Note: look at the class PhoneCarriers for more details
+	 */
+	public boolean isAPhoneCarrier(String value_in) {
+		//instantiate the return value to false
+		boolean result = false;
+		//search the PhoneCarriers.carrierDictionary for value_in
+		PhoneCarriers phoneCarriersInstance = new PhoneCarriers();
+		result = phoneCarriersInstance.getCarrierDictionary().containsValue(value_in);
 		return result;
 	}
 }
