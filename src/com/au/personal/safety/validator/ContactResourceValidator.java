@@ -18,11 +18,11 @@ public class ContactResourceValidator extends HttpRequestValidator {
 	
 	/*
 	 * The definition of a VALID contact ("empty" = empty/blank string):
-	 * non-null and non-empty email or phone
-	 * AND
-	 * non-null and non-empty ContactCarrier
+	 * non-null and non-empty email or phone (if have phone, phone must be nine digits, nothing more nor less)
 	 * AND
 	 * non-null integer value > 0 for UserID
+	 * AND if have a phone, must have a
+	 * non-null and non-empty and valid ContactCarrier (class PhoneCarriers defines valid carriers)
 	*/
 	
 	/*
@@ -98,21 +98,7 @@ public class ContactResourceValidator extends HttpRequestValidator {
 		return result;
 	}
 	
-	public String stripCharacters(String value_in) {
-		String result = "";
-		
-		/* FINISH THIS */
-		
-		return result;
-	}
 	
-	public String formatPhone(String value_in) {
-		String result = "";
-		
-		/* FINISH THIS */
-		
-		return result;
-	}
 	
 	/*
 	 * Purpose: tells if an entered phone carrier is valid
@@ -126,6 +112,24 @@ public class ContactResourceValidator extends HttpRequestValidator {
 		//search the PhoneCarriers.carrierDictionary for value_in
 		PhoneCarriers phoneCarriersInstance = new PhoneCarriers();
 		result = phoneCarriersInstance.getCarrierDictionary().containsValue(value_in);
+		return result;
+	}
+	
+	/* I believe the below functions should go into Contact class if think they are needed */
+	// not needed for this class
+	public String stripCharacters(String value_in) {
+		String result = "";
+		
+		/* FINISH THIS */
+		
+		return result;
+	}
+	
+	public String formatPhone(String value_in) {
+		String result = "";
+		
+		/* FINISH THIS */
+		
 		return result;
 	}
 }
