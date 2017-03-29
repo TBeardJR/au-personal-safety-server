@@ -18,13 +18,11 @@ public class ContactResourceValidator extends HttpRequestValidator {
 	
 	/*
 	 * The definition of a VALID contact ("empty" = empty/blank string):
-	 * non-null and non-empty firstName or lastName
-	 * AND
 	 * non-null and non-empty email or phone
 	 * AND
 	 * non-null and non-empty ContactCarrier
 	 * AND
-	 * non-null integer value > 0 for userContactID
+	 * non-null integer value > 0 for UserID
 	*/
 	
 	/*
@@ -70,13 +68,7 @@ public class ContactResourceValidator extends HttpRequestValidator {
 	public boolean validateThisAttribute(String attr_value_in, String attr_name_in) {
 		boolean result = false;
 		
-		if (attr_name_in.equals("FirstName")) {
-			
-		}
-		else if(attr_name_in.equals("LastName")) {
-			
-		}
-        else if(attr_name_in.equals("ContactEmail")) {
+		if(attr_name_in.equals("ContactEmail")) {
 			
 		}
         else if(attr_name_in.equals("ContactPhone")) {
