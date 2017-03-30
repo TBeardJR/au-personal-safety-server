@@ -31,30 +31,45 @@ public class ContactResourceValidator extends HttpRequestValidator {
 	*/
 	
 	private Contact thisContact;
-	private boolean isContactValid;
+	
 	//private boolean isUserIDEmpty;
 	
 	public ContactResourceValidator(Contact contact_in) {
 		super();
+		thisContact = contact_in;
 		
 		/* FINISH THIS */
 		
 	}
 	
+	
 	@Override
 	public boolean validate() {
-        
+        //if contact has a valid UserID
+		// AND
+		// contact has a (1) valid email OR (2) valid phone number with a valid carrier
+		// return true
 		
-		/* FINISH THIS */
+		//else return false
 		
-		return isRequestValid;
+		boolean result = false;
+		
+		if(validateThisAttribute(thisContact.getUserID(), "UserID")) {
+			
+			if(validateThisAttribute(thisContact.getContactEmail(), "ContactEmail")) {
+				result = true;
+			}
+			else if (validateThisAttribute(thisContact.getContactPhone(), "ContactPhone") &&
+					validateThisAttribute(thisContact.getContactCarrier(), "ContactCarrier")) {
+				result = true;
+			}
+			
+		}
+		return result;
 	}
 	
 	@Override
 	public Response getResponse() {
-		
-		/* FINISH THIS */
-		
 		return response;
 	}
 	
@@ -67,53 +82,55 @@ public class ContactResourceValidator extends HttpRequestValidator {
 	
 	public boolean validateThisAttribute(String attr_value_in, String attr_name_in) {
 		boolean result = false;
+		if (attr_value_in != null && attr_name_in != null) {
 		
-		if(attr_name_in.equals("ContactEmail")) {
-			
+		    if(attr_name_in.equals("ContactEmail")) {
+			    if (attr_value_in.length() > 0 && attr_value_in.contains("@")) {
+				    //if get to here, the attr_value_in is the desired string of greater the zero length and
+			    	// contains an "@"
+			    	result = true;
+			    }
+    		}
+            else if(attr_name_in.equals("ContactPhone")) {
+			    if(attr_value_in.length() == 9) {
+			    	//try converting the string to an integer
+			    	try {
+			    		Integer intValue = Integer.parseInt(attr_value_in);
+			    		//if get to here, the attr_value_in is the desired nine digit string
+			    		result = true;
+			    	}
+			        //catch the exception thrown when cannot convert the string to an integer because on non-integer characters in the string
+			    	catch (Exception e) {
+			    		//break out of the try-catch, do not need to so anything, the result is false
+			    	}
+			    	
+			    }
+		    }
+            else if(attr_name_in.equals("ContactCarrier")) {
+	            PhoneCarriers pc = new PhoneCarriers();
+	            result = pc.getCarrierDictionary().containsValue(attr_value_in);
+            	//if the attr_value_in is a value in the PhoneCarries dictionary (LinkedHashMap), the
+	            // result value will change to true
+            }
+            //UserID is an integer value so it cannot be checked with this function, it is checked with next function
 		}
-        else if(attr_name_in.equals("ContactPhone")) {
-			
+		return result;
+	}
+	
+	public boolean validateThisAttribute(int attr_value_in, String attr_name_in) {
+		boolean result = false;
+		//Note: an integer cannot be null, it can be initialized to zero if not set, so
+		//  we do not check for attr_value_in != null
+		if (attr_name_in != null) {
+		    if(attr_name_in.equals("UserID")) {
+                if (attr_value_in > 0) {
+                	result = true;
+                }
+            }
 		}
-        else if(attr_name_in.equals("ContactCarrier")) {
-	        
-        }
-        else if(attr_name_in.equals("UserID")) {
-	        
-        }
-		
-		
-		
-		
-		
-		/* FINISH THIS */
-		
 		return result;
 	}
 	
-	public boolean isEmptyString(String name_in) {
-		boolean result = false;
-		
-		/* FINISH THIS */
-		
-		return result;
-	}
-	
-	
-	
-	/*
-	 * Purpose: tells if an entered phone carrier is valid
-	 * Input: string representing the phone carrier address
-	 * Output: true if the entered value is valid; else, returns false
-	 * Note: look at the class PhoneCarriers for more details
-	 */
-	public boolean isAPhoneCarrier(String value_in) {
-		//instantiate the return value to false
-		boolean result = false;
-		//search the PhoneCarriers.carrierDictionary for value_in
-		PhoneCarriers phoneCarriersInstance = new PhoneCarriers();
-		result = phoneCarriersInstance.getCarrierDictionary().containsValue(value_in);
-		return result;
-	}
 	
 	/* I believe the below functions should go into Contact class if think they are needed */
 	// not needed for this class
