@@ -24,11 +24,9 @@ import com.au.personal.safety.database.DatabaseConnectionSingleton;
 
 
 /* IMPORTANT:
- *  This class assumes that the Contact entered for ContactDB class is always valid, meaning the
- *  entered Contact will always have a first name, last name, and user id (contact id is generated 
- *  after the contact is added to database)
- *  AND the Contact will always either have a phone or email. The ContactResourceValidator class is in
- *  charge of checking that the Contact is valid.
+ *  This class assumes that the Contact entered for ContactDB class is always valid, please look
+ *  at "ContactResourceValidator" class for the definition of a valid contact.
+ *  Note: The ContactResourceValidator class is in charge of checking that the Contact is valid.
  */
 
 /* IMPORTNAT2"
