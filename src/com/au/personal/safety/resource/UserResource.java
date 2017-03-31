@@ -7,6 +7,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 
+import com.au.personal.safety.contacts.Contact;
 import com.au.personal.safety.users.User;
 import com.au.personal.safety.users.UserDB;
 
@@ -15,7 +16,7 @@ public class UserResource {
 	@POST
 	@Path("/getcontacts")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public List getContactsFromDB(User user) {
+	public List<Contact> getContactsFromDB(User user) {
 		UserDB userDB = new UserDB(user);
 		return userDB.getContacts(user.getUserID());
 	}

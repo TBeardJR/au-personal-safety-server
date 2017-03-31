@@ -72,7 +72,7 @@ public class Contact {
 		if(ContactEmail == null && ContactPhone == null){
 			return false;
 		}
-		if(ContactCarrier == null){
+		if(ContactPhone != null && ContactCarrier == null){
 			return false;
 		}
 		return true;
