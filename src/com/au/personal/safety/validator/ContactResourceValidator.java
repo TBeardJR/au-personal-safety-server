@@ -65,6 +65,8 @@ public class ContactResourceValidator extends HttpRequestValidator {
 			}
 			
 		}
+		//build response for validation
+		buildResponse();
 		return result;
 	}
 	
@@ -75,8 +77,43 @@ public class ContactResourceValidator extends HttpRequestValidator {
 	
 	@Override
 	protected void buildResponse() {
-
+		if(validateThisAttribute(thisContact.getUserID(), "UserID")) {
+		
+		    //if valid email
+		    if(validateThisAttribute(thisContact.getContactEmail(), "ContactEmail")) {
+			    response = null;
+		    }
+    		//else if valid phone and carrier
+	    	else if (validateThisAttribute(thisContact.getContactPhone(), "ContactPhone") &&
+		    		validateThisAttribute(thisContact.getContactCarrier(), "ContactCarrier")) {
+			    response = null;
+		    }
+		}
+		//if invalid userID, build INVALID_CONTACT
+		else if (validateThisAttribute(thisContact.getUserID(), "UserID") == false) {
+			response = Response.status(Response.Status.BAD_REQUEST).entity(HttpResponseConstants.INVALID_CONTACT).build();
+		}
+		
+		
+		
+		
+		// else if valid phone but invalid phone carrier and invalid email, build INVALID_PHONE_CARRIER_SELECTED
+		else if (validateThisAttribute(thisContact.getContactPhone(), "ContactPhone") == true && 
+				validateThisAttribute(thisContact.getContactCarrier(), "ContactCarrier") == false &&
+				validateThisAttribute(thisContact.getContactEmail(), "ContactEmail") == false) {
+			response = Response.status(Response.Status.BAD_REQUEST).entity(HttpResponseConstants.INVALID_PHONE_CARRIER_SELECTED).build();
+		}
+		//else if invalid email and invalid phone number, build INVALID_CONTACT
+		else {
+			response = Response.status(Response.Status.BAD_REQUEST).entity(HttpResponseConstants.INVALID_CONTACT).build();
+		}
+		//else if
+		
+		//else, no need to build response
+		
 		/* FINISH THIS */
+		
+		
 		
 	}
 	
@@ -119,8 +156,10 @@ public class ContactResourceValidator extends HttpRequestValidator {
 	
 	public boolean validateThisAttribute(int attr_value_in, String attr_name_in) {
 		boolean result = false;
-		//Note: an integer cannot be null, it can be initialized to zero if not set, so
+		//Note: an int cannot be null, it can be initialized to zero if not set, so
 		//  we do not check for attr_value_in != null
+		// Plus it is best to have only the first function check for null attr_values, so java can know
+		//  which function is best to use
 		if (attr_name_in != null) {
 		    if(attr_name_in.equals("UserID")) {
                 if (attr_value_in > 0) {

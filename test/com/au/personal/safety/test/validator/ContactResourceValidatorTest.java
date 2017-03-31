@@ -192,7 +192,7 @@ public class ContactResourceValidatorTest {
 		Assert.assertTrue("test03_01 error1: expected: " + validateExpected + "\n   result: "
 				+ validateResult + "\n", validateExpected == validateResult);
 		Assert.assertNull("test03_01 error2: expected: null\n   result: "
-				+ responseResult + "\n", responseResult);
+				+ responseResult.getEntity().toString() + "\n", responseResult);
 	}
 	
     @Test public void test03_02_validateContact2() {
