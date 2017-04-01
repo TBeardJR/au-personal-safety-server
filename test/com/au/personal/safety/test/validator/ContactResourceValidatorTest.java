@@ -525,7 +525,11 @@ public class ContactResourceValidatorTest {
     
 	/*
 	 * Test validateThisAttribute
+	 * 
+	 * To run this test must make this function "public" instead of "private"
 	 */
+    
+    /*
     
     //cannot test this independently because the method is classified as private
     // can rely on the validate tests b/c the buildResponse function is used within the validate function
@@ -730,5 +734,6 @@ public class ContactResourceValidatorTest {
     	boolean result = crv.validateThisAttribute(1, "UserID");
     	Assert.assertTrue("test06_03 error: expected: " + expected + "\n   result: " + result + "\n", result == expected);
     }
+    */
 	
 }

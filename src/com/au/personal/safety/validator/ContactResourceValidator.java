@@ -135,17 +135,10 @@ public class ContactResourceValidator extends HttpRequestValidator {
 		else {
 			response = Response.status(Response.Status.BAD_REQUEST).entity(HttpResponseConstants.INVALID_CONTACT).build();
 		}
-		//else if
-		
-		//else, no need to build response
-		
-		/* FINISH THIS */
-		
-		
-		
+
 	}
 	
-	public boolean validateThisAttribute(String attr_value_in, String attr_name_in) {
+	private boolean validateThisAttribute(String attr_value_in, String attr_name_in) {
 		boolean result = false;
 		if (attr_value_in != null && attr_name_in != null) {
 		
@@ -182,7 +175,7 @@ public class ContactResourceValidator extends HttpRequestValidator {
 		return result;
 	}
 	
-	public boolean validateThisAttribute(int attr_value_in, String attr_name_in) {
+	private boolean validateThisAttribute(int attr_value_in, String attr_name_in) {
 		boolean result = false;
 		//Note: an int cannot be null, it can be initialized to zero if not set, so
 		//  we do not check for attr_value_in != null
@@ -202,21 +195,5 @@ public class ContactResourceValidator extends HttpRequestValidator {
 		return thisContact;
 	}
 	
-	/* I believe the below functions should go into Contact class if think they are needed */
-	// not needed for this class
-	public String stripCharacters(String value_in) {
-		String result = "";
-		
-		/* FINISH THIS */
-		
-		return result;
-	}
 	
-	public String formatPhone(String value_in) {
-		String result = "";
-		
-		/* FINISH THIS */
-		
-		return result;
-	}
 }
