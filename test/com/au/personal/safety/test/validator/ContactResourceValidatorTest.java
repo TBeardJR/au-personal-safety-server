@@ -147,11 +147,7 @@ public class ContactResourceValidatorTest {
     	return result;
 	}
 	
-	@Test
-	public void test() {
-		fail("Not yet implemented");
-	}
-	
+		
 	/*
 	 * Test that the constructor creates an object
 	 */
@@ -161,9 +157,14 @@ public class ContactResourceValidatorTest {
 		//set JAWS_DB_URL = "..."
 		
 		//check that the object was created
-		//assertNotNull("test01_01: contactDB1 is null\n", contactDB1);
+		//
+		Contact contactHere = createValidContact1();
+		ContactResourceValidator crv = new ContactResourceValidator(contactHere);
 		
-		fail("Not yet implemented");
+		
+		Assert.assertNotNull("test01_01 error1: contactDB1 is null\n", crv);
+		Assert.assertEquals("test01_01 error2: contact was not set\n", contactHere, crv.getContact());
+		
 	}
 	
 	/*
@@ -188,11 +189,20 @@ public class ContactResourceValidatorTest {
 		ContactResourceValidator crv = new ContactResourceValidator(validContact1);
 		boolean validateResult = crv.validate();
 		Response responseResult = crv.getResponse();
+		String responseResultString = "";
+		//if the responseResult is null, we cannot get an entity from it to print, so set the responseResultString = null
+		if (responseResult == null) {
+			responseResultString = null;
+		}
+		//else, get the entity from responseResult to print as a string
+		else {
+		    responseResultString = responseResult.getEntity().toString();
+		}
 		//assert results
 		Assert.assertTrue("test03_01 error1: expected: " + validateExpected + "\n   result: "
 				+ validateResult + "\n", validateExpected == validateResult);
 		Assert.assertNull("test03_01 error2: expected: null\n   result: "
-				+ responseResult.getEntity().toString() + "\n", responseResult);
+				+ responseResultString + "\n", responseResult);
 	}
 	
     @Test public void test03_02_validateContact2() {
@@ -204,11 +214,20 @@ public class ContactResourceValidatorTest {
 		ContactResourceValidator crv = new ContactResourceValidator(validContact2);
 		boolean validateResult = crv.validate();
 		Response responseResult = crv.getResponse();
+		String responseResultString = "";
+		//if the responseResult is null, we cannot get an entity from it to print, so set the responseResultString = null
+		if (responseResult == null) {
+			responseResultString = null;
+		}
+		//else, get the entity from responseResult to print as a string
+		else {
+		    responseResultString = responseResult.getEntity().toString();
+		}
 		//assert results
 		Assert.assertTrue("test03_02 error1: expected: " + validateExpected + "\n   result: "
 				+ validateResult + "\n", validateExpected == validateResult);
 		Assert.assertNull("test03_02 error2: expected: null\n   result: "
-				+ responseResult + "\n", responseResult);
+				+ responseResultString + "\n", responseResult);
 	}
 	
     @Test public void test03_03_validateContact3() {
@@ -220,11 +239,20 @@ public class ContactResourceValidatorTest {
 		ContactResourceValidator crv = new ContactResourceValidator(validContact3);
 		boolean validateResult = crv.validate();
 		Response responseResult = crv.getResponse();
+		String responseResultString = "";
+		//if the responseResult is null, we cannot get an entity from it to print, so set the responseResultString = null
+		if (responseResult == null) {
+			responseResultString = null;
+		}
+		//else, get the entity from responseResult to print as a string
+		else {
+		    responseResultString = responseResult.getEntity().toString();
+		}
 		//assert results
 		Assert.assertTrue("test03_03 error1: expected: " + validateExpected + "\n   result: "
 				+ validateResult + "\n", validateExpected == validateResult);
 		Assert.assertNull("test03_03 error2: expected: null\n   result: "
-				+ responseResult + "\n", responseResult);
+				+ responseResultString + "\n", responseResult);
 	}
     
     @Test public void test03_04_validateContact4() {
@@ -236,11 +264,20 @@ public class ContactResourceValidatorTest {
 		ContactResourceValidator crv = new ContactResourceValidator(validContact4);
 		boolean validateResult = crv.validate();
 		Response responseResult = crv.getResponse();
+		String responseResultString = "";
+		//if the responseResult is null, we cannot get an entity from it to print, so set the responseResultString = null
+		if (responseResult == null) {
+			responseResultString = null;
+		}
+		//else, get the entity from responseResult to print as a string
+		else {
+		    responseResultString = responseResult.getEntity().toString();
+		}
 		//assert results
 		Assert.assertTrue("test03_04 error1: expected: " + validateExpected + "\n   result: "
 				+ validateResult + "\n", validateExpected == validateResult);
 		Assert.assertNull("test03_04 error2: expected: null\n   result: "
-				+ responseResult + "\n", responseResult);
+				+ responseResultString + "\n", responseResult);
 	}
     
     @Test public void test03_05_validateContact5() {
@@ -252,11 +289,20 @@ public class ContactResourceValidatorTest {
 		ContactResourceValidator crv = new ContactResourceValidator(validContact5);
 		boolean validateResult = crv.validate();
 		Response responseResult = crv.getResponse();
+		String responseResultString = "";
+		//if the responseResult is null, we cannot get an entity from it to print, so set the responseResultString = null
+		if (responseResult == null) {
+			responseResultString = null;
+		}
+		//else, get the entity from responseResult to print as a string
+		else {
+		    responseResultString = responseResult.getEntity().toString();
+		}
 		//assert results
 		Assert.assertTrue("test03_05 error1: expected: " + validateExpected + "\n   result: "
 				+ validateResult + "\n", validateExpected == validateResult);
 		Assert.assertNull("test03_05 error2: expected: null\n   result: "
-				+ responseResult + "\n", responseResult);
+				+ responseResultString + "\n", responseResult);
 	}
     
     @Test public void test03_06_validateIvContact1() {
@@ -271,6 +317,7 @@ public class ContactResourceValidatorTest {
 		boolean validateResult = crv.validate();
 		Response responseResult = crv.getResponse();
 		String responseResultString = "";
+		Object entityResult = null;
 		//if the responseResult is null, we cannot get an entity from it to print, so set the responseResultString = null
 		if (responseResult == null) {
 			responseResultString = null;
@@ -278,12 +325,13 @@ public class ContactResourceValidatorTest {
 		//else, get the entity from responseResult to print as a string
 		else {
 		    responseResultString = responseResult.getEntity().toString();
+		    entityResult = responseResult.getEntity();
 		}
 		//assert results
 		Assert.assertTrue("test03_06 error1: expected: " + validateExpected + "\n   result: "
 				+ validateResult + "\n", validateExpected == validateResult);
 		Assert.assertTrue("test03_06 error2: expected: " + responseExpectedString + "\n   result: "
-				+ responseResultString + "\n", responseExpected.equals(responseResult));
+				+ responseResultString + "\n", responseExpected.getEntity().equals(entityResult));
 	}
 	
     @Test public void test03_07_validateIvContact2() {
@@ -298,6 +346,7 @@ public class ContactResourceValidatorTest {
 		boolean validateResult = crv.validate();
 		Response responseResult = crv.getResponse();
 		String responseResultString = "";
+		Object entityResult = null;
 		//if the responseResult is null, we cannot get an entity from it to print, so set the responseResultString = null
 		if (responseResult == null) {
 			responseResultString = null;
@@ -305,12 +354,13 @@ public class ContactResourceValidatorTest {
 		//else, get the entity from responseResult to print as a string
 		else {
 		    responseResultString = responseResult.getEntity().toString();
+		    entityResult = responseResult.getEntity();
 		}
 		//assert results
 		Assert.assertTrue("test03_07 error1: expected: " + validateExpected + "\n   result: "
 				+ validateResult + "\n", validateExpected == validateResult);
 		Assert.assertTrue("test03_07 error2: expected: " + responseExpectedString + "\n   result: "
-				+ responseResultString + "\n", responseExpected.equals(responseResult));
+				+ responseResultString + "\n", responseExpected.getEntity().equals(entityResult));
 	}
     
     @Test public void test03_08_validateIvContact3() {
@@ -325,6 +375,7 @@ public class ContactResourceValidatorTest {
 		boolean validateResult = crv.validate();
 		Response responseResult = crv.getResponse();
 		String responseResultString = "";
+		Object entityResult = null;
 		//if the responseResult is null, we cannot get an entity from it to print, so set the responseResultString = null
 		if (responseResult == null) {
 			responseResultString = null;
@@ -332,12 +383,13 @@ public class ContactResourceValidatorTest {
 		//else, get the entity from responseResult to print as a string
 		else {
 		    responseResultString = responseResult.getEntity().toString();
+		    entityResult = responseResult.getEntity();
 		}
 		//assert results
 		Assert.assertTrue("test03_08 error1: expected: " + validateExpected + "\n   result: "
 				+ validateResult + "\n", validateExpected == validateResult);
 		Assert.assertTrue("test03_08 error2: expected: " + responseExpectedString + "\n   result: "
-				+ responseResultString + "\n", responseExpected.equals(responseResult));
+				+ responseResultString + "\n", responseExpected.getEntity().equals(entityResult));
 	}
     
     @Test public void test03_09_validateIvContact4() {
@@ -352,6 +404,7 @@ public class ContactResourceValidatorTest {
 		boolean validateResult = crv.validate();
 		Response responseResult = crv.getResponse();
 		String responseResultString = "";
+		Object entityResult = null;
 		//if the responseResult is null, we cannot get an entity from it to print, so set the responseResultString = null
 		if (responseResult == null) {
 			responseResultString = null;
@@ -359,12 +412,13 @@ public class ContactResourceValidatorTest {
 		//else, get the entity from responseResult to print as a string
 		else {
 		    responseResultString = responseResult.getEntity().toString();
+		    entityResult = responseResult.getEntity();
 		}
 		//assert results
 		Assert.assertTrue("test03_09 error1: expected: " + validateExpected + "\n   result: "
 				+ validateResult + "\n", validateExpected == validateResult);
 		Assert.assertTrue("test03_09 error2: expected: " + responseExpectedString + "\n   result: "
-				+ responseResultString + "\n", responseExpected.equals(responseResult));
+				+ responseResultString + "\n", responseExpected.getEntity().equals(entityResult));
 	}
     
     @Test public void test03_10_validateIvContact5() {
@@ -379,6 +433,7 @@ public class ContactResourceValidatorTest {
 		boolean validateResult = crv.validate();
 		Response responseResult = crv.getResponse();
 		String responseResultString = "";
+		Object entityResult = null;
 		//if the responseResult is null, we cannot get an entity from it to print, so set the responseResultString = null
 		if (responseResult == null) {
 			responseResultString = null;
@@ -386,12 +441,13 @@ public class ContactResourceValidatorTest {
 		//else, get the entity from responseResult to print as a string
 		else {
 		    responseResultString = responseResult.getEntity().toString();
+		    entityResult = responseResult.getEntity();
 		}
 		//assert results
 		Assert.assertTrue("test03_10 error1: expected: " + validateExpected + "\n   result: "
 				+ validateResult + "\n", validateExpected == validateResult);
 		Assert.assertTrue("test03_10 error2: expected: " + responseExpectedString + "\n   result: "
-				+ responseResultString + "\n", responseExpected.equals(responseResult));
+				+ responseResultString + "\n", responseExpected.getEntity().equals(entityResult));
 	}
     @Test public void test03_11_validateIvContact6() {
     	//expected return = false
@@ -405,6 +461,7 @@ public class ContactResourceValidatorTest {
 		boolean validateResult = crv.validate();
 		Response responseResult = crv.getResponse();
 		String responseResultString = "";
+		Object entityResult = null;
 		//if the responseResult is null, we cannot get an entity from it to print, so set the responseResultString = null
 		if (responseResult == null) {
 			responseResultString = null;
@@ -412,12 +469,13 @@ public class ContactResourceValidatorTest {
 		//else, get the entity from responseResult to print as a string
 		else {
 		    responseResultString = responseResult.getEntity().toString();
+		    entityResult = responseResult.getEntity();
 		}
 		//assert results
 		Assert.assertTrue("test03_11 error1: expected: " + validateExpected + "\n   result: "
 				+ validateResult + "\n", validateExpected == validateResult);
 		Assert.assertTrue("test03_11 error2: expected: " + responseExpectedString + "\n   result: "
-				+ responseResultString + "\n", responseExpected.equals(responseResult));
+				+ responseResultString + "\n", responseExpected.getEntity().equals(entityResult));
 	}
     @Test public void test03_12_validateIvContact7() {
     	//expected return = false
@@ -431,6 +489,7 @@ public class ContactResourceValidatorTest {
 		boolean validateResult = crv.validate();
 		Response responseResult = crv.getResponse();
 		String responseResultString = "";
+		Object entityResult = null;
 		//if the responseResult is null, we cannot get an entity from it to print, so set the responseResultString = null
 		if (responseResult == null) {
 			responseResultString = null;
@@ -438,13 +497,13 @@ public class ContactResourceValidatorTest {
 		//else, get the entity from responseResult to print as a string
 		else {
 		    responseResultString = responseResult.getEntity().toString();
+		    entityResult = responseResult.getEntity();
 		}
 		//assert results
 		Assert.assertTrue("test03_12 error1: expected: " + validateExpected + "\n   result: "
 				+ validateResult + "\n", validateExpected == validateResult);
 		Assert.assertTrue("test03_12 error2: expected: " + responseExpectedString + "\n   result: "
-				+ responseResultString + "\n", responseExpected.equals(responseResult));
-		fail("Not yet implemented");
+				+ responseResultString + "\n", responseExpected.getEntity().equals(entityResult));
 	}
 	
 	/*

@@ -57,7 +57,24 @@ public class ContactResourceValidator extends HttpRequestValidator {
 		if(validateThisAttribute(thisContact.getUserID(), "UserID")) {
 			
 			if(validateThisAttribute(thisContact.getContactEmail(), "ContactEmail")) {
-				result = true;
+				//check if has a valid phone too
+				//if it has a valid phone number but an invalid carrier, change result to false
+				// we always want a valid carrier for a valid phone number
+				if (validateThisAttribute(thisContact.getContactPhone(), "ContactPhone") == true &&
+				validateThisAttribute(thisContact.getContactCarrier(), "ContactCarrier") == false) {
+					result = false;
+				}
+				//if the entry has a valid carrier, but an invalid phone number,
+				// we are taking this to mean that the user wants to enter a phone number, but it was entered
+				// incorrectly
+				else if (validateThisAttribute(thisContact.getContactPhone(), "ContactPhone") == false &&
+						validateThisAttribute(thisContact.getContactCarrier(), "ContactCarrier") == true) {
+					result = false;
+				}
+				
+				else {
+				    result = true;
+				}
 			}
 			else if (validateThisAttribute(thisContact.getContactPhone(), "ContactPhone") &&
 					validateThisAttribute(thisContact.getContactCarrier(), "ContactCarrier")) {
@@ -81,28 +98,39 @@ public class ContactResourceValidator extends HttpRequestValidator {
 		
 		    //if valid email
 		    if(validateThisAttribute(thisContact.getContactEmail(), "ContactEmail")) {
-			    response = null;
+			    if (validateThisAttribute(thisContact.getContactPhone(), "ContactPhone") == true &&
+				    validateThisAttribute(thisContact.getContactCarrier(), "ContactCarrier") == false) {
+				    response = Response.status(Response.Status.BAD_REQUEST).entity(HttpResponseConstants.INVALID_PHONE_CARRIER_SELECTED).build();;
+			    }
+				else if (validateThisAttribute(thisContact.getContactPhone(), "ContactPhone") == false &&
+					validateThisAttribute(thisContact.getContactCarrier(), "ContactCarrier") == true) {
+					response = Response.status(Response.Status.BAD_REQUEST).entity(HttpResponseConstants.INVALID_CONTACT).build();;
+				}	
+				else {
+					response = null;
+				}
+			    
 		    }
     		//else if valid phone and carrier
 	    	else if (validateThisAttribute(thisContact.getContactPhone(), "ContactPhone") &&
 		    		validateThisAttribute(thisContact.getContactCarrier(), "ContactCarrier")) {
 			    response = null;
 		    }
+		    //else if valid phone but invalid phone carrier and invalid email, build INVALID_PHONE_CARRIER_SELECTED
+			else if (validateThisAttribute(thisContact.getContactPhone(), "ContactPhone") == true && 
+					validateThisAttribute(thisContact.getContactCarrier(), "ContactCarrier") == false &&
+					validateThisAttribute(thisContact.getContactEmail(), "ContactEmail") == false) {
+				response = Response.status(Response.Status.BAD_REQUEST).entity(HttpResponseConstants.INVALID_PHONE_CARRIER_SELECTED).build();
+			}
+			else {
+				response = Response.status(Response.Status.BAD_REQUEST).entity(HttpResponseConstants.INVALID_CONTACT).build();
+			}
 		}
 		//if invalid userID, build INVALID_CONTACT
 		else if (validateThisAttribute(thisContact.getUserID(), "UserID") == false) {
 			response = Response.status(Response.Status.BAD_REQUEST).entity(HttpResponseConstants.INVALID_CONTACT).build();
 		}
 		
-		
-		
-		
-		// else if valid phone but invalid phone carrier and invalid email, build INVALID_PHONE_CARRIER_SELECTED
-		else if (validateThisAttribute(thisContact.getContactPhone(), "ContactPhone") == true && 
-				validateThisAttribute(thisContact.getContactCarrier(), "ContactCarrier") == false &&
-				validateThisAttribute(thisContact.getContactEmail(), "ContactEmail") == false) {
-			response = Response.status(Response.Status.BAD_REQUEST).entity(HttpResponseConstants.INVALID_PHONE_CARRIER_SELECTED).build();
-		}
 		//else if invalid email and invalid phone number, build INVALID_CONTACT
 		else {
 			response = Response.status(Response.Status.BAD_REQUEST).entity(HttpResponseConstants.INVALID_CONTACT).build();
@@ -170,6 +198,9 @@ public class ContactResourceValidator extends HttpRequestValidator {
 		return result;
 	}
 	
+	public Contact getContact() {
+		return thisContact;
+	}
 	
 	/* I believe the below functions should go into Contact class if think they are needed */
 	// not needed for this class
