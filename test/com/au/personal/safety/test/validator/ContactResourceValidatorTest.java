@@ -526,7 +526,7 @@ public class ContactResourceValidatorTest {
 	/*
 	 * Test validateThisAttribute
 	 * 
-	 * To run this test must make this function "public" instead of "private"
+	 * To run this test must make this function "public" instead of "private" AND uncomment the below code
 	 */
     
     /*
@@ -594,7 +594,7 @@ public class ContactResourceValidatorTest {
     	Contact contactHere = createValidContact1();
     	ContactResourceValidator crv = new ContactResourceValidator(contactHere);
     	//run the function want to test (validateThisAttribute)
-    	boolean result = crv.validateThisAttribute("", "ContactPhone");
+    	boolean result = crv.validateThisAttribute("11111111", "ContactPhone");
     	Assert.assertTrue("test05_05 error: expected: " + expected + "\n   result: " + result + "\n", result == expected);
     }
     
@@ -676,7 +676,7 @@ public class ContactResourceValidatorTest {
     	boolean result = crv.validateThisAttribute("@notReal", "ContactPhone");
     	Assert.assertTrue("test05_12 error: expected: " + expected + "\n   result: " + result + "\n", result == expected);
     }
-    @Test public void test05_12_validateThisAttr_carrier_valid() {
+    @Test public void test05_13_validateThisAttr_carrier_valid() {
     	//validateThisAttribute(String attr_value_in, String attr_name_in)
     	//ContactCarrier
     	boolean expected = true;
@@ -685,19 +685,19 @@ public class ContactResourceValidatorTest {
     	ContactResourceValidator crv = new ContactResourceValidator(contactHere);
     	//run the function want to test (validateThisAttribute)
     	boolean result = crv.validateThisAttribute("@txt.att.net", "ContactCarrier");
-    	Assert.assertTrue("test05_12 error1: expected: " + expected + "\n   result: " + result + "\n", result == expected);
+    	Assert.assertTrue("test05_13 error1: expected: " + expected + "\n   result: " + result + "\n", result == expected);
     	boolean result2 = crv.validateThisAttribute("@tmomail.net", "ContactCarrier");
-    	Assert.assertTrue("test05_12 error2: expected: " + expected + "\n   result: " + result2 + "\n", result2 == expected);
+    	Assert.assertTrue("test05_13 error2: expected: " + expected + "\n   result: " + result2 + "\n", result2 == expected);
     	boolean result3 = crv.validateThisAttribute("@vmobl.com", "ContactCarrier");
-    	Assert.assertTrue("test05_12 error2: expected: " + expected + "\n   result: " + result3 + "\n", result3 == expected);
+    	Assert.assertTrue("test05_13 error2: expected: " + expected + "\n   result: " + result3 + "\n", result3 == expected);
     	boolean result4 = crv.validateThisAttribute("@cingularme.com", "ContactCarrier");
-    	Assert.assertTrue("test05_12 error2: expected: " + expected + "\n   result: " + result4 + "\n", result4 == expected);
+    	Assert.assertTrue("test05_13 error2: expected: " + expected + "\n   result: " + result4 + "\n", result4 == expected);
     	boolean result5 = crv.validateThisAttribute("@messaging.sprintpcs.com", "ContactCarrier");
-    	Assert.assertTrue("test05_12 error2: expected: " + expected + "\n   result: " + result5 + "\n", result5 == expected);
+    	Assert.assertTrue("test05_13 error2: expected: " + expected + "\n   result: " + result5 + "\n", result5 == expected);
     	boolean result6 = crv.validateThisAttribute("@vtext.com", "ContactCarrier");
-    	Assert.assertTrue("test05_12 error2: expected: " + expected + "\n   result: " + result6 + "\n", result6 == expected);
+    	Assert.assertTrue("test05_13 error2: expected: " + expected + "\n   result: " + result6 + "\n", result6 == expected);
     	boolean result7 = crv.validateThisAttribute("@messaging.nextel.com", "ContactCarrier");
-    	Assert.assertTrue("test05_12 error2: expected: " + expected + "\n   result: " + result7 + "\n", result7 == expected);
+    	Assert.assertTrue("test05_13 error2: expected: " + expected + "\n   result: " + result7 + "\n", result7 == expected);
     }
 	
 	//UserID
