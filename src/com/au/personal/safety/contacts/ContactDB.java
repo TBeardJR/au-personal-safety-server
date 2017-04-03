@@ -34,10 +34,10 @@ public class ContactDB {
 	
 	The function assumes that there is a non-null value for the class' variable contact
 	*/	
-	private void buildInsert(){
-		contactQuery = "INSERT INTO Contacts (FirstName, LastName, PhoneNumber, Carrier, Email, UserID) "
+	public void buildInsert(){
+		contactQuery = "INSERT INTO Contacts (FirstName, LastName, PhoneNumber, ContactCarrier, Email, UserID) "
 				+ "VALUES (\"" + contact.getFirstName()
-				+ "\", \"" + contact.getLastName() + "\", \"" + contact.getContactPhone() + "\", \"" 
+				+ "\", \"" + contact.getLastName() + "\", \"" + contact.getContactPhone() 
 				+ "\", \"" + contact.getContactCarrier() + "\", \""
 				+ contact.getContactEmail() + "\", " + contact.getUserID() + ");";
 	}

@@ -18,7 +18,9 @@ public class ContactResourceValidator extends HttpRequestValidator {
 	
 	/*
 	 * The definition of a VALID contact ("empty" = empty/blank string):
-	 * non-null and non-empty email or phone (if have phone, phone must be nine digits, nothing more nor less)
+	 * non-null and non-empty email or phone 
+	 *   (for a email to be valid, it must have an "@" and have a string length > 0)
+	 *   (for a phone to be valid, it must be 10 digits, nothing more nor less)
 	 * AND
 	 * non-null integer value > 0 for UserID
 	 * AND if have a phone, must have a
@@ -138,7 +140,7 @@ public class ContactResourceValidator extends HttpRequestValidator {
 
 	}
 	
-	private boolean validateThisAttribute(String attr_value_in, String attr_name_in) {
+	public boolean validateThisAttribute(String attr_value_in, String attr_name_in) {
 		boolean result = false;
 		if (attr_value_in != null && attr_name_in != null) {
 		
@@ -150,16 +152,18 @@ public class ContactResourceValidator extends HttpRequestValidator {
 			    }
     		}
             else if(attr_name_in.equals("ContactPhone")) {
-			    if(attr_value_in.length() == 9) {
+			    if(attr_value_in.length() == 10) {
 			    	//try converting the string to an integer
 			    	try {
-			    		Integer intValue = Integer.parseInt(attr_value_in);
+			    		//Long intValue = 0.0;
+			    		Long intValue = Long.parseLong(attr_value_in);
 			    		//if get to here, the attr_value_in is the desired nine digit string
 			    		result = true;
 			    	}
 			        //catch the exception thrown when cannot convert the string to an integer because on non-integer characters in the string
 			    	catch (Exception e) {
 			    		//break out of the try-catch, do not need to so anything, the result is false
+			    		System.out.print(e.getStackTrace());
 			    	}
 			    	
 			    }
@@ -175,7 +179,7 @@ public class ContactResourceValidator extends HttpRequestValidator {
 		return result;
 	}
 	
-	private boolean validateThisAttribute(int attr_value_in, String attr_name_in) {
+	public boolean validateThisAttribute(int attr_value_in, String attr_name_in) {
 		boolean result = false;
 		//Note: an int cannot be null, it can be initialized to zero if not set, so
 		//  we do not check for attr_value_in != null

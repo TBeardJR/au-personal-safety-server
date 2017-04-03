@@ -25,8 +25,6 @@ import com.au.personal.safety.users.*;
 			if(validator.validate() == true) {
 				ContactDB contactdb = new ContactDB(contact);
 			    response = contactdb.sendContact();
-			    //ask Tarence if I need the below, it looks like Sydney's code returns a response
-			    response = Response.ok().entity("Contact saved!").build();
 			}
 			else {
 				response = validator.getResponse();

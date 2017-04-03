@@ -29,13 +29,13 @@ public class ContactResourceValidatorTest {
 	String notSetValue = null;
 	
 	Contact validContact1;
-	String phoneNum1 = "111111111";
+	String phoneNum1 = "1111111111";
 	String email1 = "validContact1@email";
 	String phoneCarrier1 = "@txt.att.net";
 	int userID1 = 1;
 	
 	Contact validContact2;
-	String phoneNum2 = "222222222";
+	String phoneNum2 = "2222222222";
 	String phoneCarrier2 = "@vtext.com";
 	int userID2 = 1;
 	
@@ -44,7 +44,7 @@ public class ContactResourceValidatorTest {
 	int userID3 = 1;
 	
 	Contact validContact4;
-	String phoneNum4 = "444444444";
+	String phoneNum4 = "4444444444";
 	String email4 = ""; //invalid value, but have a valid phone num, so contact is valid
 	String phoneCarrier4 = "@vmobl.com";
 	int userID4 = 1;
@@ -67,29 +67,29 @@ public class ContactResourceValidatorTest {
 	int userIDIv = 0;
 	
 	Contact invalidContact3;
-	String phoneNumIv3 = "333-333-333"; //invalid -> INVALID_CONTACT
+	String phoneNumIv3 = "333-333-3333"; //invalid -> INVALID_CONTACT
 	String emailIv3 = "invalidContact3@email";
 	String phoneCarrierIv3 = "@messaging.sprintpcs.com";
 	int userIDIv3 = 1;
 	
 	Contact invalidContact4;
-	String phoneNumIv4 = "444444444";
+	String phoneNumIv4 = "4444444444";
 	String phoneCarrierIv4 = ""; //invalid b/c we need a valid carrier for our valid phone -> INVALID_CARRIER_SELECTED
 	int userIDIv4 = 1;
 	
 	Contact invalidContact5;
-	String phoneNumIv5 = "555555555";
+	String phoneNumIv5 = "5555555555";
 	String phoneCarrierIv5 = null; //invalid b/c we need a valid carrier for our valid phone -> INVALID_CARRIER_SELECTED
 	int userIDIv5 = 1;
 	
 	Contact invalidContact6;
-	String phoneNumIv6 = "666666666";
+	String phoneNumIv6 = "6666666666";
 	String emailIv6 = "invalidContact6@email";
 	String phoneCarrier6 = ""; //invalid b/c we need a valid carrier for our valid phone -> INVALID_CARRIER_SELECTED
 	int userIDIv6 = 1;
 	
 	Contact invalidContact7;
-	String phoneNumIv7 = "777777777";
+	String phoneNumIv7 = "7777777777";
 	String emailIv7 = "invalidContact7@email";
 	String phoneCarrier7 = null; //invalid b/c we need a valid carrier for our valid phone -> INVALID_CARRIER_SELECTED
 	int userIDIv7 = 1;
@@ -529,7 +529,7 @@ public class ContactResourceValidatorTest {
 	 * To run this test must make this function "public" instead of "private" AND uncomment the below code
 	 */
     
-    /*
+    
     
     //cannot test this independently because the method is classified as private
     // can rely on the validate tests b/c the buildResponse function is used within the validate function
@@ -594,11 +594,11 @@ public class ContactResourceValidatorTest {
     	Contact contactHere = createValidContact1();
     	ContactResourceValidator crv = new ContactResourceValidator(contactHere);
     	//run the function want to test (validateThisAttribute)
-    	boolean result = crv.validateThisAttribute("11111111", "ContactPhone");
+    	boolean result = crv.validateThisAttribute("", "ContactPhone");
     	Assert.assertTrue("test05_05 error: expected: " + expected + "\n   result: " + result + "\n", result == expected);
     }
     
-    @Test public void test05_06_validateThisAttr_phone_lessThanNineDigits() {
+    @Test public void test05_06_validateThisAttr_phone_lessThanTenDigits() {
     	//validateThisAttribute(String attr_value_in, String attr_name_in)
     	//ContactPhone
     	boolean expected = false;
@@ -606,10 +606,10 @@ public class ContactResourceValidatorTest {
     	Contact contactHere = createValidContact1();
     	ContactResourceValidator crv = new ContactResourceValidator(contactHere);
     	//run the function want to test (validateThisAttribute)
-    	boolean result = crv.validateThisAttribute("11111111", "ContactPhone");
+    	boolean result = crv.validateThisAttribute("111111111", "ContactPhone");
     	Assert.assertTrue("test05_06 error: expected: " + expected + "\n   result: " + result + "\n", result == expected);
     }
-    @Test public void test05_07_validateThisAttr_phone_moreThanNineDigits() {
+    @Test public void test05_07_validateThisAttr_phone_moreThanTenDigits() {
     	//validateThisAttribute(String attr_value_in, String attr_name_in)
     	//ContactPhone
     	boolean expected = false;
@@ -617,7 +617,7 @@ public class ContactResourceValidatorTest {
     	Contact contactHere = createValidContact1();
     	ContactResourceValidator crv = new ContactResourceValidator(contactHere);
     	//run the function want to test (validateThisAttribute)
-    	boolean result = crv.validateThisAttribute("1111111111", "ContactPhone");
+    	boolean result = crv.validateThisAttribute("11111111111", "ContactPhone");
     	Assert.assertTrue("test05_07 error: expected: " + expected + "\n   result: " + result + "\n", result == expected);
     }
     @Test public void test05_08_validateThisAttr_phone_charsAndDigits() {
@@ -628,7 +628,7 @@ public class ContactResourceValidatorTest {
     	Contact contactHere = createValidContact1();
     	ContactResourceValidator crv = new ContactResourceValidator(contactHere);
     	//run the function want to test (validateThisAttribute)
-    	boolean result = crv.validateThisAttribute("111a11111", "ContactPhone");
+    	boolean result = crv.validateThisAttribute("111a111111", "ContactPhone");
     	Assert.assertTrue("test05_08 error: expected: " + expected + "\n   result: " + result + "\n", result == expected);
     }
     
@@ -640,7 +640,7 @@ public class ContactResourceValidatorTest {
     	Contact contactHere = createValidContact1();
     	ContactResourceValidator crv = new ContactResourceValidator(contactHere);
     	//run the function want to test (validateThisAttribute)
-    	boolean result = crv.validateThisAttribute("111111111", "ContactPhone");
+    	boolean result = crv.validateThisAttribute("1111111111", "ContactPhone");
     	Assert.assertTrue("test05_09 error: expected: " + expected + "\n   result: " + result + "\n", result == expected);
     }
     @Test public void test05_10_validateThisAttr_carrier_null() {
@@ -734,6 +734,6 @@ public class ContactResourceValidatorTest {
     	boolean result = crv.validateThisAttribute(1, "UserID");
     	Assert.assertTrue("test06_03 error: expected: " + expected + "\n   result: " + result + "\n", result == expected);
     }
-    */
+    
 	
 }
