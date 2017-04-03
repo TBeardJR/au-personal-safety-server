@@ -65,7 +65,11 @@ public class ContactDB {
 			ResultSet rs01 = stmt.executeQuery(selectQry);
 			
 			if (!rs01.next()){
-				buildInsert();
+				contactQuery = "INSERT INTO Contacts (FirstName, LastName, PhoneNumber, ContactCarrier, Email, UserID) "
+						+ "VALUES (\"" + contact.getFirstName()
+						+ "\", \"" + contact.getLastName() + "\", \"" + contact.getContactPhone() 
+						+ "\", \"" + contact.getContactCarrier() + "\", \""
+						+ contact.getContactEmail() + "\", " + contact.getUserID() + ");";
 				stmt.executeUpdate(contactQuery);
 			}
 			
