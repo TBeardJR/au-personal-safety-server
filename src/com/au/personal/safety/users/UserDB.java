@@ -27,6 +27,7 @@ public class UserDB {
 		return user;
 	}
 	
+	/*
 	public Response createNewUser(User user){
 		Statement stmt = null;
 		int userUID = -1;
@@ -138,5 +139,5 @@ public class UserDB {
 		}
 		return emergencyContacts;	
 	}
-	
+	*/
 }
