@@ -36,7 +36,9 @@ import com.au.personal.safety.users.*;
 		@POST
 		@Path("/deletecontacts")
 		@Consumes(MediaType.APPLICATION_JSON)
-		public Response deleteContactFromDB(Contact contact) {
+		public Response deleteContactFromDB(int contactID) {
+			Contact contact = new Contact();
+			contact.setContactID(contactID);
 			ContactDB contactdb = new ContactDB(contact);
 			return contactdb.deleteContact();
 		}
