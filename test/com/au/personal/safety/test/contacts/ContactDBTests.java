@@ -39,6 +39,7 @@ public class ContactDBTests {
 	String contact1LastName = "01";
 	String contact1Email = "test01@email";
 	String contact1Phone = "1111111111";
+	String contact1Carrier = "@vtext.com";
 	
 	String selectContact1Qry = "SELECT * FROM Contacts WHERE FirstName = \"" + contact1FirstName + "\" AND " 
 	    + "LastName = \"" + contact1LastName + "\" AND UserID = " + contact1UserID 
@@ -258,7 +259,7 @@ public class ContactDBTests {
 	 * Result: The new contact is in the Contact table with the correct values
 	 * */
 	
-	@Ignore
+	@Test
 	public void test03_01_sendContactAddWithAllNonNullValues() {
 		//initialized error variables
 		String errorString = "";
