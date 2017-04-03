@@ -9,6 +9,7 @@ import javax.ws.rs.core.Response;
 
 import com.au.personal.safety.database.DatabaseConnectionSingleton;
 import com.au.personal.safety.constants.ContactConstants;
+import com.au.personal.safety.validator.ContactResourceValidator;
 
 public class ContactDB {
 
@@ -47,8 +48,11 @@ public class ContactDB {
 	*/
 	public Response sendContact(){
 		//if the contact is missing phone AND email or missing the carrier this will return to the app with an error
-		if(!contact.checkValues()){
-			return Response.status(Response.Status.OK).entity(ContactConstants.CONTACT_MISSING).build();
+		ContactResourceValidator crv = new ContactResourceValidator(contact);
+		boolean validateResult = crv.validate(); //this will return false if the contact is invalid 
+		if(!validateResult){
+			return crv.getResponse(); //this will let user know what exactly is wrong with the entered contact
+			//return Response.status(Response.Status.OK).entity(ContactConstants.CONTACT_MISSING).build();
 		}
 		
 		//else it is checked that the contact does not already exist and then updates or adds contact accordingly
