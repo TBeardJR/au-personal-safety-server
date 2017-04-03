@@ -73,6 +73,7 @@ public class ContactDB {
 				contactUID = rs01.getInt("ContactID");
 				String updateQry  = "UPDATE Contacts SET FirstName = " + contact.getFirstName() + " , LastName = " + contact.getLastName() 
 					+ " , PhoneNumber = " + contact.getContactPhone() + " , Email = " + contact.getContactEmail()
+					+ " , ContactCarrier = " + contact.getContactCarrier()
 	              		+ " WHERE ContactID = " + contactUID + ";";
 	            stmt.executeUpdate(updateQry);
 			}
