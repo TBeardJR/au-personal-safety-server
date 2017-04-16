@@ -61,7 +61,7 @@ public class Contact {
 	}
 
 	public void setContactCarrier(String ContactCarrier) {
-		this.ContactPhone = ContactCarrier;
+		this.ContactCarrier = ContactCarrier;
 	}
 
 	public int getUserID() {

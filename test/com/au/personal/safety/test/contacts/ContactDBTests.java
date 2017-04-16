@@ -43,27 +43,32 @@ public class ContactDBTests {
 	
 	String selectContact1Qry = "SELECT * FROM Contacts WHERE FirstName = \"" + contact1FirstName + "\" AND " 
 	    + "LastName = \"" + contact1LastName + "\" AND UserID = " + contact1UserID 
-	    + " AND Email = \"" + contact1Email + "\" AND PhoneNumber = \"" + contact1Phone + "\" ;";
+	    + " AND Email = \"" + contact1Email + "\" AND PhoneNumber = \"" + contact1Phone + "\" AND ContactCarrier = \""
+		+ contact1Carrier + "\" ORDER BY ContactID ;";
 	
 	int contact2UserID = 2;
 	String contact2FirstName = "test";
 	String contact2LastName = "02";
 	String contact2Email = null;
 	String contact2Phone = "2222222222";
+	String contact2Carrier = "@vtext.com";
 	
 	String selectContact2Qry = "SELECT * FROM Contacts WHERE FirstName = \"" + contact2FirstName + "\" AND " 
 	    + "LastName = \"" + contact2LastName + "\" " + "AND UserID = " + contact2UserID 
-	    + " AND Email = \"" + contact2Email + "\" AND PhoneNumber = \"" + contact2Phone + "\" ;";
+	    + " AND Email = \"" + contact2Email + "\" AND PhoneNumber = \"" + contact2Phone + "\" AND ContactCarrier = \""
+		+ contact2Carrier + "\" ORDER BY ContactID ;";
 	
 	int contact3UserID = 3;
 	String contact3FirstName = "test";
 	String contact3LastName = "03";
 	String contact3Email = "test03@email";
 	String contact3Phone = null;
+	String contact3Carrier = null;
 	
 	String selectContact3Qry = "SELECT * FROM Contacts WHERE FirstName = \"" + contact3FirstName + "\" AND " 
 		    + "LastName = \"" + contact3LastName + "\" " + "AND UserID = " + contact3UserID 
-		    + " AND Email = \"" + contact3Email + "\" AND PhoneNumber = \"" + contact3Phone + "\" ;";
+		    + " AND Email = \"" + contact3Email + "\" AND PhoneNumber = \"" + contact3Phone + "\" AND ContactCarrier = \""
+		+ contact3Carrier + "\" ORDER BY ContactID ;";
 	
 	/* Set connection variables to test database */
 	
@@ -72,38 +77,28 @@ public class ContactDBTests {
 	/* methods to be called within tests */
 	//contact with all attributes set to non null values
 	public Contact createContact1() {
-		Contact result = new Contact();
-		result.setFirstName(contact1FirstName);
-		result.setLastName(contact1LastName);
-		result.setUserID(contact1UserID);
-		result.setContactEmail(contact1Email);
-		result.setContactPhone(contact1Phone);
+		Contact result = new Contact(contact1FirstName, contact1LastName, contact1Email, contact1Phone,
+		    contact1Carrier, contact1UserID);
+		System.out.print("Contact1 created:\n\tFirstName: " + result.getFirstName() + "\n\tLastName: " + result.getLastName()
+		    + "\n\tEmail: " + contact1Email + "\n\tPhoneNum: " + result.getContactPhone() + "\n\tCarrier: " + result.getContactCarrier()
+		    + "\n\tUserID: " + result.getUserID() + "\n");
 		return result;
 	}
 	//contact has a null email
 	public Contact createContact2() {
-		Contact result = new Contact();
-		result.setFirstName("test");
-		result.setLastName("02");
-		result.setUserID(2);
-		result.setContactPhone("2222222222");
+		Contact result = new Contact(contact2FirstName, contact2LastName, contact2Email, contact2Phone,
+		    contact2Carrier, contact2UserID);
 		return result;
 	}
 	//contact has a null phone
 	public Contact createContact3() {
-		Contact result = new Contact();
-		result.setFirstName("test");
-		result.setLastName("03");
-		result.setUserID(3);
-		result.setContactEmail("test03@email");
+		Contact result = new Contact(contact3FirstName, contact3LastName, contact3Email, contact3Phone,
+		    contact3Carrier, contact3UserID);
 		return result;
 	}
 	//contact has a null Email and a null Phone Number
 	public Contact createInvalidContact() {
-		Contact result = new Contact();
-		result.setFirstName("invalid");
-		result.setLastName("test");
-		result.setUserID(1);
+		Contact result = new Contact(null, null, null, null, null, -1);
 		return result;
 	}
 	
@@ -151,13 +146,8 @@ public class ContactDBTests {
 		
 		//check that the object was created
 		assertNotNull("test01_01: contactDB1 is null\n", contactDB1);
-		//check that the contactQuery value is correct
-		String expectedCQ = "INSERT INTO Contacts (FirstName, LastName, PhoneNumber, Email, UserID) "
-				+ "VALUES (\"" + contact1FirstName
-				+ "\", \"" + contact1LastName + "\", \"" + contact1Phone + "\", \"" 
-				+ contact1Email + "\", " + contact1UserID + ");";
-		assertTrue("test01_01: contactDB1.contactQuery is: " + contactDB1.getContactQuery() + "\n should be: "
-				+ expectedCQ + "\n", contactDB1.getContactQuery().equals(expectedCQ));
+		
+		
 	}
 	
 	*/
@@ -183,18 +173,351 @@ public class ContactDBTests {
 	}
 	
 	/* Test buildInsert()
-	 * Setting: ContactDB.contact has non-null values for FirstName, LastName, ContactEmail, ContactPhone, and UserID
-	 * Result: contactDB.contactQuery has correct string value
+	 * 
 	 * */
 	/*
+	
+	Hmm, "buildInsert()" is not used anywhere in the code, I think we can comment this function out
+	
+	*/
+	
+	
+	/* Test sendContact()
+	 * Setting: contact is valid (contact1), the Contacts table is empty
+	 * Result: the contact has been added
+	 * 
+	*/
 	@Test
-	public void test02_01_buildInsertWithAllNonNullValues() {
+	public void test03_01_sendContactAddContact1() {
+		//initialized error variables
+		String errorString = "";
+		boolean errorExists = false;
+		boolean exceptionThrown = false;
+		Contact resultingContact = new Contact();
+		
+		//initialize connection variables
+		DatabaseConnectionSingleton conn;
+		Statement stmt = null;
+		
+		//create Contact object with all attributes set
+		Contact contact1 = createContact1();
+		
+		//since buildInsert() is run in ContactDB constructor and is based on constructor input,
+		// going to call constructor to test buildInsert()
+		ContactDB contactDB = new ContactDB(contact1);
+		
+		try {
+			//open connection
+			conn = DatabaseConnectionSingleton.getInstance();
+			conn.openConnection();
+			
+			//call function that will add the contact to database
+			contactDB.sendContact();
+			
+			//make sure entry was created and added correctly
+			String selectQry = selectContact1Qry;
+			
+			try {
+				stmt = conn.getConnection().createStatement();
+				ResultSet rs01 = stmt.executeQuery(selectQry);
+				
+				if (!rs01.next())
+		        {
+		        	//there is no existing entry
+		        	//ERROR
+					errorString = "the entry was not added to the database\n";
+		        	errorExists = true;
+		        }
+				
+				// else, there is an entry
+		        else
+		        {
+		            //set the entry's info to loc01 attributes
+		        	resultingContact.setContactID(rs01.getInt("ContactID"));
+		        	resultingContact.setFirstName(rs01.getString("FirstName"));
+		        	resultingContact.setLastName(rs01.getString("LastName"));
+		        	resultingContact.setContactEmail(rs01.getString("Email"));
+		        	resultingContact.setContactPhone(rs01.getString("PhoneNumber"));
+		        	resultingContact.setContactCarrier(rs01.getString("ContactCarrier"));
+		        	resultingContact.setUserID(rs01.getInt("UserID"));
+		        }
+				
+			} catch (Exception e) {
+				exceptionThrown = true;
+				e.printStackTrace();
+			}
+			
+			//close connection
+			conn.closeConnection();
+			
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			exceptionThrown = true;
+			e.printStackTrace();
+		}
+		
+		//Test with asserts
+		//make sure no exception was thrown
+		assertFalse("test03_01 error: exception thrown\n", exceptionThrown);
+		//make sure entry was save to the database
+		assertFalse("test03_01 error: " + errorString, errorExists);
+		//make sure entry's info matches input
+		assertNotNull("test03_01 error: Contact is null\n", resultingContact.getContactID());
+		assertEquals("test03_01 error: UserID incorrect, have: " + resultingContact.getUserID() 
+				+ "\nwanted: "+ contact1UserID +"\n", contact1UserID, resultingContact.getUserID());
+		assertTrue("test03_01 error: FirstName incorrect have: " + resultingContact.getFirstName()
+				+ "\nwanted: " + contact1FirstName + "\n", resultingContact.getFirstName().equals(contact1FirstName));
+		assertTrue("test03_01 error: LastName incorrect have: " + resultingContact.getLastName()
+				+ "\nwanted: "+ contact1LastName +"\n", resultingContact.getLastName().equals(contact1LastName));
+		assertTrue("test03_01 error: Email incorrect have: " + resultingContact.getContactEmail()
+				+ "\nwanted: "+ contact1Email +"\n", resultingContact.getContactEmail().equals(contact1Email));
+		assertTrue("test03_01 error: PhoneNumber incorrect have: " + resultingContact.getContactPhone()
+				+ "\nwanted: "+ contact1Phone +"\n", resultingContact.getContactPhone().equals(contact1Phone));
+		assertTrue("test03_01 error: ContactCarrier incorrect have: " + resultingContact.getContactCarrier()
+		        + "\nwanted: "+ contact1Carrier +"\n", resultingContact.getContactCarrier().equals(contact1Carrier));
+		
+	}
+	
+	
+	/* Test sendContact()
+	 * Setting: contact is valid (contact2), the Contacts table is empty
+	 * Result: the contact has been added
+	 * 
+	*/
+	@Test
+	public void test03_02_sendContactAddContact2() {
+		//initialized error variables
+		String errorString = "";
+		boolean errorExists = false;
+		boolean exceptionThrown = false;
+		Contact resultingContact = new Contact();
+		
+		//initialize connection variables
+		DatabaseConnectionSingleton conn;
+		Statement stmt = null;
+		
+		//create Contact object with all attributes set
+		Contact contact1 = createContact1();
+		
+		//since buildInsert() is run in ContactDB constructor and is based on constructor input,
+		// going to call constructor to test buildInsert()
+		ContactDB contactDB = new ContactDB(contact1);
+		
+		try {
+			//open connection
+			conn = DatabaseConnectionSingleton.getInstance();
+			conn.openConnection();
+			
+			//call function that will add the contact to database
+			contactDB.sendContact();
+			
+			//make sure entry was created and added correctly
+			String selectQry = selectContact1Qry;
+			
+			try {
+				stmt = conn.getConnection().createStatement();
+				ResultSet rs01 = stmt.executeQuery(selectQry);
+				
+				if (!rs01.next())
+		        {
+		        	//there is no existing entry
+		        	//ERROR
+					errorString = "the entry was not added to the database\n";
+		        	errorExists = true;
+		        }
+				
+				// else, there is an entry
+		        else
+		        {
+		            //set the entry's info to loc01 attributes
+		        	resultingContact.setContactID(rs01.getInt("ContactID"));
+		        	resultingContact.setFirstName(rs01.getString("FirstName"));
+		        	resultingContact.setLastName(rs01.getString("LastName"));
+		        	resultingContact.setContactEmail(rs01.getString("Email"));
+		        	resultingContact.setContactPhone(rs01.getString("PhoneNumber")); 
+		        	resultingContact.setUserID(rs01.getInt("UserID"));
+		        }
+				
+			} catch (Exception e) {
+				exceptionThrown = true;
+				e.printStackTrace();
+			}
+			
+			//close connection
+			conn.closeConnection();
+			
+		} catch (URISyntaxException e) {
+		    // TODO Auto-generated catch block
+			exceptionThrown = true;
+			e.printStackTrace();
+		}
+		
+		//Test with asserts
+		
+		
+	}
+	
+	
+	/* Test sendContact()
+	 * Setting: contact is valid (contact3), the Contacts table is empty
+	 * Result: the contact has been added
+	 * 
+	*/
+	
+	/* Test sendContact()
+	 * Setting: contact is valid (invalidContact), the Contacts table is empty
+	 * Result: the following response has been raised and the table is unchanged         
+	     (Response.status(Response.Status.BAD_REQUEST).entity(HttpResponseConstants.INVALID_CONTACT).build())
+	 * 
+	*/
+	
+	/* Test sendContact() modify
+	 * Setting: contact1 is added to the empty Contacts table; then the contact1 is modified to have a new phoneNumber
+	 * Result: contact1 has been added and has the new phoneNumber after the modification
+	 * 
+	*/
+	
+	/* Test sendContact() modify
+	 * Setting: contact1 is added to the empty Contacts table; then the contact1 is modified to have a new contactCarrier
+	 * Result: contact1 has been added and has the new contactCarrier after the modification
+	 * 
+	*/
+	
+	/* Test sendContact() modify
+	 * Setting: contact1 is added to the empty Contacts table; then the contact1 is modified to have a new email
+	 * Result: contact1 has been added and has the new email after the modification
+	 * 
+	*/
+	
+	/* Test sendContact() modify
+	 * Setting: contact1 is added to the empty Contacts table; then the contact1 is modified to have a new userID
+	 * Result: contact1 has been added and has the new userID after the modification
+	 * 
+	*/
+	
+	/* Test sendContact() modify
+	 * Setting: contact1 is added to the empty Contacts table; then the contact1 is modified to have a null phoneNumber and null contactCarrier
+	 * Result: contact1 has been added and has the new phoneNumber after the modification
+	 * 
+	*/
+	
+	/* Test sendContact() modify
+	 * Setting: contact1 is added to the empty Contacts table; then the contact1 is modified to have a null phoneNumber
+	 * Result: contact1 has been added and the following response has been raised 
+	     (Response.status(Response.Status.BAD_REQUEST).entity(HttpResponseConstants.INVALID_CONTACT).build())
+	 * 
+	*/
+	
+	/* Test sendContact() modify
+	 * Setting: contact1 is added to the empty Contacts table; then the contact1 is modified to have a null contactCarrier
+	 * Result: contact1 has been added and the following response has been raised 
+	     (Response.status(Response.Status.BAD_REQUEST).entity(HttpResponseConstants.INVALID_CONTACT).build())
+	 * 
+	*/
+	
+	/* Test sendContact() modify
+	 * Setting: contact1 is added to the empty Contacts table; then the contact1 is modified to have a null email
+	 * Result: contact1 has been added and has the new email after the modification
+	 * 
+	*/
+	
+	/* Test sendContact() modify
+	 * Setting: contact1 is added to the empty Contacts table; then the contact1 is modified to have a null userID
+	 * Result: contact1 has been added and the following response has been raised 
+	     (Response.status(Response.Status.BAD_REQUEST).entity(HttpResponseConstants.INVALID_CONTACT).build())
+	 * 
+	*/
+	
+	
+	/* Test sendContact() modify
+	 * Setting: contact2 is added to the empty Contacts table; then the contact2 is modified to now have an email
+	 * Result: contact2 has been added and now has an email after the modification
+	 * 
+	*/
+	
+	/* Test sendContact() modify
+	 * No need to test modifying contact2 so that
+	 *    - a null phoneNumber -> response raised
+	 *    - a null contactCarrier -> response raised
+	 *    - a null userID -> response raised
+	 * because these were tested with contact1 and contact2 will act the same (filled values becoming null to give an invalid contact)
+	 * 
+	*/
+	
+	/* Test sendContact() modify
+	 * No need to test modifying contact2 so that
+	 *    - a phoneNumber gets a new value -> new valid contact exists
+	 *    - a contactCarrier gets a new value -> new valid contact exists
+	 *    - a userID gets a new value -> new valid contact exists
+	 * because these were tested with contact1 and contact2 will act the same (filled values being changed to give a valid contact)
+	 * 
+	*/
+	
+	
+	/* Test sendContact() modify
+	 * Setting: contact3 is added to the empty Contacts table; then the contact3 is modified to now have a phoneNumber and contactCarrier
+	 * Result: contact3 has been added and now has a phoneNumber and contactCarrier after the modification
+	 * 
+	*/
+	
+	/* Test sendContact() modify
+	 * No need to test modifying contact3 so that
+	 *    - a null email -> response raised
+	 *    - a null userID -> response raised
+	 * because these were tested with contact1 and contact2 will act the same (filled values becoming null to give an invalid contact)
+	 * 
+	*/
+	
+	/* Test sendContact() modify
+	 * No need to test modifying contact3 so that
+	 *    - an email gets a new value -> new valid contact exists
+	 *    - a userID gets a new value -> new valid contact exists
+	 * because these were tested with contact1 and contact2 will act the same (filled values being changed to give a valid contact)
+	 * 
+	*/
+	
+	/* Test deleteContact()
+	 * Setting: contact1 is added to the empty Contacts list, the ContactID is identified and added to contact1.ContactID, and then
+	 *     the contact is deleted with the deleteContact() function
+	 * Result: contact1 is no longer in the table, the table is empty
+	*/
+	
+	/* Test deleteContact()
+	 * Settings: add contact1 and contact1 again for two different contactID's and then delete the first contact1
+	 * Result: only the second contact1 exists
+	*/
+	
+	/* Test deleteContact()
+	 * Settings: add contact1 and contact1 again for two different contactID's and then delete the second contact1
+	 * Result: only the first contact1 exists
+	*/
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/* MAYBE CAN USE THE BELOW BUT IDK */
+	
+	
+	@Ignore
+	public void test02_01_sendContactWithAllNonNullValues() {
 		//create Contact object with all attributes set
 		Contact contact1 = createContact1();
 		
 		//since buildInsert() is run in ContactDB constructor and is based on constructor input,
 		// going to call constructor to test buildInsert()
 		ContactDB contactDB2 = new ContactDB(contact1);
+		
+		//do buildInsert()
+		
+		
+		
+		
 		
 		//check that contactQuery value is correct
 		String expectedCQ = "INSERT INTO Contacts (FirstName, LastName, PhoneNumber, Email, UserID) "
@@ -204,14 +527,14 @@ public class ContactDBTests {
 		assertTrue("test02_01: contactDB1.contactQuery is: " + contactDB2.getContactQuery() + "\n should be: "
 				+ expectedCQ + "\n", contactDB2.getContactQuery().equals(expectedCQ));
 	}
-	*/
+	
 	
 	/* Test buildInsert()
 	 * Setting: ContactDB.contact has non-null values for FirstName, LastName, ContactPhone, and UserID
 	 *  ContactDB.contact has a null value for ContactEmail
 	 * Result: contactDB.contactQuery has correct string value
 	 * */
-	@Test
+	@Ignore
 	public void test02_02_buildInsertWithNullEmail() {
 		//create Contact object with null email
 		Contact contact2 = createContact2();
@@ -235,7 +558,7 @@ public class ContactDBTests {
 	 *  ContactDB.contact has a null value for ContactPhone
 	 * Result: contactDB.contactQuery has correct string value
 	 * */
-	@Test
+	@Ignore
 	public void test02_03_buildInsertWithNullPhonel() {
 		//create Contact object with null phone
 		Contact contact3 = createContact3();
@@ -259,7 +582,7 @@ public class ContactDBTests {
 	 * Result: The new contact is in the Contact table with the correct values
 	 * */
 	
-	@Test
+	@Ignore
 	public void test03_01_sendContactAddWithAllNonNullValues() {
 		//initialized error variables
 		String errorString = "";
@@ -521,7 +844,7 @@ public class ContactDBTests {
 	 * Result: The new contact is not added and an Invalid Add Response Raised
 	 * */
 /*
-	@Test
+	@Ignore
 	public void test03_04_sendContactAddInvalidContactWithNoEmailNoPhone() {
 		//initialized error variables
 		String errorString = "";
@@ -1931,7 +2254,7 @@ public class ContactDBTests {
 	 *  The contact will now have a ContactEmail and null ContactPhone
 	 * Result: The new contact is in the Contact table with the correct values
 	 * */
-	@Test
+	@Ignore
 	public void test04_11_sendContactModifyNullEmailPlusPhoneToNull() {
 		fail("not implemented yet");
 	}
@@ -1942,7 +2265,7 @@ public class ContactDBTests {
 	 *  The desired update has null ContactEmail and ContactPhone values
 	 * Result: The current entry is unchanged and and Invalid Update Response Raised
 	 * */
-	@Test
+	@Ignore
 	public void test04_11_sendContactModifyInvalidContactWithNoEmailNoPhone() {
 		fail("not implemented yet");
 	}
@@ -1953,7 +2276,7 @@ public class ContactDBTests {
 	 *  The desired update has null ContactEmail and ContactPhone values
 	 * Result: The current entry is unchanged and and Invalid Update Response Raised
 	 * */
-	@Test
+	@Ignore
 	public void test04_12_sendContactModifyInvalidContactWithNoEmailNoPhone() {
 		fail("not implemented yet");
 	}
@@ -1964,7 +2287,7 @@ public class ContactDBTests {
 	 *  The desired update has null ContactEmail and ContactPhone values
 	 * Result: The current entry is unchanged and and Invalid Update Response Raised
 	 * */
-	@Test
+	@Ignore
 	public void test04_13_sendContactModifyInvalidContactWithNoEmailNoPhone() {
 		fail("not implemented yet");
 	}
@@ -1977,6 +2300,7 @@ public class ContactDBTests {
 	 *   The desired update will change the correct entry's first name, last name,
 	 *   email, and phone number. The userID will of course stay the same
 	 */
+	@Ignore
 	public void test05_01_updateSecondContactForUser() {
 		
 	}
