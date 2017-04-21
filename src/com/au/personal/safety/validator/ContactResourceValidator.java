@@ -102,11 +102,11 @@ public class ContactResourceValidator extends HttpRequestValidator {
 		    if(validateThisAttribute(thisContact.getContactEmail(), "ContactEmail")) {
 			    if (validateThisAttribute(thisContact.getContactPhone(), "ContactPhone") == true &&
 				    validateThisAttribute(thisContact.getContactCarrier(), "ContactCarrier") == false) {
-				    response = Response.status(Response.Status.BAD_REQUEST).entity(HttpResponseConstants.INVALID_PHONE_CARRIER_SELECTED).build();;
+				    response = Response.status(Response.Status.BAD_REQUEST).entity(HttpResponseConstants.INVALID_PHONE_CARRIER_SELECTED).build();
 			    }
 				else if (validateThisAttribute(thisContact.getContactPhone(), "ContactPhone") == false &&
 					validateThisAttribute(thisContact.getContactCarrier(), "ContactCarrier") == true) {
-					response = Response.status(Response.Status.BAD_REQUEST).entity(HttpResponseConstants.INVALID_CONTACT).build();;
+					response = Response.status(Response.Status.BAD_REQUEST).entity(HttpResponseConstants.INVALID_CONTACT).build();
 				}	
 				else {
 					response = null;
