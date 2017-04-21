@@ -61,7 +61,7 @@ public class Contact {
 	}
 
 	public void setContactCarrier(String ContactCarrier) {
-		this.ContactPhone = ContactCarrier;
+		this.ContactCarrier = ContactCarrier;
 	}
 
 	public int getUserID() {
@@ -80,20 +80,6 @@ public class Contact {
 		this.ContactID = id_IN;
 	}
 	
-	/*
-	 * We do not need the below function, use "ContactResourceValidator" class to check that the contact is valid
-	 */
 	
-	/*
-	public boolean checkValues(){
-		if(ContactEmail == null && ContactPhone == null){
-			return false;
-		}
-		if(ContactPhone != null && ContactCarrier == null){
-			return false;
-		}
-		return true;
-	}
-	*/
 }
 
