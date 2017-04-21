@@ -1,10 +1,15 @@
 package com.au.personal.safety.constants;
 
 public class UserConstants {
-	public static final String PIN_COULD_NOT_BE_VERIFIED = "Oops! Looks like the contact could not be added. Try again later.";
-	public static final String PIN_DID_NOT_MATCH = "Contact was successfully added!";
-	public static final String PIN_MATCHED = "Oops! Looks like the contact could not be deleted. Try again later.";
-	public static final String USER_WAS_SUCCESSFULLY_CREATED = "Contact was successfully deleted!";
-	public static final String USER_ALREADY_EXISTS = "Oops! Contact information is missing.";
-	public static final String USER_COULD_NOT_BE_CREATED = "Okay";
+	//Create User Responses
+	public static final String USER_WAS_SUCCESSFULLY_CREATED = "User was successfully created.";
+	public static final String USER_ALREADY_EXISTS = "ERROR: User already Exists.";
+	public static final String USER_COULD_NOT_BE_CREATED_URI = "ERROR: User could not be created. URI Syntax.";
+	public static final String USER_COULD_NOT_BE_CREATED_SQL = "ERROR: User could not be created. SQL Exception.";
+	
+	//Set pin responses
+	public static final String PIN_CREATED = "Pin was successfully set.";
+	public static final String USER_DOES_NOT_EXIST = "ERROR: User does not exist. Pin not set";
+	public static final String PIN_COULD_NOT_BE_CREATED_URI = "ERROR: Pin could not be set. URI Syntax.";
+	public static final String PIN_COULD_NOT_BE_CREATED_SQL = "ERROR: Pin could not be set. SQL Exception.";
 }

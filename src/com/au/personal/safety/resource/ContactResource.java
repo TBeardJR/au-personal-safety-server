@@ -17,20 +17,18 @@ import com.au.personal.safety.users.*;
 		@POST
 		@Path("/sendtodb")
 		@Consumes(MediaType.APPLICATION_JSON)
-		public Response sendContactToDB(Contact contact) {
-			Response response = null;
-			//add ContactResourceValidator code here
+		public Response createContact(Contact contact) {
+			
 			ContactResourceValidator validator = new ContactResourceValidator(contact);
-			//if contact is valid, add entry to or update the existing entry in database
+			
 			if(validator.validate() == true) {
 				ContactDB contactdb = new ContactDB(contact);
-			    response = contactdb.sendContact();
+			    return contactdb.sendContact();
 			}
 			else {
-				response = validator.getResponse();
+				return validator.getResponse();
 			}
 			
-			return response;
 		}
 		
 		@POST
@@ -47,7 +45,7 @@ import com.au.personal.safety.users.*;
 		@Path("/getcontacts")
 		@Consumes(MediaType.APPLICATION_JSON)
 		public List<Contact> getContactsFromDB(User user) {
-			UserDB userDB = new UserDB(user);
+			//UserDB userDB = new UserDB(user);
 			//return userDB.getContacts(user.getUserID());
 			List<Contact> temp = null;
 			return temp;
