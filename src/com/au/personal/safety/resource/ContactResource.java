@@ -43,5 +43,15 @@ import com.au.personal.safety.users.*;
 			return contactdb.deleteContact();
 		}
 		
+		@POST
+		@Path("/getcontacts")
+		@Consumes(MediaType.APPLICATION_JSON)
+		public List<Contact> getContactsFromDB(User user) {
+			UserDB userDB = new UserDB(user);
+			//return userDB.getContacts(user.getUserID());
+			List<Contact> temp = null;
+			return temp;
+		}
+		
 
 }
