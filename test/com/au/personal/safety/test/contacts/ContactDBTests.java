@@ -307,8 +307,8 @@ public class ContactDBTests {
 				+ "\nwanted: "+ contact1Phone +"\n", resultingContact.getContactPhone().equals(contact1Phone));
 		assertTrue("test03_01 error: ContactCarrier incorrect have: " + resultingContact.getContactCarrier()
 		        + "\nwanted: "+ contact1Carrier +"\n", resultingContact.getContactCarrier().equals(contact1Carrier));
-		assertTrue("test03_01 error: Response incorrect have: " + resultingResponse.toString()
-		        + "\nwanted: "+ expectedResponse.toString() +"\n" , resultingResponse.getEntity().equals(expectedResponse.getEntity()));
+		assertTrue("test03_01 error: Response incorrect have: " + resultingResponse.getEntity().toString()
+		        + "\nwanted: "+ expectedResponse.getEntity().toString() +"\n" , resultingResponse.getEntity().equals(expectedResponse.getEntity()));
 		
 	}
 	
@@ -410,8 +410,8 @@ public class ContactDBTests {
 				+ "\nwanted: "+ contact2Phone +"\n", resultingContact.getContactPhone().equals(contact2Phone));
 		assertTrue("test03_02 error: ContactCarrier incorrect have: " + resultingContact.getContactCarrier()
 				+ "\nwanted: "+ contact2Carrier +"\n", resultingContact.getContactCarrier().equals(contact2Carrier));
-		assertTrue("test03_01 error: Response incorrect have: " + resultingResponse.toString()
-                + "\nwanted: "+ expectedResponse.toString() +"\n" , resultingResponse.getEntity().equals(expectedResponse.getEntity()));
+		assertTrue("test03_01 error: Response incorrect have: " + resultingResponse.getEntity().toString()
+                + "\nwanted: "+ expectedResponse.getEntity().toString() +"\n" , resultingResponse.getEntity().equals(expectedResponse.getEntity()));
 	}
 	
 	
@@ -512,8 +512,8 @@ public class ContactDBTests {
                 + "\nwanted: "+ databaseNullValue +"\n", resultingContact.getContactPhone().equals(databaseNullValue));
 		assertTrue("test03_02 error: Email incorrect have: " + resultingContact.getContactCarrier()
                 + "\nwanted: "+ databaseNullValue +"\n", resultingContact.getContactCarrier().equals(databaseNullValue));
-		assertTrue("test03_01 error: Response incorrect have: " + resultingResponse.toString()
-                + "\nwanted: "+ expectedResponse.toString() +"\n" , resultingResponse.getEntity().equals(expectedResponse.getEntity()));
+		assertTrue("test03_01 error: Response incorrect have: " + resultingResponse.getEntity().toString()
+                + "\nwanted: "+ expectedResponse.getEntity().toString() +"\n" , resultingResponse.getEntity().equals(expectedResponse.getEntity()));
 	}
 	
 	/* Test sendContact()
@@ -595,8 +595,8 @@ public class ContactDBTests {
 		assertFalse("test03_04 error: exception thrown\n", exceptionThrown);
 		//make sure entry was save to the database
 		assertFalse("test03_04 error: " + entryErrorString, entryExists);
-		assertTrue("test03_04 error: Response incorrect have: " + resultingResponse.toString()
-                + "\nwanted: "+ expectedResponse.toString() +"\n" , resultingResponse.getEntity().equals(expectedResponse.getEntity()));
+		assertTrue("test03_04 error: Response incorrect have: " + resultingResponse.getEntity().toString()
+                + "\nwanted: "+ expectedResponse.getEntity().toString() +"\n" , resultingResponse.getEntity().equals(expectedResponse.getEntity()));
 	}
 	
 	
@@ -616,7 +616,7 @@ public class ContactDBTests {
 		boolean exceptionThrown = false;
 		Contact resultingContact = new Contact();
 		Response resultingResponse = null;
-		Response expectedResponse = Response.status(Response.Status.OK).entity(ContactConstants.CONTACT_WAS_SUCCESSFULLY_ADDED).build();
+		Response expectedResponse = Response.status(Response.Status.OK).entity(ContactConstants.CONTACT_WAS_SUCCESSFULLY_UPDATED).build();
 		String modifiedPhoneNum = "1000000000";
 		
 		//initialize connection variables
@@ -734,8 +734,8 @@ public class ContactDBTests {
 				+ "\nwanted: "+ modifiedPhoneNum +"\n", resultingContact.getContactPhone().equals(modifiedPhoneNum));
 		assertTrue("test03_05 error: ContactCarrier incorrect have: " + resultingContact.getContactCarrier()
 				+ "\nwanted: "+ contact1Carrier +"\n", resultingContact.getContactCarrier().equals(contact1Carrier));
-		//assertTrue("test03_05 error: Response incorrect have: " + resultingResponse.toString()
-       //         + "\nwanted: "+ expectedResponse.toString() +"\n" , resultingResponse.getEntity().equals(expectedResponse.getEntity()));
+		assertTrue("test03_05 error: Response incorrect have: " + resultingResponse.getEntity().toString()
+                + "\nwanted: "+ expectedResponse.getEntity().toString() +"\n" , resultingResponse.getEntity().equals(expectedResponse.getEntity()));
 	}
 	
 	/* Test sendContact() modify
@@ -754,7 +754,7 @@ public class ContactDBTests {
 		boolean exceptionThrown = false;
 		Contact resultingContact = new Contact();
 		Response resultingResponse = null;
-		Response expectedResponse = Response.status(Response.Status.OK).entity(ContactConstants.CONTACT_WAS_SUCCESSFULLY_ADDED).build();
+		Response expectedResponse = Response.status(Response.Status.OK).entity(ContactConstants.CONTACT_WAS_SUCCESSFULLY_UPDATED).build();
 		String modifiedCarrier = "@txt.att.net";
 		
 		//initialize connection variables
@@ -872,8 +872,8 @@ public class ContactDBTests {
 				+ "\nwanted: "+ contact1Phone +"\n", resultingContact.getContactPhone().equals(contact1Phone));
 		assertTrue("test03_06 error: ContactCarrier incorrect have: " + resultingContact.getContactCarrier()
 				+ "\nwanted: "+ modifiedCarrier +"\n", resultingContact.getContactCarrier().equals(modifiedCarrier));
-		assertTrue("test03_06 error: Response incorrect have: " + resultingResponse.toString()
-                + "\nwanted: "+ expectedResponse.toString() +"\n" , resultingResponse.getEntity().equals(expectedResponse.getEntity()));
+		assertTrue("test03_06 error: Response incorrect have: " + resultingResponse.getEntity().toString()
+                + "\nwanted: "+ expectedResponse.getEntity().toString() +"\n" , resultingResponse.getEntity().equals(expectedResponse.getEntity()));
 	}
 	
 	/* Test sendContact() modify
@@ -892,7 +892,7 @@ public class ContactDBTests {
 		boolean exceptionThrown = false;
 		Contact resultingContact = new Contact();
 		Response resultingResponse = null;
-		Response expectedResponse = Response.status(Response.Status.OK).entity(ContactConstants.CONTACT_WAS_SUCCESSFULLY_ADDED).build();
+		Response expectedResponse = Response.status(Response.Status.OK).entity(ContactConstants.CONTACT_WAS_SUCCESSFULLY_UPDATED).build();
 		String modifiedEmail = "modtest01@email.com";
 		
 		//initialize connection variables
@@ -1010,8 +1010,8 @@ public class ContactDBTests {
 				+ "\nwanted: "+ contact1Phone +"\n", resultingContact.getContactPhone().equals(contact1Phone));
 		assertTrue("test03_07 error: ContactCarrier incorrect have: " + resultingContact.getContactCarrier()
 				+ "\nwanted: "+ contact1Carrier +"\n", resultingContact.getContactCarrier().equals(contact1Carrier));
-		assertTrue("test03_07 error: Response incorrect have: " + resultingResponse.toString()
-                + "\nwanted: "+ expectedResponse.toString() +"\n" , resultingResponse.getEntity().equals(expectedResponse.getEntity()));
+		assertTrue("test03_07 error: Response incorrect have: " + resultingResponse.getEntity().toString()
+                + "\nwanted: "+ expectedResponse.getEntity().toString() +"\n" , resultingResponse.getEntity().equals(expectedResponse.getEntity()));
 	}
 	
 	/* Test sendContact() modify
@@ -1030,7 +1030,7 @@ public class ContactDBTests {
 		boolean exceptionThrown = false;
 		Contact resultingContact = new Contact();
 		Response resultingResponse = null;
-		Response expectedResponse = Response.status(Response.Status.OK).entity(ContactConstants.CONTACT_WAS_SUCCESSFULLY_ADDED).build();
+		Response expectedResponse = Response.status(Response.Status.OK).entity(ContactConstants.CONTACT_WAS_SUCCESSFULLY_UPDATED).build();
 		int modifiedUserID = 10;
 		
 		//initialize connection variables
@@ -1148,8 +1148,8 @@ public class ContactDBTests {
 				+ "\nwanted: "+ contact1Phone +"\n", resultingContact.getContactPhone().equals(contact1Phone));
 		assertTrue("test03_08 error: ContactCarrier incorrect have: " + resultingContact.getContactCarrier()
 				+ "\nwanted: "+ contact1Carrier +"\n", resultingContact.getContactCarrier().equals(contact1Carrier));
-		assertTrue("test03_08 error: Response incorrect have: " + resultingResponse.toString()
-                + "\nwanted: "+ expectedResponse.toString() +"\n" , resultingResponse.getEntity().equals(expectedResponse.getEntity()));
+		assertTrue("test03_08 error: Response incorrect have: " + resultingResponse.getEntity().toString()
+                + "\nwanted: "+ expectedResponse.getEntity().toString() +"\n" , resultingResponse.getEntity().equals(expectedResponse.getEntity()));
 	}
 	
 	/* Test sendContact() modify
@@ -1168,7 +1168,7 @@ public class ContactDBTests {
 		boolean exceptionThrown = false;
 		Contact resultingContact = new Contact();
 		Response resultingResponse = null;
-		Response expectedResponse = Response.status(Response.Status.OK).entity(ContactConstants.CONTACT_WAS_SUCCESSFULLY_ADDED).build();
+		Response expectedResponse = Response.status(Response.Status.OK).entity(ContactConstants.CONTACT_WAS_SUCCESSFULLY_UPDATED).build();
 		String modifiedPhoneNum = null;
 		String modifiedCarrier = null;
 		
@@ -1288,9 +1288,9 @@ public class ContactDBTests {
 		assertTrue("test03_02 error: Email incorrect have: " + resultingContact.getContactPhone()
                 + "\nwanted: "+ databaseNullValue +"\n", resultingContact.getContactPhone().equals(databaseNullValue));
 		assertTrue("test03_09 error: ContactCarrier incorrect have: " + resultingContact.getContactCarrier()
-				+ "\nwanted: "+ modifiedCarrier +"\n", resultingContact.getContactCarrier().equals(modifiedCarrier));
-		assertTrue("test03_09 error: Response incorrect have: " + resultingResponse.toString()
-                + "\nwanted: "+ expectedResponse.toString() +"\n" , resultingResponse.getEntity().equals(expectedResponse.getEntity()));
+				+ "\nwanted: "+ databaseNullValue +"\n", resultingContact.getContactCarrier().equals(databaseNullValue));
+		assertTrue("test03_09 error: Response incorrect have: " + resultingResponse.getEntity().toString()
+                + "\nwanted: "+ expectedResponse.getEntity().toString() +"\n" , resultingResponse.getEntity().equals(expectedResponse.getEntity()));
 	}
 	
 	/* Test sendContact() modify
@@ -1429,8 +1429,8 @@ public class ContactDBTests {
 		//assert that the carrier is "null"
 		assertTrue("test03_02 error: Email incorrect have: " + resultingContact.getContactCarrier()
                 + "\nwanted: "+ databaseNullValue +"\n", resultingContact.getContactCarrier().equals(databaseNullValue));
-		assertTrue("test03_10 error: Response incorrect have: " + resultingResponse.toString()
-                + "\nwanted: "+ expectedResponse.toString() +"\n" , resultingResponse.getEntity().equals(expectedResponse.getEntity()));
+		assertTrue("test03_10 error: Response incorrect have: " + resultingResponse.getEntity().toString()
+                + "\nwanted: "+ expectedResponse.getEntity().toString() +"\n" , resultingResponse.getEntity().equals(expectedResponse.getEntity()));
 	}
 	
 	/* Test sendContact() modify
@@ -1449,7 +1449,7 @@ public class ContactDBTests {
 		boolean exceptionThrown = false;
 		Contact resultingContact = new Contact();
 		Response resultingResponse = null;
-		Response expectedResponse = Response.status(Response.Status.OK).entity(ContactConstants.CONTACT_WAS_SUCCESSFULLY_ADDED).build();
+		Response expectedResponse = Response.status(Response.Status.OK).entity(ContactConstants.CONTACT_WAS_SUCCESSFULLY_UPDATED).build();
 		String modifiedEmail = null;
 		
 		//initialize connection variables
@@ -1568,8 +1568,8 @@ public class ContactDBTests {
 				+ "\nwanted: "+ contact1Phone +"\n", resultingContact.getContactPhone().equals(contact1Phone));
 		assertTrue("test03_11 error: ContactCarrier incorrect have: " + resultingContact.getContactCarrier()
 				+ "\nwanted: "+ contact1Carrier +"\n", resultingContact.getContactCarrier().equals(contact1Carrier));
-		assertTrue("test03_11 error: Response incorrect have: " + resultingResponse.toString()
-                + "\nwanted: "+ expectedResponse.toString() +"\n" , resultingResponse.getEntity().equals(expectedResponse.getEntity()));
+		assertTrue("test03_11 error: Response incorrect have: " + resultingResponse.getEntity().toString()
+                + "\nwanted: "+ expectedResponse.getEntity().toString() +"\n" , resultingResponse.getEntity().equals(expectedResponse.getEntity()));
 	}
 	
 	/* Test sendContact() modify
@@ -1707,8 +1707,8 @@ public class ContactDBTests {
 				+ "\nwanted: "+ contact1Phone +"\n", resultingContact.getContactPhone().equals(contact1Phone));
 		assertTrue("test03_12 error: ContactCarrier incorrect have: " + resultingContact.getContactCarrier()
 				+ "\nwanted: "+ contact1Carrier +"\n", resultingContact.getContactCarrier().equals(contact1Carrier));
-		assertTrue("test03_12 error: Response incorrect have: " + resultingResponse.toString()
-                + "\nwanted: "+ expectedResponse.toString() +"\n" , resultingResponse.getEntity().equals(expectedResponse.getEntity()));
+		assertTrue("test03_12 error: Response incorrect have: " + resultingResponse.getEntity().toString()
+                + "\nwanted: "+ expectedResponse.getEntity().toString() +"\n" , resultingResponse.getEntity().equals(expectedResponse.getEntity()));
 	}
 	
 	/* Test sendContact() modify
@@ -1727,7 +1727,7 @@ public class ContactDBTests {
 		boolean exceptionThrown = false;
 		Contact resultingContact = new Contact();
 		Response resultingResponse = null;
-		Response expectedResponse = Response.status(Response.Status.BAD_REQUEST).entity(HttpResponseConstants.INVALID_CONTACT).build();
+		Response expectedResponse = Response.status(Response.Status.OK).entity(ContactConstants.CONTACT_WAS_SUCCESSFULLY_UPDATED).build();
 		int modifiedUserID = 10;
 		
 		//initialize connection variables
@@ -1845,8 +1845,8 @@ public class ContactDBTests {
 				+ "\nwanted: "+ contact1Phone +"\n", resultingContact.getContactPhone().equals(contact1Phone));
 		assertTrue("test03_12 error: ContactCarrier incorrect have: " + resultingContact.getContactCarrier()
 				+ "\nwanted: "+ contact1Carrier +"\n", resultingContact.getContactCarrier().equals(contact1Carrier));
-		assertTrue("test03_12 error: Response incorrect have: " + resultingResponse.toString()
-                + "\nwanted: "+ expectedResponse.toString() +"\n" , resultingResponse.getEntity().equals(expectedResponse.getEntity()));
+		assertTrue("test03_12 error: Response incorrect have: " + resultingResponse.getEntity().toString()
+                + "\nwanted: "+ expectedResponse.getEntity().toString() +"\n" , resultingResponse.getEntity().equals(expectedResponse.getEntity()));
 	}
 	
 	/* Test sendContact() modify
@@ -1865,7 +1865,7 @@ public class ContactDBTests {
 		boolean exceptionThrown = false;
 		Contact resultingContact = new Contact();
 		Response resultingResponse = null;
-		Response expectedResponse = Response.status(Response.Status.OK).entity(ContactConstants.CONTACT_WAS_SUCCESSFULLY_ADDED).build();
+		Response expectedResponse = Response.status(Response.Status.OK).entity(ContactConstants.CONTACT_WAS_SUCCESSFULLY_UPDATED).build();
 		String modifiedEmail = "modtest02@email.com";
 		
 		//initialize connection variables
@@ -1983,8 +1983,8 @@ public class ContactDBTests {
 				+ "\nwanted: "+ contact1Phone +"\n", resultingContact.getContactPhone().equals(contact1Phone));
 		assertTrue("test03_1 error: ContactCarrier incorrect have: " + resultingContact.getContactCarrier()
 				+ "\nwanted: "+ contact1Carrier +"\n", resultingContact.getContactCarrier().equals(contact1Carrier));
-		assertTrue("test03_14 error: Response incorrect have: " + resultingResponse.toString()
-                + "\nwanted: "+ expectedResponse.toString() +"\n" , resultingResponse.getEntity().equals(expectedResponse.getEntity()));
+		assertTrue("test03_14 error: Response incorrect have: " + resultingResponse.getEntity().toString()
+                + "\nwanted: "+ expectedResponse.getEntity().toString() +"\n" , resultingResponse.getEntity().equals(expectedResponse.getEntity()));
 	}
 	
 	/* Test sendContact() modify
@@ -2022,7 +2022,7 @@ public class ContactDBTests {
 		boolean exceptionThrown = false;
 		Contact resultingContact = new Contact();
 		Response resultingResponse = null;
-		Response expectedResponse = Response.status(Response.Status.OK).entity(ContactConstants.CONTACT_WAS_SUCCESSFULLY_ADDED).build();
+		Response expectedResponse = Response.status(Response.Status.OK).entity(ContactConstants.CONTACT_WAS_SUCCESSFULLY_UPDATED).build();
 		String modifiedPhoneNum = "3333333333";
 		String modifiedCarrier = "@txt.att.net";
 		
@@ -2142,8 +2142,8 @@ public class ContactDBTests {
 				+ "\nwanted: "+ modifiedPhoneNum +"\n", resultingContact.getContactPhone().equals(modifiedPhoneNum));
 		assertTrue("test03_15 error: ContactCarrier incorrect have: " + resultingContact.getContactCarrier()
 				+ "\nwanted: "+ modifiedCarrier +"\n", resultingContact.getContactCarrier().equals(modifiedCarrier));
-		assertTrue("test03_15 error: Response incorrect have: " + resultingResponse.toString()
-                + "\nwanted: "+ expectedResponse.toString() +"\n" , resultingResponse.getEntity().equals(expectedResponse.getEntity()));
+		assertTrue("test03_15 error: Response incorrect have: " + resultingResponse.getEntity().toString()
+                + "\nwanted: "+ expectedResponse.getEntity().toString() +"\n" , resultingResponse.getEntity().equals(expectedResponse.getEntity()));
 	}
 	
 	/* Test sendContact() modify
@@ -2181,7 +2181,7 @@ public class ContactDBTests {
 		boolean exceptionThrown = false;
 		Contact resultingContact = new Contact();
 		Response resultingResponse = null;
-		Response expectedResponse = Response.status(Response.Status.OK).entity(ContactConstants.CONTACT_WAS_SUCCESSFULLY_ADDED).build();
+		Response expectedResponse = Response.status(Response.Status.OK).entity(ContactConstants.CONTACT_WAS_SUCCESSFULLY_UPDATED).build();
 		String modifiedEmail = null;
 		
 		//initialize connection variables
@@ -2348,8 +2348,8 @@ public class ContactDBTests {
 				+ "\nwanted: "+ contact1Phone +"\n", aResultingContact.getContactPhone().equals(contact1Phone));
 		assertTrue("test03_07 error: ContactCarrier incorrect have: " + aResultingContact.getContactCarrier()
 				+ "\nwanted: "+ contact1Carrier +"\n", aResultingContact.getContactCarrier().equals(contact1Carrier));
-		assertTrue("test03_07 error: Response incorrect have: " + aResponse.toString()
-                + "\nwanted: "+ expectedResponse.toString() +"\n" , aResponse.getEntity().equals(expectedAResponse.getEntity()));
+		assertTrue("test03_07 error: Response incorrect have: " + aResponse.getEntity().toString()
+                + "\nwanted: "+ expectedResponse.getEntity().toString() +"\n" , aResponse.getEntity().equals(expectedAResponse.getEntity()));
 		
 		/* test that contact 4 is correct with its modified value */
 		//make sure entry's info matches input
@@ -2366,8 +2366,8 @@ public class ContactDBTests {
 				+ "\nwanted: "+ contact4Phone +"\n", resultingContact.getContactPhone().equals(contact4Phone));
 		assertTrue("test03_07 error: ContactCarrier incorrect have: " + resultingContact.getContactCarrier()
 				+ "\nwanted: "+ contact4Carrier +"\n", resultingContact.getContactCarrier().equals(contact4Carrier));
-		assertTrue("test03_07 error: Response incorrect have: " + resultingResponse.toString()
-                + "\nwanted: "+ expectedResponse.toString() +"\n" , resultingResponse.getEntity().equals(expectedResponse.getEntity()));
+		assertTrue("test03_07 error: Response incorrect have: " + resultingResponse.getEntity().toString()
+                + "\nwanted: "+ expectedResponse.getEntity().toString() +"\n" , resultingResponse.getEntity().equals(expectedResponse.getEntity()));
 	}
 	
 	/* Test deleteContact()
