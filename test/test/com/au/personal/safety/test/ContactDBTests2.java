@@ -1,7 +1,8 @@
-package com.au.personal.safety.test.contacts;
+package test.com.au.personal.safety.test;
 
 import org.junit.*; //imports the @Before, etc.
 import static org.junit.Assert.*; //import the asserts
+
 
 import java.net.URISyntaxException;
 import java.sql.ResultSet;
@@ -34,7 +35,7 @@ import com.au.personal.safety.database.DatabaseConnectionSingleton;
  *  and know valid values for this field
  */
 
-public class ContactDBTests {
+public class ContactDBTests2 {
 	/* variable to be called within test */
 	/* desired values that have been saved in the database for contacts 1, 2, and 3 */
 	// IMPORTANT: we want empty strings saved in database, not Null values, b/c this is easier to implement
