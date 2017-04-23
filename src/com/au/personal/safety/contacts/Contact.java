@@ -13,15 +13,13 @@ public class Contact {
 	}
 	
 	// another constructor
-	public Contact(String firstName_IN, String lastName_IN, String contactEmail_IN, String contactPhone_IN,
-		String contactCarrier_IN, int userID_IN)
-	{
-		FirstName = firstName_IN;
-		LastName = lastName_IN;
-		ContactEmail = contactEmail_IN;
-		ContactPhone = contactPhone_IN;
-		ContactCarrier = contactCarrier_IN;
-		UserID = userID_IN;
+	public Contact(String FirstName, String LastName, String ContactEmail, String ContactPhone, String ContactCarrier, int UserID) {
+		this.FirstName = FirstName;
+		this.LastName = LastName;
+		this.ContactEmail = ContactEmail;
+		this.ContactPhone = ContactPhone;
+		this.ContactCarrier = ContactCarrier;
+		this.UserID = UserID;
 	}
 
 	public String getFirstName() {
@@ -80,20 +78,6 @@ public class Contact {
 		this.ContactID = id_IN;
 	}
 	
-	/*
-	 * We do not need the below function, use "ContactResourceValidator" class to check that the contact is valid
-	 */
 	
-	/*
-	public boolean checkValues(){
-		if(ContactEmail == null && ContactPhone == null){
-			return false;
-		}
-		if(ContactPhone != null && ContactCarrier == null){
-			return false;
-		}
-		return true;
-	}
-	*/
 }
 

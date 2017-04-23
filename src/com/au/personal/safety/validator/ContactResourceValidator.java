@@ -32,16 +32,13 @@ public class ContactResourceValidator extends HttpRequestValidator {
 	 *  have both an email and phone number
 	*/
 	
-	private Contact thisContact;
+	private Contact contact;
 	
 	//private boolean isUserIDEmpty;
 	
-	public ContactResourceValidator(Contact contact_in) {
+	public ContactResourceValidator(Contact contact) {
 		super();
-		thisContact = contact_in;
-		
-		/* FINISH THIS */
-		
+		this.contact = contact;
 	}
 	
 	
@@ -56,21 +53,21 @@ public class ContactResourceValidator extends HttpRequestValidator {
 		
 		boolean result = false;
 		
-		if(validateThisAttribute(thisContact.getUserID(), "UserID")) {
+		if(validateThisAttribute(contact.getUserID(), "UserID")) {
 			
-			if(validateThisAttribute(thisContact.getContactEmail(), "ContactEmail")) {
+			if(validateThisAttribute(contact.getContactEmail(), "ContactEmail")) {
 				//check if has a valid phone too
 				//if it has a valid phone number but an invalid carrier, change result to false
 				// we always want a valid carrier for a valid phone number
-				if (validateThisAttribute(thisContact.getContactPhone(), "ContactPhone") == true &&
-				validateThisAttribute(thisContact.getContactCarrier(), "ContactCarrier") == false) {
+				if (validateThisAttribute(contact.getContactPhone(), "ContactPhone") == true &&
+				validateThisAttribute(contact.getContactCarrier(), "ContactCarrier") == false) {
 					result = false;
 				}
 				//if the entry has a valid carrier, but an invalid phone number,
 				// we are taking this to mean that the user wants to enter a phone number, but it was entered
 				// incorrectly
-				else if (validateThisAttribute(thisContact.getContactPhone(), "ContactPhone") == false &&
-						validateThisAttribute(thisContact.getContactCarrier(), "ContactCarrier") == true) {
+				else if (validateThisAttribute(contact.getContactPhone(), "ContactPhone") == false &&
+						validateThisAttribute(contact.getContactCarrier(), "ContactCarrier") == true) {
 					result = false;
 				}
 				
@@ -78,8 +75,8 @@ public class ContactResourceValidator extends HttpRequestValidator {
 				    result = true;
 				}
 			}
-			else if (validateThisAttribute(thisContact.getContactPhone(), "ContactPhone") &&
-					validateThisAttribute(thisContact.getContactCarrier(), "ContactCarrier")) {
+			else if (validateThisAttribute(contact.getContactPhone(), "ContactPhone") &&
+					validateThisAttribute(contact.getContactCarrier(), "ContactCarrier")) {
 				result = true;
 			}
 			
@@ -96,17 +93,17 @@ public class ContactResourceValidator extends HttpRequestValidator {
 	
 	@Override
 	protected void buildResponse() {
-		if(validateThisAttribute(thisContact.getUserID(), "UserID")) {
+		if(validateThisAttribute(contact.getUserID(), "UserID")) {
 		
 		    //if valid email
-		    if(validateThisAttribute(thisContact.getContactEmail(), "ContactEmail")) {
-			    if (validateThisAttribute(thisContact.getContactPhone(), "ContactPhone") == true &&
-				    validateThisAttribute(thisContact.getContactCarrier(), "ContactCarrier") == false) {
-				    response = Response.status(Response.Status.BAD_REQUEST).entity(HttpResponseConstants.INVALID_PHONE_CARRIER_SELECTED).build();;
+		    if(validateThisAttribute(contact.getContactEmail(), "ContactEmail")) {
+			    if (validateThisAttribute(contact.getContactPhone(), "ContactPhone") == true &&
+				    validateThisAttribute(contact.getContactCarrier(), "ContactCarrier") == false) {
+				    response = Response.status(Response.Status.BAD_REQUEST).entity(HttpResponseConstants.INVALID_PHONE_CARRIER_SELECTED).build();
 			    }
-				else if (validateThisAttribute(thisContact.getContactPhone(), "ContactPhone") == false &&
-					validateThisAttribute(thisContact.getContactCarrier(), "ContactCarrier") == true) {
-					response = Response.status(Response.Status.BAD_REQUEST).entity(HttpResponseConstants.INVALID_CONTACT).build();;
+				else if (validateThisAttribute(contact.getContactPhone(), "ContactPhone") == false &&
+					validateThisAttribute(contact.getContactCarrier(), "ContactCarrier") == true) {
+					response = Response.status(Response.Status.BAD_REQUEST).entity(HttpResponseConstants.INVALID_CONTACT).build();
 				}	
 				else {
 					response = null;
@@ -114,14 +111,14 @@ public class ContactResourceValidator extends HttpRequestValidator {
 			    
 		    }
     		//else if valid phone and carrier
-	    	else if (validateThisAttribute(thisContact.getContactPhone(), "ContactPhone") &&
-		    		validateThisAttribute(thisContact.getContactCarrier(), "ContactCarrier")) {
+	    	else if (validateThisAttribute(contact.getContactPhone(), "ContactPhone") &&
+		    		validateThisAttribute(contact.getContactCarrier(), "ContactCarrier")) {
 			    response = null;
 		    }
 		    //else if valid phone but invalid phone carrier and invalid email, build INVALID_PHONE_CARRIER_SELECTED
-			else if (validateThisAttribute(thisContact.getContactPhone(), "ContactPhone") == true && 
-					validateThisAttribute(thisContact.getContactCarrier(), "ContactCarrier") == false &&
-					validateThisAttribute(thisContact.getContactEmail(), "ContactEmail") == false) {
+			else if (validateThisAttribute(contact.getContactPhone(), "ContactPhone") == true && 
+					validateThisAttribute(contact.getContactCarrier(), "ContactCarrier") == false &&
+					validateThisAttribute(contact.getContactEmail(), "ContactEmail") == false) {
 				response = Response.status(Response.Status.BAD_REQUEST).entity(HttpResponseConstants.INVALID_PHONE_CARRIER_SELECTED).build();
 			}
 			else {
@@ -129,7 +126,7 @@ public class ContactResourceValidator extends HttpRequestValidator {
 			}
 		}
 		//if invalid userID, build INVALID_CONTACT
-		else if (validateThisAttribute(thisContact.getUserID(), "UserID") == false) {
+		else if (validateThisAttribute(contact.getUserID(), "UserID") == false) {
 			response = Response.status(Response.Status.BAD_REQUEST).entity(HttpResponseConstants.INVALID_CONTACT).build();
 		}
 		
@@ -196,7 +193,7 @@ public class ContactResourceValidator extends HttpRequestValidator {
 	}
 	
 	public Contact getContact() {
-		return thisContact;
+		return contact;
 	}
 	
 	

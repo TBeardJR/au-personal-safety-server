@@ -6,7 +6,7 @@ public class User {
 	private String UserName;
 	private String UserEmail;
 	private String UserPhone;
-	private int UserPin;
+	private String UserPin;
 	private int UserID;
 	
 	public User() {
@@ -52,11 +52,11 @@ public class User {
 		this.UserPhone = UserPhone;
 	}
 	
-	public int getUserPin() {
+	public String getUserPin() {
 		return UserPin;
 	}
 
-	public void setUserPin(int UserPin) {
+	public void setUserPin(String UserPin) {
 		this.UserPin = UserPin;
 	}
 	
