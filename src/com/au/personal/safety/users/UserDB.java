@@ -156,5 +156,46 @@ public class UserDB {
 
 	}
 	
-	
+	public int getUserID(){
+		Statement stmt = null;
+		int userid;
+		
+		//Create Query Statements
+		String selectQry = "SELECT UserID FROM User WHERE UserName = '" + user.getUserName() + "';";
+
+		try{
+			//Connect to Database
+			Connection conn = DatabaseConnectionSingleton.getInstance().getConnection();
+			stmt = conn.createStatement();
+			
+			//Execute Select Query.
+			//rs01 will have values if a user with this userName exits
+			//rs01 will be null if there is not a user with this userName
+			ResultSet rs01 = stmt.executeQuery(selectQry);
+			
+			//If rs01 does not have values then return pin as an error. 
+			if (!rs01.next()){
+			    return -1;
+			}
+			
+			//If rs01 does have values then we get the pin. Return the pin.
+			else{
+				userid = rs01.getInt("UserID");
+				return userid;
+			}
+			
+		} 
+		//If we had a URIException return URI error response
+		catch (URISyntaxException e) {
+			e.printStackTrace();
+			return -1;
+		}
+				
+		//If we had a SQLException return SQL error response
+		catch (SQLException e) {
+			e.printStackTrace();
+			return -1;
+		}
+
+	}
 }

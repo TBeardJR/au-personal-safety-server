@@ -11,6 +11,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.au.personal.safety.location.Location;
+import com.au.personal.safety.users.User;
+import com.au.personal.safety.users.UserDB;
 import com.au.personal.safety.validator.HttpRequestValidator;
 import com.au.personal.safety.validator.LocationResourceValidator;
 
@@ -18,10 +20,14 @@ import com.au.personal.safety.validator.LocationResourceValidator;
 public class LocationResource {
 	
 	@POST
-	@Path("/store/{userID}")
+	@Path("/store/{userName}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response storeLastLocation(Location location, @PathParam("userID") @DefaultValue("-1") Integer userID) {
+	public Response storeLastLocation(Location location, @PathParam("userName") @DefaultValue(" ") String userName) {
 		Response response = null;
+		User thisUser = new User();
+		thisUser.setUserName(userName);
+		UserDB thisUserDB = new UserDB(thisUser);
+		int userID = thisUserDB.getUserID();
 		location.setUserID(userID);
 		HttpRequestValidator validator = new LocationResourceValidator(location);
 		if(validator.validate()) {
