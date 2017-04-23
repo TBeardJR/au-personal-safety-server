@@ -28,15 +28,18 @@ public class LocationResource {
 		thisUser.setUserName(userName);
 		UserDB thisUserDB = new UserDB(thisUser);
 		int userID = thisUserDB.getUserID();
-		location.setUserID(userID);
-		HttpRequestValidator validator = new LocationResourceValidator(location);
-		if(validator.validate()) {
-			location.saveNewLocation(location.getLong(), location.getLat(), location.getUserID()); // TODO needs to return a response
-			response = Response.ok().entity("Location saved!").build();
-		} else {
-			response = validator.getResponse();
+		if(userID < 0){
+			response = Response.serverError().entity("Not a User").build(); 
+		} else{
+			location.setUserID(userID);
+			HttpRequestValidator validator = new LocationResourceValidator(location);
+			if(validator.validate()) {
+				location.saveNewLocation(location.getLong(), location.getLat(), location.getUserID()); // TODO needs to return a response
+				response = Response.ok().entity("Location saved!").build();
+			} else {
+				response = validator.getResponse();
+			}
 		}
-		
 		return response;
 	}
 }

@@ -49,10 +49,14 @@ import com.au.personal.safety.users.*;
 			user.setUserName(userName);
 			UserDB userDB = new UserDB(user);
 			int userID = userDB.getUserID();
+			if(userID < 0){
+				return null; 
+			} else{
+				Contact contact = new Contact();
+				ContactDB contactDB = new ContactDB(contact);
+				return contactDB.getContacts(userID);
+			}
 			
-			Contact contact = new Contact();
-			ContactDB contactDB = new ContactDB(contact);
-			return contactDB.getContacts(userID);
 		}
 		
 
