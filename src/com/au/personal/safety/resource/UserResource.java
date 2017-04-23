@@ -3,6 +3,7 @@ package com.au.personal.safety.resource;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 //local
@@ -15,7 +16,7 @@ public class UserResource {
 	@POST
 	@Path("/createuser")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response createUser(String userName) {
+	public Response createUser(@PathParam("userName") String userName) {
 		
 		User user = new User();
 		user.setUserName(userName);
@@ -28,7 +29,7 @@ public class UserResource {
 	@POST
 	@Path("/setPin")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response setPin(String userName, String pin) {
+	public Response setPin(@PathParam("userName") String userName,  @PathParam("pin") String pin) {
 		User user = new User();
 		user.setUserName(userName);
 		user.setUserPin(pin);
@@ -41,7 +42,7 @@ public class UserResource {
 	@POST
 	@Path("/getPin")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String getPin(String userName) {
+	public String getPin(@PathParam("userName") String userName) {
 		User user = new User();
 		user.setUserName(userName);
 		UserDB userDB = new UserDB(user);

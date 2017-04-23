@@ -56,46 +56,45 @@
 		</repository>
 	</repositories>
 
-	silverbullet126 [3:49 PM] 
-<dependencies>
-        <dependency>
-           <groupId>org.glassfish.jersey.containers</groupId>
-           <artifactId>jersey-container-servlet</artifactId>
-           <version>2.25.1</version>
-        </dependency>    
-        <dependency>
-           <groupId>org.glassfish.jersey.core</groupId>
-           <artifactId>jersey-server</artifactId>
-           <version>2.25.1</version>
-        </dependency>
-        
-        <!-- https://mvnrepository.com/artifact/javax.mail/javax.mail-api -->
-        <dependency>
-           <groupId>com.sun.mail</groupId>
-           <artifactId>javax.mail</artifactId>
-           <version>1.5.5</version>
-        </dependency>
-        
-        <!-- https://mvnrepository.com/artifact/org.glassfish.jersey.media/jersey-media-json-jackson -->
-        <dependency>
-           <groupId>org.glassfish.jersey.media</groupId>
-           <artifactId>jersey-media-json-jackson</artifactId>
-           <version>2.25</version>
-        </dependency>
-        
-        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
-        <dependency>
-           <groupId>mysql</groupId>
-               <artifactId>mysql-connector-java</artifactId>
-           <version>6.0.5</version>
-        </dependency>
-        
-        <dependency>
-           <groupId>javax.servlet</groupId>
-               <artifactId>javax.servlet-api</artifactId>
-               <version>3.1.0</version>
-           <scope>provided</scope>
-        </dependency>
+	<dependencies>
+		<dependency>
+    		<groupId>org.glassfish.jersey.containers</groupId>
+    		<artifactId>jersey-container-servlet</artifactId>
+    		<version>2.25.1</version>
+		</dependency>	
+		<dependency>
+    		<groupId>org.glassfish.jersey.core</groupId>
+    		<artifactId>jersey-server</artifactId>
+    		<version>2.25.1</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/javax.mail/javax.mail-api -->
+		<dependency>
+    		<groupId>com.sun.mail</groupId>
+    		<artifactId>javax.mail</artifactId>
+    		<version>1.5.5</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.glassfish.jersey.media/jersey-media-json-jackson -->
+		<dependency>
+    		<groupId>org.glassfish.jersey.media</groupId>
+    		<artifactId>jersey-media-json-jackson</artifactId>
+    		<version>2.25</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+		<dependency>
+    		<groupId>mysql</groupId>
+    			<artifactId>mysql-connector-java</artifactId>
+    		<version>6.0.5</version>
+		</dependency>
+		
+		<dependency>
+    		<groupId>javax.servlet</groupId>
+    			<artifactId>javax.servlet-api</artifactId>
+    			<version>3.1.0</version>
+    		<scope>provided</scope>
+		</dependency>
 
-    </dependencies>
+	</dependencies>
 </project>

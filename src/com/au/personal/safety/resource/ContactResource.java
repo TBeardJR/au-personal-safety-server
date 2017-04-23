@@ -44,11 +44,15 @@ import com.au.personal.safety.users.*;
 		@POST
 		@Path("/getcontacts")
 		@Consumes(MediaType.APPLICATION_JSON)
-		public List<Contact> getContactsFromDB(User user) {
-			//UserDB userDB = new UserDB(user);
-			//return userDB.getContacts(user.getUserID());
-			List<Contact> temp = null;
-			return temp;
+		public List<Contact> getContactsFromDB(String userName) {
+			User user = new User();
+			user.setUserName(userName);
+			UserDB userDB = new UserDB(user);
+			int userID = userDB.getUserID();
+			
+			Contact contact = new Contact();
+			ContactDB contactDB = new ContactDB(contact);
+			return contactDB.getContacts(userID);
 		}
 		
 
