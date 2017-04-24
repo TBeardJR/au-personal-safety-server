@@ -19,6 +19,7 @@ import com.au.personal.safety.alerts.SendAlerts;
 /*
  * Purpose: to use the SendAlerts class to send alerts to all contacts for the corresponding user
  */
+@Path("/alert")
 public class SendAlertsResource {
 	
 	
