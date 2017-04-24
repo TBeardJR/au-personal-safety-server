@@ -38,7 +38,7 @@ public class SendAlerts {
     	//need to create a function in UserDB class that will return a User object for inputted UserID value
     	
     	//get all contacts for the corresponding User
-    	String getContacts = "GET * FROM User WHERE UserID = " + userID_IN + " ;";
+    	String getContacts = "SELECT * FROM User WHERE UserID = " + userID_IN + " ;";
     	User desiredUser = new User();
     	
     	//initialize connection variables
@@ -85,7 +85,7 @@ public class SendAlerts {
     	Response result = null;
     	
     	//get all contacts for the corresponding User
-    	String getContacts = "GET * FROM Contacts WHERE UserID = " + getCorrespondingUser().getUserID() + " ;";
+    	String getContacts = "SELECT * FROM Contacts WHERE UserID = " + getCorrespondingUser().getUserID() + " ;";
     	
     	//initialize connection variables
     	DatabaseConnectionSingleton conn;
