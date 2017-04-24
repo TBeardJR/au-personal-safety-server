@@ -147,13 +147,14 @@ public class ContactDB {
 		String selectQuery = "SELECT * FROM Contacts WHERE UserID = " + UserID +";";
 		List<Contact> emergencyContacts = new ArrayList<Contact>();
 		Statement stmt = null;
-		Contact contact = new Contact();
+		
 		try{
 			Connection conn = DatabaseConnectionSingleton.getInstance().getConnection();
 			stmt = conn.createStatement();
 			ResultSet rs01 = stmt.executeQuery(selectQuery);
 			
 			while(rs01.next()){
+				Contact contact = new Contact();
 				contact.setFirstName(rs01.getString("FirstName"));
 				contact.setLastName(rs01.getString("LastName"));
 				contact.setContactEmail(rs01.getString("Email"));
