@@ -16,7 +16,7 @@ public class UserResource {
 	@POST
 	@Path("/createuser")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response createUser(@PathParam("userName") String userName) {
+	public Response createUser(String userName) {
 		
 		User user = new User();
 		user.setUserName(userName);
