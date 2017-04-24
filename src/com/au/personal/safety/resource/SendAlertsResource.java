@@ -33,7 +33,7 @@ public class SendAlertsResource {
 		thisUser.setUserName(userName);
 		UserDB thisUserDB = new UserDB(thisUser);
 		int userID_IN = thisUserDB.getUserID();
-		if(userID < 0){
+		if(userID_IN < 0){
 			return Response.serverError().entity("Not a User").build(); 
 		}else {
 			//get user for inputted UserID value
