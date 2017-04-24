@@ -23,7 +23,7 @@ public class SendAlertsResource {
 	
 	
 	@POST
-	@Path("/alertcontacts")
+	@Path("/alertcontacts/{userName}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response sendAlerts(@PathParam("userName") String userName) {
 		Response result = null;
