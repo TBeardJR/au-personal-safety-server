@@ -40,9 +40,9 @@ public class UserResource {
 	}
 	
 	@POST
-	@Path("/getPin")
+	@Path("/getPin/{userName}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String getPin(String userName) {
+	public String getPin(@PathParam("userName") String userName) {
 		User user = new User();
 		user.setUserName(userName);
 		UserDB userDB = new UserDB(user);
