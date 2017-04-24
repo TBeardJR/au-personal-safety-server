@@ -33,13 +33,16 @@ public class SendAlertsResource {
 		thisUser.setUserName(userName);
 		UserDB thisUserDB = new UserDB(thisUser);
 		int userID_IN = thisUserDB.getUserID();
-		
-		//get user for inputted UserID value
-		SendAlerts aSendAlertsObj = new SendAlerts(userID_IN);
-		//SendAlerts(User userIN)
-		Response theResponse = aSendAlertsObj.alertContacts();
-		result = theResponse;
-		return result;
+		if(userID < 0){
+			return Response.serverError().entity("Not a User").build(); 
+		}else {
+			//get user for inputted UserID value
+			SendAlerts aSendAlertsObj = new SendAlerts(userID_IN);
+			//SendAlerts(User userIN)
+			Response theResponse = aSendAlertsObj.alertContacts();
+			result = theResponse;
+			return result;
+		}
 
 	}
 	
