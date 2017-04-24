@@ -14,9 +14,9 @@ import com.au.personal.safety.users.UserDB;
 @Path("/user")
 public class UserResource {
 	@POST
-	@Path("/createuser")
+	@Path("/createuser/{userName}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response createUser(String userName) {
+	public Response createUser(@PathParam("userName") String userName) {
 		
 		User user = new User();
 		user.setUserName(userName);
@@ -40,9 +40,9 @@ public class UserResource {
 	}
 	
 	@POST
-	@Path("/getPin")
+	@Path("/getPin/{userName}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String getPin(String userName) {
+	public String getPin(@PathParam("userName") String userName) {
 		User user = new User();
 		user.setUserName(userName);
 		UserDB userDB = new UserDB(user);
