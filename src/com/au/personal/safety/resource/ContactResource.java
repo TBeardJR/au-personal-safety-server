@@ -11,30 +11,48 @@ import javax.ws.rs.core.Response;
 import com.au.personal.safety.contacts.*;
 import com.au.personal.safety.validator.ContactResourceValidator;
 import com.au.personal.safety.users.*;
-
+import javax.ws.rs.PathParam;
 	@Path("/contact")
 	public class ContactResource {
 		@POST
-		@Path("/sendtodb")
+		@Path("/sendtodb/{userName}")
 		@Consumes(MediaType.APPLICATION_JSON)
-		public Response createContact(Contact contact) {
+		public Response createContact(ContactIn contact, @PathParam("userName") String userName) {
+			User thisUser = new User();
+			thisUser.setUserName(userName);
+			UserDB thisUserDB = new UserDB(thisUser);
+			int userID = thisUserDB.getUserID();
 			
-			ContactResourceValidator validator = new ContactResourceValidator(contact);
-			
-			if(validator.validate() == true) {
-				ContactDB contactdb = new ContactDB(contact);
-			    return contactdb.sendContact();
-			}
-			else {
-				return validator.getResponse();
+			if(userID < 0){
+				return Response.serverError().entity("Not a User").build(); 
+				
+			}else{
+				Contact newContact = new Contact(); 
+				newContact.setUserID(userID);
+				newContact.setFirstName(contact.FirstName);
+				newContact.setLastName(contact.LastName);
+				newContact.setContactPhone(contact.ContactPhone);
+				newContact.setContactCarrier(contact.ContactCarrier);
+				newContact.setContactEmail(contact.ContactEmail);
+				newContact.setContactID(contact.ContactID);
+				
+				ContactResourceValidator validator = new ContactResourceValidator(newContact);
+				
+				if(validator.validate() == true) {
+					ContactDB contactdb = new ContactDB(newContact);
+				    return contactdb.sendContact();
+				}
+				else {
+					return validator.getResponse();
+				}
 			}
 			
 		}
 		
 		@POST
-		@Path("/deletecontacts")
+		@Path("/deletecontacts/{contactID}")
 		@Consumes(MediaType.APPLICATION_JSON)
-		public Response deleteContactFromDB(int contactID) {
+		public Response deleteContactFromDB(@PathParam("contactID") int contactID) {
 			Contact contact = new Contact();
 			contact.setContactID(contactID);
 			ContactDB contactdb = new ContactDB(contact);
@@ -42,13 +60,21 @@ import com.au.personal.safety.users.*;
 		}
 		
 		@POST
-		@Path("/getcontacts")
+		@Path("/getcontacts/{userName}")
 		@Consumes(MediaType.APPLICATION_JSON)
-		public List<Contact> getContactsFromDB(User user) {
-			//UserDB userDB = new UserDB(user);
-			//return userDB.getContacts(user.getUserID());
-			List<Contact> temp = null;
-			return temp;
+		public List<Contact> getContactsFromDB(@PathParam("userName") String userName) {
+			User user = new User();
+			user.setUserName(userName);
+			UserDB userDB = new UserDB(user);
+			int userID = userDB.getUserID();
+			if(userID < 0){
+				return null; 
+			} else{
+				Contact contact = new Contact();
+				ContactDB contactDB = new ContactDB(contact);
+				return contactDB.getContacts(userID);
+			}
+			
 		}
 		
 
