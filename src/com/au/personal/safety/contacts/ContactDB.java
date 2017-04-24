@@ -65,7 +65,7 @@ public class ContactDB {
 		int contactUID = -1;
 		
 		//Create Query Statements
-		String selectQuery = "SELECT ContactID FROM Contacts WHERE UserID = " + contact.getUserID() + ";";
+		String selectQuery = "SELECT ContactID FROM Contacts WHERE ContactID = " + contact.getContactID() + ";";
 		
 		String insertQuery = "INSERT INTO Contacts (FirstName, LastName, PhoneNumber, ContactCarrier, Email, UserID) "
 				+ "VALUES ('" + contact.getFirstName()
