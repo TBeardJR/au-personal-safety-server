@@ -5,14 +5,20 @@ import java.util.ArrayList;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
+import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.au.personal.safety.contacts.*;
 import com.au.personal.safety.validator.ContactResourceValidator;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.au.personal.safety.users.*;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+
 	@Path("/contact")
 	public class ContactResource {
 		@POST
@@ -60,10 +66,11 @@ import javax.ws.rs.PathParam;
 			return contactdb.deleteContact();
 		}
 		
-		@POST
+		@GET
 		@Path("/getcontacts/{userName}")
-		@Consumes(MediaType.APPLICATION_JSON)
-		public List<Contact> getContactsFromDB(@PathParam("userName") String userName) {
+		@Produces(MediaType.APPLICATION_JSON)
+		public Response getContactsFromDB(@PathParam("userName") String userName) throws JsonProcessingException {
+			
 			User user = new User();
 			user.setUserName(userName);
 			UserDB userDB = new UserDB(user);
@@ -71,13 +78,23 @@ import javax.ws.rs.PathParam;
 			
 			if(userID < 0){
 				List<Contact> empty = new ArrayList<Contact>();
-				return empty; 
+				String serializedForumPostResponses = serializeToJson(empty);
+				Response response = Response.ok().entity(serializedForumPostResponses).build();
+				return response; 
 			} else{
 				Contact contact = new Contact();
 				ContactDB contactDB = new ContactDB(contact);
-				return contactDB.getContacts(userID);
+				String serializedForumPostResponses = serializeToJson(contactDB.getContacts(userID));
+				Response response = Response.ok().entity(serializedForumPostResponses).build();
+				return response;
 			}
 			
+		}
+		
+		private String serializeToJson(List<Contact> contacts) throws JsonProcessingException {		
+			ObjectMapper objectMapper = new ObjectMapper();
+	    	objectMapper.enable(SerializationFeature.INDENT_OUTPUT); // pretty print
+			return objectMapper.writeValueAsString(contacts);
 		}
 		
 

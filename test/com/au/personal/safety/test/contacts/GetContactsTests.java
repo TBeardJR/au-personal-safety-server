@@ -43,6 +43,7 @@ public class GetContactsTests {
 		contact.setContactID(7);
 		ContactDB contactDB = new ContactDB(contact);
 		List<Contact> contactList = contactDB.getContacts(1);
+		Assert.assertEquals(3, contactList.size());
 		
 		
 		
