@@ -29,7 +29,7 @@ public class UserResource {
 	@POST
 	@Path("/setPin")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response setPin(@PathParam("userName") String userName,  @PathParam("pin") String pin) {
+	public Response setPin(String userName,  String pin) {
 		User user = new User();
 		user.setUserName(userName);
 		user.setUserPin(pin);
@@ -42,7 +42,7 @@ public class UserResource {
 	@POST
 	@Path("/getPin")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String getPin(@PathParam("userName") String userName) {
+	public String getPin(String userName) {
 		User user = new User();
 		user.setUserName(userName);
 		UserDB userDB = new UserDB(user);
