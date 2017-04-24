@@ -74,7 +74,7 @@ public class Contact {
 		return ContactID;
 	}
 	
-	public void setContactID(int id_IN) {
+	public void setContactID(Integer id_IN) {
 		this.ContactID = id_IN;
 	}
 	
