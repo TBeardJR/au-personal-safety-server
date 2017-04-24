@@ -1,6 +1,7 @@
 package com.au.personal.safety.resource;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -67,8 +68,10 @@ import javax.ws.rs.PathParam;
 			user.setUserName(userName);
 			UserDB userDB = new UserDB(user);
 			int userID = userDB.getUserID();
+			
 			if(userID < 0){
-				return null; 
+				List<Contact> empty = new ArrayList<Contact>();
+				return empty; 
 			} else{
 				Contact contact = new Contact();
 				ContactDB contactDB = new ContactDB(contact);

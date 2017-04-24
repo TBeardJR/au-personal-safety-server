@@ -158,7 +158,7 @@ public class ContactDB {
 				contact.setLastName(rs01.getString("LastName"));
 				contact.setContactEmail(rs01.getString("Email"));
 				contact.setContactPhone(rs01.getString("PhoneNumber"));
-				contact.setContactCarrier(rs01.getString("Carrier"));
+				contact.setContactCarrier(rs01.getString("ContactCarrier"));
 				contact.setContactID(rs01.getInt("ContactID"));
 				contact.setUserID(UserID);
 				emergencyContacts.add(contact);
