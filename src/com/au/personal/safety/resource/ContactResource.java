@@ -15,18 +15,26 @@ import javax.ws.rs.PathParam;
 	@Path("/contact")
 	public class ContactResource {
 		@POST
-		@Path("/sendtodb")
+		@Path("/sendtodb/{userName}")
 		@Consumes(MediaType.APPLICATION_JSON)
-		public Response createContact(Contact contact) {
-			
-			ContactResourceValidator validator = new ContactResourceValidator(contact);
-			
-			if(validator.validate() == true) {
-				ContactDB contactdb = new ContactDB(contact);
-			    return contactdb.sendContact();
-			}
-			else {
-				return validator.getResponse();
+		public Response createContact(Contact contact, @PathParam("userName") String userName) {
+			User thisUser = new User();
+			thisUser.setUserName(userName);
+			UserDB thisUserDB = new UserDB(thisUser);
+			int userID = thisUserDB.getUserID();
+			if(userID < 0){
+				return Response.serverError().entity("Not a User").build(); 
+				
+			}else{
+				ContactResourceValidator validator = new ContactResourceValidator(contact);
+				
+				if(validator.validate() == true) {
+					ContactDB contactdb = new ContactDB(contact);
+				    return contactdb.sendContact();
+				}
+				else {
+					return validator.getResponse();
+				}
 			}
 			
 		}
