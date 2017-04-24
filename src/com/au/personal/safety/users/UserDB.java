@@ -161,7 +161,7 @@ public class UserDB {
 		int userid;
 		
 		//Create Query Statements
-		String selectQry = "SELECT UserID FROM User WHERE UserName = '" + user.getUserName() + "';";
+		String selectQry = "SELECT * FROM User WHERE UserName = '" + user.getUserName() + "';";
 
 		try{
 			//Connect to Database
