@@ -2168,7 +2168,7 @@ public class ContactDBTests {
 	 */
 	
 	@Test
-	public void test03_16_sendContactModifyContact1Email() {
+	public void test03_16_sendContactModifySecondsContact1Email() {
 		//initialized error variables
 		String errorString = "";
 		boolean errorExists = false;
@@ -2203,7 +2203,7 @@ public class ContactDBTests {
 			
 			//call function that will add contact 1 and then contact 4 to database
 			aResponse = contactDB.sendContact();
-			resultingResponse = contactDB.sendContact();
+			resultingResponse = contactDB4.sendContact();
 			
 			try {
 				/* identify contact1 ContactID and add that value to the contact1.ContactID attribute */
@@ -2246,7 +2246,7 @@ public class ContactDBTests {
 				
 				/* modify contact4's email to be null */
 				contact4.setContactEmail(modifiedEmail);
-				contactDB4 = new ContactDB(contact1);
+				contactDB4 = new ContactDB(contact4);
 				resultingResponse = contactDB4.sendContact();
 				
 				/* select contact 4's values in the database */
@@ -2343,13 +2343,13 @@ public class ContactDBTests {
 		assertTrue("test03_07 error: LastName incorrect have: " + aResultingContact.getLastName()
 				+ "\nwanted: "+ contact1LastName +"\n", aResultingContact.getLastName().equals(contact1LastName));
 		assertTrue("test03_07 error: Email incorrect have: " + aResultingContact.getContactEmail()
-				+ "\nwanted: "+ contact1Email +"\n", resultingContact.getContactEmail().equals(contact1Email));
+				+ "\nwanted: "+ contact1Email +"\n", aResultingContact.getContactEmail().equals(contact1Email));
 		assertTrue("test03_07 error: PhoneNumber incorrect have: " + aResultingContact.getContactPhone()
 				+ "\nwanted: "+ contact1Phone +"\n", aResultingContact.getContactPhone().equals(contact1Phone));
 		assertTrue("test03_07 error: ContactCarrier incorrect have: " + aResultingContact.getContactCarrier()
 				+ "\nwanted: "+ contact1Carrier +"\n", aResultingContact.getContactCarrier().equals(contact1Carrier));
 		assertTrue("test03_07 error: Response incorrect have: " + aResponse.getEntity().toString()
-                + "\nwanted: "+ expectedResponse.getEntity().toString() +"\n" , aResponse.getEntity().equals(expectedAResponse.getEntity()));
+                + "\nwanted: "+ expectedAResponse.getEntity().toString() +"\n" , aResponse.getEntity().equals(expectedAResponse.getEntity()));
 		
 		/* test that contact 4 is correct with its modified value */
 		//make sure entry's info matches input
@@ -2361,7 +2361,7 @@ public class ContactDBTests {
 		assertTrue("test03_07 error: LastName incorrect have: " + resultingContact.getLastName()
 				+ "\nwanted: "+ contact4LastName +"\n", resultingContact.getLastName().equals(contact4LastName));
 		assertTrue("test03_07 error: Email incorrect have: " + resultingContact.getContactEmail()
-				+ "\nwanted: "+ modifiedEmail +"\n", resultingContact.getContactEmail().equals(modifiedEmail));
+				+ "\nwanted: "+ databaseNullValue +"\n", resultingContact.getContactEmail().equals(databaseNullValue));
 		assertTrue("test03_07 error: PhoneNumber incorrect have: " + resultingContact.getContactPhone()
 				+ "\nwanted: "+ contact4Phone +"\n", resultingContact.getContactPhone().equals(contact4Phone));
 		assertTrue("test03_07 error: ContactCarrier incorrect have: " + resultingContact.getContactCarrier()
