@@ -75,7 +75,12 @@ public class Contact {
 	}
 	
 	public void setContactID(Integer id_IN) {
-		this.ContactID = id_IN;
+		if(id_IN == null){
+			
+		}else{
+			this.ContactID = id_IN;
+		}
+		
 	}
 	
 	
