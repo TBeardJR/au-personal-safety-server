@@ -29,7 +29,7 @@ public class UserResource {
 	@POST
 	@Path("/setPin/{userName}/{pin}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response setPin(@PathParam("userName") String userName,  @PathParam("userName") String pin) {
+	public Response setPin(@PathParam("userName") String userName,  @PathParam("pin") String pin) {
 		User user = new User();
 		user.setUserName(userName);
 		user.setUserPin(pin);
