@@ -72,7 +72,7 @@ public class UserDB {
 		Statement stmt = null;
 		//Create Query Statements
 		String selectQuery = "SELECT UserID FROM User WHERE UserName = '" + user.getUserName() + "';";
-		String updateQuery = "UPDATE User SET UserPin = " + user.getUserPin() + " WHERE UserName = '" + user.getUserName() + "';";
+		String updateQuery = "UPDATE User SET UserPin = '" + user.getUserPin() + "' WHERE UserName = '" + user.getUserName() + "';";
 		
 		try{
 			//Connect to Database
