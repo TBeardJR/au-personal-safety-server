@@ -11,7 +11,7 @@ import javax.ws.rs.core.Response;
 import com.au.personal.safety.contacts.*;
 import com.au.personal.safety.validator.ContactResourceValidator;
 import com.au.personal.safety.users.*;
-
+import javax.ws.rs.PathParam;
 	@Path("/contact")
 	public class ContactResource {
 		@POST
@@ -32,9 +32,9 @@ import com.au.personal.safety.users.*;
 		}
 		
 		@POST
-		@Path("/deletecontacts")
+		@Path("/deletecontacts/{contactID}")
 		@Consumes(MediaType.APPLICATION_JSON)
-		public Response deleteContactFromDB(int contactID) {
+		public Response deleteContactFromDB(@PathParam("contactID") int contactID) {
 			Contact contact = new Contact();
 			contact.setContactID(contactID);
 			ContactDB contactdb = new ContactDB(contact);
@@ -42,9 +42,9 @@ import com.au.personal.safety.users.*;
 		}
 		
 		@POST
-		@Path("/getcontacts")
+		@Path("/getcontacts/{userName}")
 		@Consumes(MediaType.APPLICATION_JSON)
-		public List<Contact> getContactsFromDB(String userName) {
+		public List<Contact> getContactsFromDB(@PathParam("userName") String userName) {
 			User user = new User();
 			user.setUserName(userName);
 			UserDB userDB = new UserDB(user);
