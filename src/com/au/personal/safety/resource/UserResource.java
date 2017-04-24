@@ -14,9 +14,9 @@ import com.au.personal.safety.users.UserDB;
 @Path("/user")
 public class UserResource {
 	@POST
-	@Path("/createuser")
+	@Path("/createuser/{userName}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response createUser(String userName) {
+	public Response createUser(@PathParam("userName") String userName) {
 		
 		User user = new User();
 		user.setUserName(userName);
