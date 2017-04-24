@@ -26,6 +26,7 @@ import javax.ws.rs.PathParam;
 				return Response.serverError().entity("Not a User").build(); 
 				
 			}else{
+				contact.setUserID(userID);
 				ContactResourceValidator validator = new ContactResourceValidator(contact);
 				
 				if(validator.validate() == true) {
