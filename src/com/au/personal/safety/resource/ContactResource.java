@@ -77,7 +77,10 @@ import javax.ws.rs.Produces;
 			int userID = userDB.getUserID();
 			
 			if(userID < 0){
+				Contact error = new Contact();
+				error.setFirstName("ERROR");
 				List<Contact> empty = new ArrayList<Contact>();
+				empty.add(error);
 				String serializedForumPostResponses = serializeToJson(empty);
 				Response response = Response.ok().entity(serializedForumPostResponses).build();
 				return response; 

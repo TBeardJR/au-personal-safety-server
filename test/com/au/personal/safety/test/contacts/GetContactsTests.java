@@ -39,19 +39,19 @@ public class GetContactsTests {
 		}
 	}
 		
-	@Ignore
+	@Test
 	public void test_Sydney() {
 		Contact contact = new Contact();
-		contact.setContactID(7);
+		contact.setContactID(17);
 		ContactDB contactDB = new ContactDB(contact);
-		List<Contact> contactList = contactDB.getContacts(1);
+		List<Contact> contactList = contactDB.getContacts(17);
 		Assert.assertEquals(3, contactList.size());
 		
 		
 		
 	}
 	
-	@Test
+	@Ignore
 	public void test_Alert() {
 		User user = new User();
 		user.setUserID(15);
