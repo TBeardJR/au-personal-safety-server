@@ -8,8 +8,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.au.personal.safety.email.Email;
-import com.au.personal.safety.email.EmailMessage;
+import com.au.personal.safety.email.*;
 import com.au.personal.safety.users.User;
 import com.au.personal.safety.users.UserDB;
 import com.au.personal.safety.validator.EmailResourceValidator;
@@ -37,8 +36,8 @@ public class SendAlertsResource {
 			return Response.serverError().entity("Not a User").build(); 
 		}else {
 			//get user for inputted UserID value
-			SendAlerts aSendAlertsObj = new SendAlerts(userID_IN);
-			//SendAlerts(User userIN)
+			thisUser.setUserID(userID_IN);
+			SendAlerts aSendAlertsObj = new SendAlerts(thisUser);
 			Response theResponse = aSendAlertsObj.alertContacts();
 			result = theResponse;
 			return result;

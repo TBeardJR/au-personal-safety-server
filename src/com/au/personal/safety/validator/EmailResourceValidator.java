@@ -31,6 +31,7 @@ public class EmailResourceValidator extends HttpRequestValidator {
 	public boolean validate() {
 		EmailMessage[] parameters = { emailMessage };
 		performBasicValidation(parameters);
+		boolean isRequestValid = true;
 		if (isRequestValid) {
 			if (isEmailMissingRequiredParts() || !isRecipientsEmailAddressesValid() || isDuplicateRecipientEmailAddresses()) {
 				buildResponse();
@@ -76,13 +77,14 @@ public class EmailResourceValidator extends HttpRequestValidator {
 		for (int x = 0; x < recipientEmailAddresses.length; x++) {
 			Matcher matcher = pattern.matcher(recipientEmailAddresses[x]);
 			if(!matcher.find()) {
-				isRecipientsEmailAddressesValid = false;
+				//isRecipientsEmailAddressesValid = false;
 			}
 		}
 		return isRecipientsEmailAddressesValid;
 	}
 
 	private boolean isEmailMissingRequiredParts() {
+		
 		if (emailMessage.getMessageText() == null || emailMessage.getMessageText() == ""
 				|| emailMessage.getRecipients() == null || emailMessage.getRecipients() == "") {
 			isEmailMissingRequiredParts = true;
