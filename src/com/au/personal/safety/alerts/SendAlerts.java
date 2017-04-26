@@ -3,7 +3,8 @@ package com.au.personal.safety.alerts;
 import com.au.personal.safety.database.DatabaseConnectionSingleton;
 import com.au.personal.safety.users.*;
 import com.au.personal.safety.constants.AlertConstants;
-import com.au.personal.safety.email.*;
+import com.au.personal.safety.email.EmailMessage;
+import com.au.personal.safety.email.Email;
 import com.au.personal.safety.validator.EmailResourceValidator;
 
 import java.sql.ResultSet;

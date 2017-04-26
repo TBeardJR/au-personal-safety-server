@@ -8,8 +8,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.au.personal.safety.email.Email;
-import com.au.personal.safety.email.EmailMessage;
+import com.au.personal.safety.email.*;
 import com.au.personal.safety.users.User;
 import com.au.personal.safety.users.UserDB;
 import com.au.personal.safety.validator.EmailResourceValidator;
