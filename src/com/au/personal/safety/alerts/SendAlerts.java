@@ -27,49 +27,11 @@ public class SendAlerts {
 	/* initialize object with a User parameter */
 	//note: this assumes that the User is valid, need to create UserValidator class
 	public SendAlerts(User userIN) {
-		setCorrespondingUser(userIN);
+		correspondingUser = userIN;
 		
 	}
 	
-	/* initialize object with an int parameter that represents the userID of a User */
-	// note: this assumes that the integer is valid
-    public SendAlerts(int userID_IN) {
-    	
-    	//need to create a function in UserDB class that will return a User object for inputted UserID value
-    	
-    	//get all contacts for the corresponding User
-    	String getContacts = "SELECT * FROM User WHERE UserID = " + userID_IN + " ;";
-    	User desiredUser = new User();
-    	
-    	//initialize connection variables
-    	DatabaseConnectionSingleton conn;
-    	Statement stmt = null;
-    	
-    	try {
-			//open connection
-			conn = DatabaseConnectionSingleton.getInstance();
-			conn.openConnection();
-			//get the result for the query
-			stmt = conn.getConnection().createStatement();
-			ResultSet rs01 = stmt.executeQuery(getContacts);
-			
-			if (!rs01.next())
-	        {
-				//error there is no user with the matching UserID
-				
-	        }
-			else {
-				desiredUser.setUserID(rs01.getInt("UserID"));
-				desiredUser.setUserName(rs01.getString("UserName"));
-				desiredUser.setUserPin(rs01.getString("UserPin"));
-			}
-    	
-    	} catch (Exception e) {
-    		e.printStackTrace();
-    	}
-    	setCorrespondingUser(desiredUser);
-    	
-	}
+
     
     /* Functions */
     
@@ -82,33 +44,32 @@ public class SendAlerts {
     }
     
     public Response alertContacts() {
-    	Response result = null;
-    	
     	//get all contacts for the corresponding User
     	String getContacts = "SELECT * FROM Contacts WHERE UserID = " + getCorrespondingUser().getUserID() + " ;";
     	
     	//initialize connection variables
     	DatabaseConnectionSingleton conn;
     	Statement stmt = null;
+    	Response result = null;
     	
     	try {
 			//open connection
 			conn = DatabaseConnectionSingleton.getInstance();
 			conn.openConnection();
-			//get the result for the query
 			stmt = conn.getConnection().createStatement();
+			
+			//Execute Select Query.
+			//rs01 will have values if this user has Contacts
+			//rs01 will be null if there is this user does not have contacts
 			ResultSet rs01 = stmt.executeQuery(getContacts);
 			
+			//If this User does not have any contacts then return an error saying there are none
 			if (!rs01.next())
 	        {
-	        	//there is no existing entry
-	        	//ERROR
-				//the User has no contacts or the database connection is bad
-				result = Response.status(Response.Status.OK).entity(AlertConstants.NO_CONTACTS_FOUND).build();
-				return result; //get out of this function
+				result = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(AlertConstants.NO_CONTACTS_FOUND).build();
+				return result;
 	        }
-			
-			// else, there is an entry
+			// If this user does have contacts begin contacting each
 	        else
 	        {
 	        	//create a String object for recipients (each recipient is separated by a comma) 
@@ -118,14 +79,22 @@ public class SendAlerts {
 	        	
 	        	//get the email and/or phone number with contact carrier for the current Contact entry
 	        	do {
+	        		String email = rs01.getString("Email");
 	        		//if there is an email, add it to the recieptString
-	        		if(!rs01.getString("Email").equals("null")) {
-	        			recieptString = recieptString + ", " + rs01.getString("Email");
-	        		}
-	        		
+	        		if(email.length() != 0) {
+	        			if(recieptString.length() !=0){
+	        				recieptString = recieptString + ", ";
+	        			}
+	        			recieptString = recieptString + rs01.getString("Email");
+	        		} 
+	        		String phone = rs01.getString("PhoneNumber");
+	        		String carrier = rs01.getString("ContactCarrier");
 	        		//if there is a phone number and contact carrier, add it to the recieptString
-	        		if(!rs01.getString("PhoneNumber").equals("null") && !rs01.getString("ContactCarrier").equals("null")) {
-	        			recieptString = recieptString + ", " + rs01.getString("PhoneNumber") + rs01.getString("ContactCarrier");
+	        		if(phone.length() != 0 && carrier.length() != 0) {
+	        			if(recieptString.length() !=0){
+	        				recieptString = recieptString + ", ";
+	        			}
+	        			recieptString = recieptString + rs01.getString("PhoneNumber") + rs01.getString("ContactCarrier");
 	        		}
 	        		
 	        		//go to next contact entry with desired UserID, if there is a next entry
@@ -137,28 +106,26 @@ public class SendAlerts {
 	        	String currentLat = "";
 	        	String currentLong = "";
 	        	
-	        	
+	        	//Execute Query
+	        	//rs02 will have values if the user has a location value
 	        	ResultSet rs02 = stmt.executeQuery(getLocation);
-	        	if (!rs02.next()) {
-	        		//then the user does not have a current location, why not? this is probably a problem on our end
-	        		
-	        		
-		        }
-	        	else {
+	        	
+	        	//If the user does hava a lat/long then set it
+	        	if (rs02.next()) {
 	        		//get the user's latitude and longitude
 	        		currentLat = rs02.getString("Latitude");
-	        		currentLong = rs02.getString("Longitude");
-	        	}
+	        		currentLong = rs02.getString("Longitude");	
+		        }//else it defaults to empty strings
+	   
 	        	
 	        	//create an emailMessage object
 	        	EmailMessage messageToSend = new EmailMessage();
 	        	//set the values for the emailMessage
 	        	messageToSend.setRecipients(recieptString);
-	        	messageToSend.setSubject("Alert! SafeTrip Alert Sent From " + correspondingUser.getFirstName()
-	        	    + " " + correspondingUser.getLastName());
+	        	messageToSend.setSubject("Alert! SafeTrip Alert Sent From " + correspondingUser.getUserID());
 	        	
-	        	messageToSend.setMessageText("Alert! " + correspondingUser.getFirstName()
-        	        + " " + correspondingUser.getLastName() + " has sent an alert from the following location: latitude = "
+	        	messageToSend.setMessageText("Alert! " + correspondingUser.getUserID()
+        	        + " has sent an alert from the following location: latitude = "
         	        + currentLat + " longitude = " + currentLong + "\n");
 	        	
 	        	//check that the emailMessage is valid with a EmailResourceValidator object
@@ -170,6 +137,9 @@ public class SendAlerts {
 	        		Email thisEmail = new Email(messageToSend);
 	        		Response responseAfterSendingEmail = thisEmail.sendMessage();
 	        		result = responseAfterSendingEmail;
+	        	}
+	        	else{
+	        		result = Response.serverError().entity("Email invalid").build(); 
 	        	}
 	        	
 	        }

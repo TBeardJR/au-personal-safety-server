@@ -37,8 +37,8 @@ public class SendAlertsResource {
 			return Response.serverError().entity("Not a User").build(); 
 		}else {
 			//get user for inputted UserID value
-			SendAlerts aSendAlertsObj = new SendAlerts(userID_IN);
-			//SendAlerts(User userIN)
+			thisUser.setUserID(userID_IN);
+			SendAlerts aSendAlertsObj = new SendAlerts(thisUser);
 			Response theResponse = aSendAlertsObj.alertContacts();
 			result = theResponse;
 			return result;
