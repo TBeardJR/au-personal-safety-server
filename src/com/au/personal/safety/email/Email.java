@@ -33,7 +33,8 @@ public class Email {
 			
 		} catch (MessagingException e) {
 			e.printStackTrace();
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(EmailConstants.EMAIL_COULD_NOT_BE_SENT).build();
+			String returnThis = e.getStackTrace().toString();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(returnThis).build();
 		}
 		
 		return Response.status(Response.Status.OK).entity(EmailConstants.EMAIL_WAS_SUCCESSFULLY_SENT).build();
