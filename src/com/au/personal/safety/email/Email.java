@@ -33,7 +33,7 @@ public class Email {
 			
 		} catch (MessagingException e) {
 			e.printStackTrace();
-			String returnThis = e.getStackTrace().toString();
+			String returnThis = emailMessage.getRecipients();
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(returnThis).build();
 		}
 		
