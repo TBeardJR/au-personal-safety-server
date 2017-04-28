@@ -28,12 +28,13 @@ public class Email {
 	}
 	
 	public Response sendMessage() {
+		String returnThis = "";
 		try {
 			Transport.send(message);
+			returnThis = message.getAllRecipients().toString();
 			
 		} catch (MessagingException e) {
 			e.printStackTrace();
-			String returnThis = emailMessage.getRecipients();
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(returnThis).build();
 		}
 		
