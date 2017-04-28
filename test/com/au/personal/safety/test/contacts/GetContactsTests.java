@@ -17,6 +17,7 @@ import com.au.personal.safety.contacts.Contact;
 import com.au.personal.safety.contacts.ContactDB;
 import com.au.personal.safety.database.DatabaseConnectionSingleton;
 import com.au.personal.safety.users.User;
+import com.au.personal.safety.users.UserDB;
 import com.au.personal.safety.alerts.SendAlerts;
 public class GetContactsTests {
 	@Before
@@ -39,7 +40,7 @@ public class GetContactsTests {
 		}
 	}
 		
-	@Test
+	@Ignore
 	public void test_Sydney() {
 		Contact contact = new Contact();
 		contact.setContactID(17);
@@ -51,15 +52,21 @@ public class GetContactsTests {
 		
 	}
 	
-	@Ignore
+	@Test
 	public void test_Alert() {
-		User user = new User();
-		user.setUserID(15);
-		SendAlerts aSendAlertsObj = new SendAlerts(user);
+		String userName = "syd";
+		User thisUser = new User();
+		thisUser.setUserName(userName);
+		UserDB thisUserDB = new UserDB(thisUser);
+		int userID_IN = thisUserDB.getUserID();
+		
+		thisUser.setUserID(17);
+		SendAlerts aSendAlertsObj = new SendAlerts(thisUser);
 		Response theResponse = aSendAlertsObj.alertContacts();
 		
 		
 		
 		
 	}
+	
 }

@@ -30,11 +30,13 @@ public class Email {
 	public Response sendMessage() {
 		try {
 			Transport.send(message);
-			return Response.status(Response.Status.OK).entity(EmailConstants.EMAIL_WAS_SUCCESSFULLY_SENT).build();
+			
 		} catch (MessagingException e) {
 			e.printStackTrace();
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(EmailConstants.EMAIL_COULD_NOT_BE_SENT).build();
 		}
+		
+		return Response.status(Response.Status.OK).entity(EmailConstants.EMAIL_WAS_SUCCESSFULLY_SENT).build();
 	}
 	
 	private void buildMessage() {		
