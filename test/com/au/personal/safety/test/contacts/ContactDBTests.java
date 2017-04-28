@@ -1019,138 +1019,11 @@ public class ContactDBTests {
 	 * Result: contact1 has been added and has the new userID after the modification
 	 * 
 	*/
-	@Test
-	public void test03_08_sendContactModifyContact1UserID() {
-		//initialized error variables
-		String errorString = "";
-		boolean errorExists = false;
-		String dupEntryErrorString = "";
-		boolean dupEntryError = false;
-		
-		boolean exceptionThrown = false;
-		Contact resultingContact = new Contact();
-		Response resultingResponse = null;
-		Response expectedResponse = Response.status(Response.Status.OK).entity(ContactConstants.CONTACT_WAS_SUCCESSFULLY_UPDATED).build();
-		int modifiedUserID = 10;
-		
-		//initialize connection variables
-		DatabaseConnectionSingleton conn;
-		Statement stmt = null;
-		
-		//create Contact object with all attributes set
-		Contact contact1 = createContact1();
-		
-		//since buildInsert() is run in ContactDB constructor and is based on constructor input,
-		// going to call constructor to test buildInsert()
-		ContactDB contactDB = new ContactDB(contact1);
-		
-		try {
-			//open connection
-			conn = DatabaseConnectionSingleton.getInstance();
-			conn.openConnection();
-			
-			//call function that will add the contact to database
-			resultingResponse = contactDB.sendContact();
-			
-			//make sure entry was created and added correctly
-			String selectQry = selectContact1Qry;
-			
-			try {
-				stmt = conn.getConnection().createStatement();
-				ResultSet rs01 = stmt.executeQuery(selectQry);
-				
-				if (!rs01.next())
-		        {
-		        	//there is no existing entry
-		        	//ERROR
-					errorString = "the entry was not added to the database\n";
-		        	errorExists = true;
-		        }
-				
-				// else, there is an entry
-		        else
-		        {
-		            //all we want is the contactID, so we can add this value to our Contact object with a modified phoneNum
-		        	contact1.setContactID(rs01.getInt("ContactID"));
-		        }
-				
-				//modify the phoneNumber or contact1 and then re-send the contact into the database
-				contact1.setUserID(modifiedUserID);
-				contactDB = new ContactDB(contact1);
-				resultingResponse = contactDB.sendContact();
-				
-				String selectModified = "SELECT * FROM Contacts WHERE FirstName = \"" + contact1FirstName + "\" AND " 
-					    + "LastName = \"" + contact1LastName + "\" AND UserID = " + modifiedUserID 
-					    + " AND Email = \"" + contact1Email + "\" AND PhoneNumber = \"" + contact1Phone + "\" AND ContactCarrier = \""
-						+ contact1Carrier + "\" ORDER BY ContactID ;";
-				
-				rs01 = stmt.executeQuery(selectModified);
-				
-				if (!rs01.next())
-		        {
-		        	//there is no existing entry
-		        	//ERROR
-					errorString = "the entry was not modified in the database\n";
-		        	errorExists = true;
-		        }
-				
-				// else, there is an entry
-		        else
-		        {
-		            //set values to resultingContact
-		        	resultingContact.setContactID(rs01.getInt("ContactID"));
-		        	resultingContact.setFirstName(rs01.getString("FirstName"));
-		        	resultingContact.setLastName(rs01.getString("LastName"));
-		        	resultingContact.setContactEmail(rs01.getString("Email"));
-		        	resultingContact.setContactPhone(rs01.getString("PhoneNumber")); 
-		        	resultingContact.setContactCarrier(rs01.getString("ContactCarrier")); 
-		        	resultingContact.setUserID(rs01.getInt("UserID"));
-		        }
-				
-				//if there is another entry in the database, then error (the sendContact() added a 2nd entry)
-				if (rs01.next()) {
-					dupEntryErrorString = "The sendContact() added a 2nd entry when it should have modified\n";
-					dupEntryError = true;
-				}
-				
-			} catch (Exception e) {
-				exceptionThrown = true;
-				e.printStackTrace();
-			}
-			
-			//close connection
-			conn.closeConnection();
-			
-		} catch (URISyntaxException e) {
-		    // TODO Auto-generated catch block
-			exceptionThrown = true;
-			e.printStackTrace();
-		}
-		
-		//Test with asserts
-		//make sure no exception was thrown
-		assertFalse("test03_08 error: exception thrown\n", exceptionThrown);
-		//make sure entry was save to the database
-		assertFalse("test03_08 error: " + errorString, errorExists);
-		//make sure no 2nd entry was added
-		assertFalse("test03_08 error: " + dupEntryErrorString, dupEntryError);
-		//make sure entry's info matches input
-		assertNotNull("test03_08 error: Contact is null\n", resultingContact.getContactID());
-		assertEquals("test03_08 error: UserID incorrect, have: " + resultingContact.getUserID() 
-				+ "\nwanted: "+ modifiedUserID +"\n", modifiedUserID, resultingContact.getUserID());
-		assertTrue("test03_08 error: FirstName incorrect have: " + resultingContact.getFirstName()
-				+ "\nwanted: " + contact1FirstName + "\n", resultingContact.getFirstName().equals(contact1FirstName));
-		assertTrue("test03_08 error: LastName incorrect have: " + resultingContact.getLastName()
-				+ "\nwanted: "+ contact1LastName +"\n", resultingContact.getLastName().equals(contact1LastName));
-		assertTrue("test03_08 error: Email incorrect have: " + resultingContact.getContactEmail()
-				+ "\nwanted: "+ contact1Email +"\n", resultingContact.getContactEmail().equals(contact1Email));
-		assertTrue("test03_08 error: PhoneNumber incorrect have: " + resultingContact.getContactPhone()
-				+ "\nwanted: "+ contact1Phone +"\n", resultingContact.getContactPhone().equals(contact1Phone));
-		assertTrue("test03_08 error: ContactCarrier incorrect have: " + resultingContact.getContactCarrier()
-				+ "\nwanted: "+ contact1Carrier +"\n", resultingContact.getContactCarrier().equals(contact1Carrier));
-		assertTrue("test03_08 error: Response incorrect have: " + resultingResponse.getEntity().toString()
-                + "\nwanted: "+ expectedResponse.getEntity().toString() +"\n" , resultingResponse.getEntity().equals(expectedResponse.getEntity()));
-	}
+	
+	/*
+	 * HOWEVER, the database and app are set up in a way that ASSUMES the user will not be editing the UserID, so we do not need to test the above
+	 */
+	
 	
 	/* Test sendContact() modify
 	 * Setting: contact1 is added to the empty Contacts table; then the contact1 is modified to have a null phoneNumber and null contactCarrier
@@ -1359,18 +1232,20 @@ public class ContactDBTests {
 				contactDB = new ContactDB(contact1);
 				resultingResponse = contactDB.sendContact();
 				
-				String selectModified = "SELECT * FROM Contacts WHERE FirstName = \"" + contact1FirstName + "\" AND " 
+				//check that the contact is unmodified in the database
+				
+				String unchangedSelect = "SELECT * FROM Contacts WHERE FirstName = \"" + contact1FirstName + "\" AND " 
 					    + "LastName = \"" + contact1LastName + "\" AND UserID = " + contact1UserID 
 					    + " AND Email = \"" + contact1Email + "\" AND PhoneNumber = \"" + contact1Phone + "\" AND ContactCarrier = \""
-						+ modifiedCarrier + "\" ORDER BY ContactID ;";
+						+ contact1Carrier +  "\"" + " AND ContactID = " + contact1.getContactID() + " ORDER BY ContactID ;";
 				
-				rs01 = stmt.executeQuery(selectModified);
+				rs01 = stmt.executeQuery(unchangedSelect);
 				
 				if (!rs01.next())
 		        {
 		        	//there is no existing entry
 		        	//ERROR
-					errorString = "the entry was not modified in the database\n";
+					errorString = "the entry was modified in the database when it should not have changed\n";
 		        	errorExists = true;
 		        }
 				
@@ -1428,7 +1303,7 @@ public class ContactDBTests {
 				+ "\nwanted: "+ contact1Phone +"\n", resultingContact.getContactPhone().equals(contact1Phone));
 		//assert that the carrier is "null"
 		assertTrue("test03_02 error: Email incorrect have: " + resultingContact.getContactCarrier()
-                + "\nwanted: "+ databaseNullValue +"\n", resultingContact.getContactCarrier().equals(databaseNullValue));
+                + "\nwanted: "+ contact1Carrier +"\n", resultingContact.getContactCarrier().equals(contact1Carrier));
 		assertTrue("test03_10 error: Response incorrect have: " + resultingResponse.getEntity().toString()
                 + "\nwanted: "+ expectedResponse.getEntity().toString() +"\n" , resultingResponse.getEntity().equals(expectedResponse.getEntity()));
 	}
@@ -1578,276 +1453,20 @@ public class ContactDBTests {
 	     (Response.status(Response.Status.BAD_REQUEST).entity(HttpResponseConstants.INVALID_CONTACT).build())
 	 * 
 	*/
-	@Test
-	public void test03_12_sendContactModifyContact1UserIDNeg() {
-		//initialized error variables
-		String errorString = "";
-		boolean errorExists = false;
-		String dupEntryErrorString = "";
-		boolean dupEntryError = false;
-		
-		boolean exceptionThrown = false;
-		Contact resultingContact = new Contact();
-		Response resultingResponse = null;
-		Response expectedResponse = Response.status(Response.Status.BAD_REQUEST).entity(HttpResponseConstants.INVALID_CONTACT).build();
-		int modifiedUserID = -1;
-		
-		//initialize connection variables
-		DatabaseConnectionSingleton conn;
-		Statement stmt = null;
-		
-		//create Contact object with all attributes set
-		Contact contact1 = createContact1();
-		
-		//since buildInsert() is run in ContactDB constructor and is based on constructor input,
-		// going to call constructor to test buildInsert()
-		ContactDB contactDB = new ContactDB(contact1);
-		
-		try {
-			//open connection
-			conn = DatabaseConnectionSingleton.getInstance();
-			conn.openConnection();
-			
-			//call function that will add the contact to database
-			resultingResponse = contactDB.sendContact();
-			
-			//make sure entry was created and added correctly
-			String selectQry = selectContact1Qry;
-			
-			try {
-				stmt = conn.getConnection().createStatement();
-				ResultSet rs01 = stmt.executeQuery(selectQry);
-				
-				if (!rs01.next())
-		        {
-		        	//there is no existing entry
-		        	//ERROR
-					errorString = "the entry was not added to the database\n";
-		        	errorExists = true;
-		        }
-				
-				// else, there is an entry
-		        else
-		        {
-		            //all we want is the contactID, so we can add this value to our Contact object with a modified phoneNum
-		        	contact1.setContactID(rs01.getInt("ContactID"));
-		        }
-				
-				//modify the phoneNumber or contact1 and then re-send the contact into the database
-				contact1.setUserID(modifiedUserID);
-				contactDB = new ContactDB(contact1);
-				resultingResponse = contactDB.sendContact();
-				
-				String selectModified = "SELECT * FROM Contacts WHERE FirstName = \"" + contact1FirstName + "\" AND " 
-					    + "LastName = \"" + contact1LastName + "\" AND UserID = " + modifiedUserID 
-					    + " AND Email = \"" + contact1Email + "\" AND PhoneNumber = \"" + contact1Phone + "\" AND ContactCarrier = \""
-						+ contact1Carrier + "\" ORDER BY ContactID ;";
-				
-				rs01 = stmt.executeQuery(selectModified);
-				
-				if (!rs01.next())
-		        {
-		        	//there is no existing entry
-		        	//ERROR
-					errorString = "the entry was not modified in the database\n";
-		        	errorExists = true;
-		        }
-				
-				// else, there is an entry
-		        else
-		        {
-		            //set values to resultingContact
-		        	resultingContact.setContactID(rs01.getInt("ContactID"));
-		        	resultingContact.setFirstName(rs01.getString("FirstName"));
-		        	resultingContact.setLastName(rs01.getString("LastName"));
-		        	resultingContact.setContactEmail(rs01.getString("Email"));
-		        	resultingContact.setContactPhone(rs01.getString("PhoneNumber")); 
-		        	resultingContact.setContactCarrier(rs01.getString("ContactCarrier")); 
-		        	resultingContact.setUserID(rs01.getInt("UserID"));
-		        }
-				
-				//if there is another entry in the database, then error (the sendContact() added a 2nd entry)
-				if (rs01.next()) {
-					dupEntryErrorString = "The sendContact() added a 2nd entry when it should have modified\n";
-					dupEntryError = true;
-				}
-				
-			} catch (Exception e) {
-				exceptionThrown = true;
-				e.printStackTrace();
-			}
-			
-			//close connection
-			conn.closeConnection();
-			
-		} catch (URISyntaxException e) {
-		    // TODO Auto-generated catch block
-			exceptionThrown = true;
-			e.printStackTrace();
-		}
-		
-		//Test with asserts
-		//make sure no exception was thrown
-		assertFalse("test03_12 error: exception thrown\n", exceptionThrown);
-		//make sure entry was save to the database
-		assertFalse("test03_12 error: " + errorString, errorExists);
-		//make sure no 2nd entry was added
-		assertFalse("test03_12 error: " + dupEntryErrorString, dupEntryError);
-		//make sure entry's info matches input
-		assertNotNull("test03_12 error: Contact is null\n", resultingContact.getContactID());
-		assertEquals("test03_12 error: UserID incorrect, have: " + resultingContact.getUserID() 
-				+ "\nwanted: "+ modifiedUserID +"\n", modifiedUserID, resultingContact.getUserID());
-		assertTrue("test03_12 error: FirstName incorrect have: " + resultingContact.getFirstName()
-				+ "\nwanted: " + contact1FirstName + "\n", resultingContact.getFirstName().equals(contact1FirstName));
-		assertTrue("test03_12 error: LastName incorrect have: " + resultingContact.getLastName()
-				+ "\nwanted: "+ contact1LastName +"\n", resultingContact.getLastName().equals(contact1LastName));
-		assertTrue("test03_12 error: Email incorrect have: " + resultingContact.getContactEmail()
-				+ "\nwanted: "+ contact1Email +"\n", resultingContact.getContactEmail().equals(contact1Email));
-		assertTrue("test03_12 error: PhoneNumber incorrect have: " + resultingContact.getContactPhone()
-				+ "\nwanted: "+ contact1Phone +"\n", resultingContact.getContactPhone().equals(contact1Phone));
-		assertTrue("test03_12 error: ContactCarrier incorrect have: " + resultingContact.getContactCarrier()
-				+ "\nwanted: "+ contact1Carrier +"\n", resultingContact.getContactCarrier().equals(contact1Carrier));
-		assertTrue("test03_12 error: Response incorrect have: " + resultingResponse.getEntity().toString()
-                + "\nwanted: "+ expectedResponse.getEntity().toString() +"\n" , resultingResponse.getEntity().equals(expectedResponse.getEntity()));
-	}
+	
+	/*
+	 * HOWEVER, the database and app are set up in a way that ASSUMES the user will not be editing the UserID, so we do not need to test the above
+	 */
 	
 	/* Test sendContact() modify
 	 * Setting: contact1 is added to the empty Contacts table; then the contact1 is modified to have a 10 userID
 	 * Result: contact1 has been modified to have a userID of 10
 	 * 
 	*/
-	@Test
-	public void test03_13_sendContactModifyContact1UserIDPos() {
-		//initialized error variables
-		String errorString = "";
-		boolean errorExists = false;
-		String dupEntryErrorString = "";
-		boolean dupEntryError = false;
-		
-		boolean exceptionThrown = false;
-		Contact resultingContact = new Contact();
-		Response resultingResponse = null;
-		Response expectedResponse = Response.status(Response.Status.OK).entity(ContactConstants.CONTACT_WAS_SUCCESSFULLY_UPDATED).build();
-		int modifiedUserID = 10;
-		
-		//initialize connection variables
-		DatabaseConnectionSingleton conn;
-		Statement stmt = null;
-		
-		//create Contact object with all attributes set
-		Contact contact1 = createContact1();
-		
-		//since buildInsert() is run in ContactDB constructor and is based on constructor input,
-		// going to call constructor to test buildInsert()
-		ContactDB contactDB = new ContactDB(contact1);
-		
-		try {
-			//open connection
-			conn = DatabaseConnectionSingleton.getInstance();
-			conn.openConnection();
-			
-			//call function that will add the contact to database
-			resultingResponse = contactDB.sendContact();
-			
-			//make sure entry was created and added correctly
-			String selectQry = selectContact1Qry;
-			
-			try {
-				stmt = conn.getConnection().createStatement();
-				ResultSet rs01 = stmt.executeQuery(selectQry);
-				
-				if (!rs01.next())
-		        {
-		        	//there is no existing entry
-		        	//ERROR
-					errorString = "the entry was not added to the database\n";
-		        	errorExists = true;
-		        }
-				
-				// else, there is an entry
-		        else
-		        {
-		            //all we want is the contactID, so we can add this value to our Contact object with a modified phoneNum
-		        	contact1.setContactID(rs01.getInt("ContactID"));
-		        }
-				
-				//modify the phoneNumber or contact1 and then re-send the contact into the database
-				contact1.setUserID(modifiedUserID);
-				contactDB = new ContactDB(contact1);
-				resultingResponse = contactDB.sendContact();
-				
-				String selectModified = "SELECT * FROM Contacts WHERE FirstName = \"" + contact1FirstName + "\" AND " 
-					    + "LastName = \"" + contact1LastName + "\" AND UserID = " + modifiedUserID 
-					    + " AND Email = \"" + contact1Email + "\" AND PhoneNumber = \"" + contact1Phone + "\" AND ContactCarrier = \""
-						+ contact1Carrier + "\" ORDER BY ContactID ;";
-				
-				rs01 = stmt.executeQuery(selectModified);
-				
-				if (!rs01.next())
-		        {
-		        	//there is no existing entry
-		        	//ERROR
-					errorString = "the entry was not modified in the database\n";
-		        	errorExists = true;
-		        }
-				
-				// else, there is an entry
-		        else
-		        {
-		            //set values to resultingContact
-		        	resultingContact.setContactID(rs01.getInt("ContactID"));
-		        	resultingContact.setFirstName(rs01.getString("FirstName"));
-		        	resultingContact.setLastName(rs01.getString("LastName"));
-		        	resultingContact.setContactEmail(rs01.getString("Email"));
-		        	resultingContact.setContactPhone(rs01.getString("PhoneNumber")); 
-		        	resultingContact.setContactCarrier(rs01.getString("ContactCarrier")); 
-		        	resultingContact.setUserID(rs01.getInt("UserID"));
-		        }
-				
-				//if there is another entry in the database, then error (the sendContact() added a 2nd entry)
-				if (rs01.next()) {
-					dupEntryErrorString = "The sendContact() added a 2nd entry when it should have modified\n";
-					dupEntryError = true;
-				}
-				
-			} catch (Exception e) {
-				exceptionThrown = true;
-				e.printStackTrace();
-			}
-			
-			//close connection
-			conn.closeConnection();
-			
-		} catch (URISyntaxException e) {
-		    // TODO Auto-generated catch block
-			exceptionThrown = true;
-			e.printStackTrace();
-		}
-		
-		//Test with asserts
-		//make sure no exception was thrown
-		assertFalse("test03_12 error: exception thrown\n", exceptionThrown);
-		//make sure entry was save to the database
-		assertFalse("test03_12 error: " + errorString, errorExists);
-		//make sure no 2nd entry was added
-		assertFalse("test03_12 error: " + dupEntryErrorString, dupEntryError);
-		//make sure entry's info matches input
-		assertNotNull("test03_12 error: Contact is null\n", resultingContact.getContactID());
-		assertEquals("test03_12 error: UserID incorrect, have: " + resultingContact.getUserID() 
-				+ "\nwanted: "+ modifiedUserID +"\n", modifiedUserID, resultingContact.getUserID());
-		assertTrue("test03_12 error: FirstName incorrect have: " + resultingContact.getFirstName()
-				+ "\nwanted: " + contact1FirstName + "\n", resultingContact.getFirstName().equals(contact1FirstName));
-		assertTrue("test03_12 error: LastName incorrect have: " + resultingContact.getLastName()
-				+ "\nwanted: "+ contact1LastName +"\n", resultingContact.getLastName().equals(contact1LastName));
-		assertTrue("test03_12 error: Email incorrect have: " + resultingContact.getContactEmail()
-				+ "\nwanted: "+ contact1Email +"\n", resultingContact.getContactEmail().equals(contact1Email));
-		assertTrue("test03_12 error: PhoneNumber incorrect have: " + resultingContact.getContactPhone()
-				+ "\nwanted: "+ contact1Phone +"\n", resultingContact.getContactPhone().equals(contact1Phone));
-		assertTrue("test03_12 error: ContactCarrier incorrect have: " + resultingContact.getContactCarrier()
-				+ "\nwanted: "+ contact1Carrier +"\n", resultingContact.getContactCarrier().equals(contact1Carrier));
-		assertTrue("test03_12 error: Response incorrect have: " + resultingResponse.getEntity().toString()
-                + "\nwanted: "+ expectedResponse.getEntity().toString() +"\n" , resultingResponse.getEntity().equals(expectedResponse.getEntity()));
-	}
+	
+	/*
+	 * HOWEVER, the database and app are set up in a way that ASSUMES the user will not be editing the UserID, so we do not need to test the above
+	 */
 	
 	/* Test sendContact() modify
 	 * Setting: contact2 is added to the empty Contacts table; then the contact2 is modified to now have an email

@@ -64,7 +64,7 @@ public class GetContactsTests {
 		SendAlerts aSendAlertsObj = new SendAlerts(thisUser);
 		Response theResponse = aSendAlertsObj.alertContacts();
 		
-		
+		System.out.print("theResponse: " + theResponse.getEntity().toString() + "\n");
 		
 		
 	}
