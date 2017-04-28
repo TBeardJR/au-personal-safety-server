@@ -3,6 +3,7 @@ package com.au.personal.safety.resource;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.POST;
+import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
@@ -22,7 +23,7 @@ import com.au.personal.safety.alerts.SendAlerts;
 public class SendAlertsResource {
 	
 	
-	@POST
+	@GET
 	@Path("/alertcontacts/{userName}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response sendAlerts(@PathParam("userName") String userName) {
