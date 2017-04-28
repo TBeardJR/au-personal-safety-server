@@ -78,9 +78,10 @@ public class ContactDB {
 				+ "' , ContactCarrier = '" + contact.getContactCarrier();
 				
 		
+		Connection conn = null;
 		try {
 			//Connect to Database
-			Connection conn = DatabaseConnectionSingleton.getInstance().getConnection();
+			conn = DatabaseConnectionSingleton.getInstance().getConnection();
 			stmt = conn.createStatement();
 			
 			//Execute Select Query.
@@ -92,6 +93,7 @@ public class ContactDB {
 			if (!rs01.next()){
 				//execute the insertQuery
 				stmt.executeUpdate(insertQuery);
+				conn.close();
 				return Response.status(Response.Status.OK).entity(ContactConstants.CONTACT_WAS_SUCCESSFULLY_ADDED).build();
 			}
 			//if this contact does exist for this username, update the contact
@@ -104,19 +106,23 @@ public class ContactDB {
 				
 				//execute the updateQuery 
 	            stmt.executeUpdate(updateQuery);
+	            conn.close();
 	            return Response.status(Response.Status.OK).entity(ContactConstants.CONTACT_WAS_SUCCESSFULLY_UPDATED).build();
 			}
+			
 			    
 		} 
 		//If we had a URIException return URI error response
 		catch (URISyntaxException e) {
 			e.printStackTrace();
+			
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(ContactConstants.CONTACT_COULD_NOT_BE_CREATED_URI).build();
 		}
 				
 		//If we had a SQLException return SQL error response
 		catch (SQLException e) {
 			e.printStackTrace();
+			
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(ContactConstants.CONTACT_COULD_NOT_BE_CREATED_SQL).build();
 		}
 	      
@@ -133,7 +139,8 @@ public class ContactDB {
 			Connection conn = DatabaseConnectionSingleton.getInstance().getConnection();
 			stmt = conn.createStatement();
 			stmt.executeUpdate(deleteContact);
-		    return Response.status(Response.Status.OK).entity(ContactConstants.CONTACT_WAS_SUCCESSFULLY_DELETED).build();
+		    conn.close();
+			return Response.status(Response.Status.OK).entity(ContactConstants.CONTACT_WAS_SUCCESSFULLY_DELETED).build();
 		} catch (URISyntaxException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -152,7 +159,7 @@ public class ContactDB {
 			Connection conn = DatabaseConnectionSingleton.getInstance().getConnection();
 			stmt = conn.createStatement();
 			ResultSet rs01 = stmt.executeQuery(selectQuery);
-			
+			conn.close();
 			while(rs01.next()){
 				Contact contact = new Contact();
 				contact.setFirstName(rs01.getString("FirstName"));

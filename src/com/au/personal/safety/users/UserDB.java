@@ -43,11 +43,13 @@ public class UserDB {
 			//If rs01 does not have values then create the user. Return a success Response.
 			if (!rs01.next()){
 				stmt.executeUpdate(insertQuery);
+				conn.close();
 			    return Response.status(Response.Status.OK).entity(UserConstants.USER_WAS_SUCCESSFULLY_CREATED).build();
 			}
 			
 			//If rs01 does have values then we return that there is already a user with this username in our database.
 			else{
+				conn.close();
 				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(UserConstants.USER_ALREADY_EXISTS).build();
 			}
 		}	
@@ -86,12 +88,14 @@ public class UserDB {
 			
 			//If rs01 does not have values then return an error response. 
 			if (!rs01.next()){
+				conn.close();
 			    return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(UserConstants.USER_DOES_NOT_EXIST).build();
 			}
 			
 			//If rs01 does have values then we set the pin. Return a successfully set response
 			else{
 				stmt.executeUpdate(updateQuery);
+				conn.close();
 				return Response.status(Response.Status.OK).entity(UserConstants.PIN_CREATED).build();
 			}
 			
@@ -129,7 +133,7 @@ public class UserDB {
 			//rs01 will have values if a user with this userName exits
 			//rs01 will be null if there is not a user with this userName
 			ResultSet rs01 = stmt.executeQuery(selectQry);
-			
+			conn.close();
 			//If rs01 does not have values then return pin as an error. 
 			if (!rs01.next()){
 			    return "ERROR noUSER";
@@ -172,7 +176,7 @@ public class UserDB {
 			//rs01 will have values if a user with this userName exits
 			//rs01 will be null if there is not a user with this userName
 			ResultSet rs01 = stmt.executeQuery(selectQry);
-			
+			conn.close();
 			//If rs01 does not have values then return pin as an error. 
 			if (!rs01.next()){
 			    return -1;
