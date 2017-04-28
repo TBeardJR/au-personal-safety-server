@@ -8,6 +8,8 @@ import javax.mail.internet.*;
 import javax.ws.rs.core.Response;
 
 import com.au.personal.safety.constants.EmailConstants;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 
 public class Email {
 
@@ -30,12 +32,16 @@ public class Email {
 	public Response sendMessage() {
 		String returnThis = "";
 		try {
+			ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+			String json = ow.writeValueAsString(message);
+			returnThis = json;
 			Transport.send(message);
-			returnThis = message.getAllRecipients().toString();
-			
 		} catch (MessagingException e) {
 			e.printStackTrace();
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(returnThis).build();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
 		}
 		
 		return Response.status(Response.Status.OK).entity(EmailConstants.EMAIL_WAS_SUCCESSFULLY_SENT).build();
