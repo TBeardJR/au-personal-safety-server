@@ -93,7 +93,6 @@ public class ContactDB {
 			if (!rs01.next()){
 				//execute the insertQuery
 				stmt.executeUpdate(insertQuery);
-				conn.close();
 				return Response.status(Response.Status.OK).entity(ContactConstants.CONTACT_WAS_SUCCESSFULLY_ADDED).build();
 			}
 			//if this contact does exist for this username, update the contact
@@ -106,7 +105,6 @@ public class ContactDB {
 				
 				//execute the updateQuery 
 	            stmt.executeUpdate(updateQuery);
-	            conn.close();
 	            return Response.status(Response.Status.OK).entity(ContactConstants.CONTACT_WAS_SUCCESSFULLY_UPDATED).build();
 			}
 			
@@ -139,7 +137,6 @@ public class ContactDB {
 			Connection conn = DatabaseConnectionSingleton.getInstance().getConnection();
 			stmt = conn.createStatement();
 			stmt.executeUpdate(deleteContact);
-		    conn.close();
 			return Response.status(Response.Status.OK).entity(ContactConstants.CONTACT_WAS_SUCCESSFULLY_DELETED).build();
 		} catch (URISyntaxException | SQLException e) {
 			// TODO Auto-generated catch block
@@ -159,7 +156,6 @@ public class ContactDB {
 			Connection conn = DatabaseConnectionSingleton.getInstance().getConnection();
 			stmt = conn.createStatement();
 			ResultSet rs01 = stmt.executeQuery(selectQuery);
-			conn.close();
 			while(rs01.next()){
 				Contact contact = new Contact();
 				contact.setFirstName(rs01.getString("FirstName"));

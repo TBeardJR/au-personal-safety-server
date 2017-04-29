@@ -40,19 +40,19 @@ public class GetContactsTests {
 		}
 	}
 		
-	@Ignore
+	@Test
 	public void test_Sydney() {
-		Contact contact = new Contact();
-		contact.setContactID(17);
-		ContactDB contactDB = new ContactDB(contact);
-		List<Contact> contactList = contactDB.getContacts(17);
-		Assert.assertEquals(3, contactList.size());
-		
-		
+		String userName = "sydney";
+		String pin = "1234";
+		User user = new User();
+		user.setUserName(userName);
+		user.setUserPin(pin);
+		UserDB userDB = new UserDB(user);		
+		Response respond = userDB.setUserPin();
 		
 	}
 	
-	@Test
+	@Ignore
 	public void test_Alert() {
 		String userName = "syd";
 		User thisUser = new User();
