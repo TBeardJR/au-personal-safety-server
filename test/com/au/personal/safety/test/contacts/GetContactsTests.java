@@ -40,7 +40,7 @@ public class GetContactsTests {
 		}
 	}
 		
-	@Test
+	@Ignore
 	public void test_Sydney() {
 		String userName = "sydney";
 		String pin = "1234";
@@ -52,15 +52,15 @@ public class GetContactsTests {
 		
 	}
 	
-	@Ignore
+	@Test
 	public void test_Alert() {
-		String userName = "syd";
+		String userName = "sydney";
 		User thisUser = new User();
 		thisUser.setUserName(userName);
 		UserDB thisUserDB = new UserDB(thisUser);
 		int userID_IN = thisUserDB.getUserID();
 		
-		thisUser.setUserID(17);
+		thisUser.setUserID(1);
 		SendAlerts aSendAlertsObj = new SendAlerts(thisUser);
 		Response theResponse = aSendAlertsObj.alertContacts();
 		

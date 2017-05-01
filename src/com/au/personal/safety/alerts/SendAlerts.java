@@ -84,7 +84,7 @@ public class SendAlerts {
 	        	do {
 	        		String email = rs01.getString("Email");
 	        		//if there is an email, add it to the recieptString
-	        		if(email.length() != 0) {
+	        		if(email != null && email.length() != 0) {
 	        			if(recieptString.length() !=0){
 	        				recieptString = recieptString + ", ";
 	        			}
@@ -93,7 +93,7 @@ public class SendAlerts {
 	        		String phone = rs01.getString("PhoneNumber");
 	        		String carrier = rs01.getString("ContactCarrier");
 	        		//if there is a phone number and contact carrier, add it to the recieptString
-	        		if(phone.length() != 0 && carrier.length() != 0) {
+	        		if(phone != null && phone.length() != 0 && carrier.length() != 0) {
 	        			if(recieptString.length() !=0){
 	        				recieptString = recieptString + ", ";
 	        			}
