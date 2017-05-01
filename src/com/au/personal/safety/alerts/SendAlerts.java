@@ -3,11 +3,14 @@ package com.au.personal.safety.alerts;
 import com.au.personal.safety.database.DatabaseConnectionSingleton;
 import com.au.personal.safety.users.*;
 import com.au.personal.safety.constants.AlertConstants;
+import com.au.personal.safety.constants.ContactConstants;
 import com.au.personal.safety.email.EmailMessage;
 import com.au.personal.safety.email.Email;
 import com.au.personal.safety.validator.EmailResourceValidator;
 
+import java.net.URISyntaxException;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.ws.rs.core.Response;
@@ -67,8 +70,7 @@ public class SendAlerts {
 			//If this User does not have any contacts then return an error saying there are none
 			if (!rs01.next())
 	        {
-				result = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(AlertConstants.NO_CONTACTS_FOUND).build();
-				return result;
+				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(AlertConstants.NO_CONTACTS_FOUND).build();
 	        }
 			// If this user does have contacts begin contacting each
 	        else
@@ -137,21 +139,29 @@ public class SendAlerts {
 	        	if (checkEmail.validate() == true) {
 	        		Email thisEmail = new Email(messageToSend);
 	        		Response responseAfterSendingEmail = thisEmail.sendMessage();
-	        		result = responseAfterSendingEmail;
+	        		return responseAfterSendingEmail;
 	        	}
 	        	else{
-	        		result = Response.serverError().entity("Email invalid").build(); 
+	        		return Response.serverError().entity("Email invalid").build(); 
 	        	}
 	        	
 	        }
     	
     	}
-    	catch (Exception e) {
+    	//If we had a URIException return URI error response
+    	catch (URISyntaxException e) {
     		e.printStackTrace();
-    		return Response.serverError().entity("Error").build(); 
+    				
+    		return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(ContactConstants.CONTACT_COULD_NOT_BE_CREATED_URI).build();
     	}
+    					
+    			//If we had a SQLException return SQL error response
+    	catch (SQLException e) {
+ 		e.printStackTrace();
+    				
+  		return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(ContactConstants.CONTACT_COULD_NOT_BE_CREATED_SQL).build();
+   		}
     	
-    	return result;
     }
     
     
