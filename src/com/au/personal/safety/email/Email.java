@@ -32,13 +32,10 @@ public class Email {
 	public Response sendMessage() {
 		String returnThis = "";
 		try {
-			ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-			String json = ow.writeValueAsString(message);
-			returnThis = json;
 			Transport.send(message);
 		} catch (MessagingException e) {
 			e.printStackTrace();
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(returnThis).build();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(EmailConstants.EMAIL_COULD_NOT_BE_SENT).build();
 		}
 		catch (Exception e) {
 			e.printStackTrace();
