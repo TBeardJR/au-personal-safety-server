@@ -38,9 +38,7 @@ public class SendAlertsResource {
 			//get user for inputted UserID value
 			thisUser.setUserID(userID_IN);
 			SendAlerts aSendAlertsObj = new SendAlerts(thisUser);
-			Response theResponse = aSendAlertsObj.alertContacts();
-			Response result = theResponse;
-			return result;
+			return aSendAlertsObj.alertContacts();
 		}
 
 	}

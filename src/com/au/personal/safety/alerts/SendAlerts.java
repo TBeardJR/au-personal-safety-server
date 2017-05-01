@@ -149,6 +149,7 @@ public class SendAlerts {
     	}
     	catch (Exception e) {
     		e.printStackTrace();
+    		return Response.serverError().entity("Error").build(); 
     	}
     	
     	return result;
