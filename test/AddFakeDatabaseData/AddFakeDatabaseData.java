@@ -6,6 +6,8 @@ public class AddFakeDatabaseData {
 	
 	/* Variables */
 	
+	//
+	
 	/* Functions */
 	public void addContacts() {
 		
